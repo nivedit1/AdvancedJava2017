@@ -44,6 +44,7 @@ public class Student extends Human {
     String student_say;
     if(this.gender.equalsIgnoreCase("male")) {
     student_say = "He says ";
+    student_say = student_say + "\"This class is too much work\"" + ".";
     }
     else if(this.gender.equalsIgnoreCase("female")) {
       student_say = "She says ";

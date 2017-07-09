@@ -10,4 +10,10 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AirlineTest {
+
+    @Test
+    public void getNameReturnsNameOfAirline(){
+        Airline airline = new Airline("CS410J Air Express");
+        assertThat(airline.getName(), equalTo("CS410J Air Express"));
+    }
 }

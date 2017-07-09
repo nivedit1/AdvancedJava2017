@@ -15,11 +15,13 @@ public class Flight extends AbstractFlight {
   }
 
   public Flight(int Number, String source, String departure, String destination, String arrival){
+
     this.number = Number;
     this.source = source;
     this.departure = departure;
     this.destination = destination;
     this.arrival = arrival;
+
   }
 
   @Override
@@ -44,7 +46,9 @@ public class Flight extends AbstractFlight {
   @Override
   public String getDepartureString() {
 
-    if(this.departure.matches("^([0]{0,1}[1-9])|([1][012]|[1-9])/([1-9]|([012][0-9])|[3][01])/\\d\\d\\d\\d [012]{0,1}[0-9]:[0-5][0-9]")){
+    if(this.departure.
+            matches("^([0][1-9]|[1][012]|[1-9])/([1-9]|([012][0-9])|[3][01])/\\d\\d\\d\\d [012]{0,1}[0-9]:[0-5][0-9]"))
+    {
 
       return this.departure;
 
@@ -72,7 +76,9 @@ public class Flight extends AbstractFlight {
   @Override
   public String getArrivalString() {
 
-    if (this.arrival.matches("^([0]{0,1}[1-9])|([1][012]|[1-9])/([1-9]|([012][0-9])|[3][01])/\\d\\d\\d\\d [012]{0,1}[0-9]:[0-5][0-9]")) {
+    if (this.arrival.
+            matches("^([0][1-9]|[1][012]|[1-9])/([1-9]|([012][0-9])|[3][01])/\\d\\d\\d\\d [012]{0,1}[0-9]:[0-5][0-9]"))
+    {
 
       return this.arrival;
 

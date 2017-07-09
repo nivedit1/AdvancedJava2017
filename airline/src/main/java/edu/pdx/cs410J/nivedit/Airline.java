@@ -10,12 +10,13 @@ import java.util.Collection;
  */
 public class Airline extends AbstractAirline<Flight>{
 
-    private Collection<Flight> flights = new ArrayList<>();
+    public String name;
+    public Collection<Flight> flights = new ArrayList<>();
 
 
     @Override
     public String getName(){
-        return "Air CS410J";
+        return this.name;
     }
 
 

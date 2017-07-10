@@ -11,6 +11,7 @@ public class Project1 {
   public static void main(String[] args) {
     Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
     Boolean readmeFlag = false;
+    Boolean printFlag = false;
     if(args.length < 8){
       for (String arg : args) {
         if(arg.equals("-README")){
@@ -18,11 +19,17 @@ public class Project1 {
           System.out.println(getReadme());
           break;
         }
+        else if(arg.equals("-PRINT")){
+          printFlag = true;
+        }
         else{
           continue;
         }
       }
-      if(readmeFlag == false){
+      if(readmeFlag == false && printFlag == true){
+        System.err.println("Not enough arguments to print!");
+      }
+      if(readmeFlag == false && printFlag == false){
         System.err.println("Missing command line arguments");
         System.exit(1);
       }

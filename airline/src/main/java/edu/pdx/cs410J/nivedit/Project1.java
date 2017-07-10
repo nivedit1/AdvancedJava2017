@@ -127,6 +127,7 @@ public class Project1 {
         Airline airline = new Airline(airlineName);
         Flight flight = new Flight(flightNumber,sourceAirport,departureTime,destinationAirport,arrivalTime);
         airline.addFlight(flight);
+        //System.out.println(airline.getFlights());
         if(printFlag == true){
 
             System.out.println(flight.toString());

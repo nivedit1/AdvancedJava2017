@@ -61,7 +61,7 @@ public class FlightTest {
 
   @Test
   public void departureDateIsInRightFormat(){
-    Flight flight = new Flight(42, "ABC", "01/05/2017 09:45", "CDE", "12/31/2017 10:30");
+    Flight flight = new Flight(42, "ABC", "11/05/2017 09:45", "CDE", "12/31/2017 10:30");
     assertThat(flight.getDepartureString().
                     matches("^([0][1-9]|[1][012]|[1-9])/([1-9]|([012][0-9])|[3][01])/\\d\\d\\d\\d [012]{0,1}[0-9]:[0-5][0-9]"),
             equalTo(true));

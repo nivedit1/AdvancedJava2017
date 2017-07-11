@@ -160,35 +160,38 @@ public class Project1 {
     }
 
     private static String getReadme() {
-        String readMeText = "\n\nApplication Description:\n" +
-                            "========================\n";
-
-        readMeText += "\nThis application parses the command line arguments provided by the user "+
+        String title = "\n\nName of the project:\n" +
+                "====================\n\n"+
+                "CS410J Project 1: Designing an Airline Application";
+        String applicationDescription = "\n\nApplication Description:\n" +
+                            "========================\n"+
+                "\nThis application parses the command line arguments provided by the user "+
         "and assigns the values to the airline and the respective flight stated by the user.\n"+
                 "It also checks the validity of flight number, airport codes, and "+
                 "arrival and departure times.\n\n";
-        readMeText += "Arguments List:"+
+        String argumentList = "Arguments List:"+
                       "\n===============\n"+
-                "\nPass arguments to this program as follows:\n\n";
-        readMeText += "\tname -> The name of the airline\t\t\t\t\tFormat: String\n" +
+                "\nPass arguments to this program as follows:\n\n"+
+                "\tname -> The name of the airline\t\t\t\t\tFormat: String\n" +
                 "\tflightNumber -> The Flight Number which identifies the flight\tFormat: Numeric Code\n" +
                 "\tsrc -> Code of Departure airport\t\t\t\tFormat: \"AAA\" (3 Letter Code)\n" +
                 "\tdepartTime -> Departure date and time (24-hour time)\t\tFormat: mm/dd/yyyy hh:mm\n" +
                 "\tdest -> Code of Arrival airport\t\t\t\t\tFormat: \"AAA\" (3 Letter Code)\n" +
-                "\tarriveTime -> Arrival date and time (24-hour time)\t\tFormat: mm/dd/yyyy hh:mm\n\n" +
-                "Options:"+
+                "\tarriveTime -> Arrival date and time (24-hour time)\t\tFormat: mm/dd/yyyy hh:mm\n\n";
+        String options = "Options:"+
                 "\n========\n"+
                 "\nOptions are as follows:\n\n" +
                 "\t-print -> Prints a description of the new flight\n" +
                 "\t-README -> Prints a README for this project and exits\n";
-        readMeText += "\nExecution Instruction:"+
+        String executionInstruction= "\nExecution Instruction:"+
                       "\n======================\n"+
                 "\nRun the program with -> java edu.pdx.cs410J.nivedit.Project1 [options] <args>";
-        readMeText += "\n\nDeveloped By:\n" +
+        String developedBy = "\n\nDeveloped By:\n" +
                       "============="+
                       "\n\n-Niveditha Venugopal"+
                       "\n-Email ID: nivedit@pdx.edu"+
                       "\n-PSU ID:   978073102";
+        String readMeText = title + applicationDescription + argumentList + options + executionInstruction + developedBy;
 
 
         return readMeText;

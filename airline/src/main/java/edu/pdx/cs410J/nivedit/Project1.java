@@ -1,8 +1,6 @@
 package edu.pdx.cs410J.nivedit;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import edu.pdx.cs410J.AbstractAirline;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,8 +9,15 @@ import java.util.Date;
  */
 public class Project1 {
 
-    public static void main(String[] args) {
+    /**
+     * Main program that parses the command line,
+     * validates the arguments provided by the user and
+     * creates an <code>Airline</code> and <code>Flight</code>,
+     * and optionally prints a description of the flight to
+     * standard out by invoking its <code>toString</code> method of <code>Flight</code>.
+     */
 
+    public static void main(String[] args) {
         Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
         Boolean readmeFlag = false;
         Boolean printFlag = false;
@@ -28,7 +33,6 @@ public class Project1 {
         String expectedDatePattern = "MM/dd/yyyy HH:mm";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
         formatter.setLenient(false);
-
         if (args.length == 1) {
             if (args[0].equals("-README")) {
                 readmeFlag = true;
@@ -41,12 +45,9 @@ public class Project1 {
             } else {
                 System.err.println("Missing command line arguments");
                 System.exit(1);
-            }
-
+              }
         }
-
         else if (args.length < 8) {
-
             if (args[0].equals("-README") || args[1].equals("-README")) {
                 readmeFlag = true;
                 System.out.println(getReadme());
@@ -60,7 +61,6 @@ public class Project1 {
                 System.exit(1);
             }
         }
-
         else if(args.length >= 8 && args.length <= 10){
             if (args[0].equals("-README") || args[1].equals("-README")) {
                 readmeFlag = true;
@@ -73,13 +73,11 @@ public class Project1 {
             } else if (args.length > 8){
                 System.err.println("Too many arguments!");
                 System.exit(1);
-            }
-            else {
-                for (int i = 0; i < args.length; i++) {
+            } else {
+                  for (int i = 0; i < args.length; i++) {
                     argumentArray[i] = args[i];
-                }
+                  }
             }
-
             if (readmeFlag == false) {
                 airlineName = argumentArray[0];
                 try {
@@ -89,7 +87,6 @@ public class Project1 {
                     System.exit(1);
                 }
                 if(argumentArray[2].matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
-
                   sourceAirport = argumentArray[2];
                 }
                 else {
@@ -97,19 +94,15 @@ public class Project1 {
                     System.out.println("Airport code should be of the format \"AAA\"");
                     System.exit(1);
                 }
-
                 try {
                     userInputDepartureTime = argumentArray[3] + " " + argumentArray[4];
                     departureTime = formatter.parse(userInputDepartureTime);
-
                 }
                 catch(Exception e) {
                     System.err.println("The Departure time does not match the format \"MM/DD/YY HH:MM\" - " + userInputDepartureTime);
                     System.exit(1);
                 }
-
                 if(argumentArray[5].matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
-
                     destinationAirport = argumentArray[5];
                 }
                 else {
@@ -117,32 +110,23 @@ public class Project1 {
                     System.out.println("Airport code should be of the format \"AAA\"");
                     System.exit(1);
                 }
-                //arrivalTime = argumentArray[6] + " " + argumentArray[7];
                 try {
                     userInputArrivalTime = argumentArray[6] + " " + argumentArray[7];
                     arrivalTime = formatter.parse(userInputArrivalTime);
-
                 }
                 catch(Exception e) {
                     System.err.println("The Arrival time does not match the format \"MM/DD/YY HH:MM\" - " + userInputArrivalTime);
                     System.exit(1);
                 }
-
                 Airline airline = new Airline(airlineName);
-
                 Flight flight = new Flight(flightNumber, sourceAirport, userInputDepartureTime, destinationAirport, userInputArrivalTime);
-
                 airline.addFlight(flight);
-
                 if (printFlag == true) {
-
                     System.out.println(flight.toString());
                 }
-
             }
-
         }
-        else{
+        else {
             if (args[0].equals("-README") || args[1].equals("-README")) {
                 readmeFlag = true;
                 System.out.println(getReadme());
@@ -156,9 +140,10 @@ public class Project1 {
                 System.exit(1);
             }
         }
-
     }
 
+    /*This method returns a README for the application
+    * */
     private static String getReadme() {
         String title = "\n\nName of the project:\n" +
                 "====================\n\n"+
@@ -192,10 +177,7 @@ public class Project1 {
                       "\n-Email ID: nivedit@pdx.edu"+
                       "\n-PSU ID:   978073102";
         String readMeText = title + applicationDescription + argumentList + options + executionInstruction + developedBy;
-
-
         return readMeText;
     }
-
 }
 

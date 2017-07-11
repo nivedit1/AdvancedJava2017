@@ -33,6 +33,7 @@ public class Project1 {
             if (args[0].equals("-README")) {
                 readmeFlag = true;
                 System.out.println(getReadme());
+                System.exit(0);
             } else if (args[0].equals("-print")) {
                 printFlag = true;
                 System.err.println("Not enough arguments to print");
@@ -49,6 +50,7 @@ public class Project1 {
             if (args[0].equals("-README") || args[1].equals("-README")) {
                 readmeFlag = true;
                 System.out.println(getReadme());
+                System.exit(0);
             } else if ((args[0].equals("-print") || args[1].equals("-print")) && readmeFlag == false) {
                 printFlag = true;
                 System.err.println("Not enough arguments to print!");
@@ -59,7 +61,7 @@ public class Project1 {
             }
         }
 
-        else {
+        else if(args.length >= 8 && args.length <= 10){
             if (args[0].equals("-README") || args[1].equals("-README")) {
                 readmeFlag = true;
                 System.out.println(getReadme());
@@ -68,7 +70,11 @@ public class Project1 {
                 for (int i = 1; i < args.length; i++) {
                     argumentArray[i - 1] = args[i];
                 }
-            } else {
+            } else if (args.length > 8){
+                System.err.println("Too many arguments!");
+                System.exit(1);
+            }
+            else {
                 for (int i = 0; i < args.length; i++) {
                     argumentArray[i] = args[i];
                 }
@@ -136,6 +142,20 @@ public class Project1 {
             }
 
         }
+        else{
+            if (args[0].equals("-README") || args[1].equals("-README")) {
+                readmeFlag = true;
+                System.out.println(getReadme());
+                System.exit(0);
+            } else if ((args[0].equals("-print") || args[1].equals("-print")) && readmeFlag == false) {
+                printFlag = true;
+                System.err.println("Too many arguments to print!");
+                System.exit(1);
+            } else {
+                System.err.println("Too many arguments!");
+                System.exit(1);
+            }
+        }
 
     }
 
@@ -144,7 +164,7 @@ public class Project1 {
                             "========================\n";
 
         readMeText += "\nThis application parses the command line arguments provided by the user "+
-        "and assigns the values the airline and the respective flight stated by the user.\n"+
+        "and assigns the values to the airline and the respective flight stated by the user.\n"+
                 "It also checks the validity of flight number, airport codes, and "+
                 "arrival and departure times.\n\n";
         readMeText += "Arguments List:"+

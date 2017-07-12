@@ -55,7 +55,7 @@ public class Project1 {
                 readmeFlag = true;
                 System.out.println(getReadme());
                 System.exit(0);
-            } else if ((args[0].equals("-print") || args[1].equals("-print")) && readmeFlag == false) {
+            } else if ((args[0].equals("-print")) && readmeFlag == false) {
                 printFlag = true;
                 System.err.println("Not enough arguments to print!");
                 System.exit(1);
@@ -85,6 +85,10 @@ public class Project1 {
                 airlineName = argumentArray[0];
                 try {
                     flightNumber = Integer.parseInt(argumentArray[1]);
+                    if(flightNumber < 0){
+                        System.err.println("Flight number cannot be negative " + flightNumber);
+                        System.exit(1);
+                    }
                 } catch (Exception e) {
                     System.err.println("Flight Number is not Integer " + argumentArray[1]);
                     System.exit(1);

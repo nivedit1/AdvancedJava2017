@@ -130,6 +130,7 @@ public class Project1 {
                 Airline airline = new Airline(airlineName,flights);
                 airline.addFlight(flight);
                 if (printFlag == true) {
+                    System.out.println("\n");
                     System.out.println(flight.toString());
                 }
             }

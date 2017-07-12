@@ -37,7 +37,7 @@ public class Airline extends AbstractAirline<Flight>{
     }
 
     /**
-     * Adds <code>Flight</code> object to an airline
+     * Adds <code>Flight</code> to an airline
      * @param flight that you want to add to the airline
      */
     @Override

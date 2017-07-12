@@ -15,7 +15,7 @@ public class Flight extends AbstractFlight{
 
     public Flight(){
     super();
-  }
+    }
 
     /**
      * Creates a new <code>Flight</code>

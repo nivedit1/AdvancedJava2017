@@ -16,7 +16,7 @@ public class Project1 {
      * validates the arguments provided by the user and
      * creates an <code>Airline</code> and <code>Flight</code>,
      * and optionally prints a description of the flight to
-     * standard out by invoking its <code>toString</code> method of <code>Flight</code>.
+     * standard out by invoking the <code>toString</code> method of <code>Flight</code>.
      */
 
     public static void main(String[] args) {
@@ -165,12 +165,12 @@ public class Project1 {
         String argumentList = "\nArguments List:"+
                       "\n===============\n"+
                 "Pass arguments to this program as follows:\n"+
-                "  name -> The name of the airline\t\t\tFormat: String\n" +
-                "  flightNumber -> The Flight Number\t\t\tFormat: Numeric Code\n                  which identifies the flight\n" +
-                "  src -> Code of Departure airport\t\t\tFormat: \"AAA\" (3 Letter Code)\n" +
-                "  departTime -> Departure date and time (24-hour time)\tFormat: mm/dd/yyyy hh:mm\n" +
-                "  dest -> Code of Arrival airport\t\t\tFormat: \"AAA\" (3 Letter Code)\n" +
-                "  arriveTime -> Arrival date and time (24-hour time)\tFormat: mm/dd/yyyy hh:mm\n\n";
+                "  name -> The name of the airline  [Format: String]\n" +
+                "  flightNumber -> The Flight Number which identifies the flight  [Format: Numeric Code]\n" +
+                "  src -> Code of Departure airport  [Format: \"AAA\" (3 Letter Code)]\n" +
+                "  departTime -> Departure date and time (24-hour time)  [Format: mm/dd/yyyy hh:mm]\n" +
+                "  dest -> Code of Arrival airport  [Format: \"AAA\" (3 Letter Code)]\n" +
+                "  arriveTime -> Arrival date and time (24-hour time)  [Format: mm/dd/yyyy hh:mm]\n\n";
         String options = "Options:"+
                 "\n========\n"+
                 "Options are as follows:\n" +

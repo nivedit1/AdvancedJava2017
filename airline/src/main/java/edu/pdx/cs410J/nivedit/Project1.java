@@ -149,35 +149,35 @@ public class Project1 {
     /*This method returns a README for the application
     * */
     private static String getReadme() {
-        String title = "\n\nName of the project:\n" +
-                "====================\n\n"+
+        String title = "\nName of the project:\n" +
+                "====================\n"+
                 "CS410J Project 1: Designing an Airline Application";
         String applicationDescription = "\n\nApplication Description:\n" +
                             "========================\n"+
-                "\nThis application parses the command line arguments provided by the user "+
+                "This application parses the command line arguments provided by the user "+
         "and assigns the values to the airline and the respective flight stated by the user.\n"+
                 "It also checks the validity of flight number, airport codes, and "+
-                "arrival and departure times.\n\n";
-        String argumentList = "Arguments List:"+
+                "arrival and departure times.\n";
+        String argumentList = "\nArguments List:"+
                       "\n===============\n"+
-                "\nPass arguments to this program as follows:\n\n"+
-                "\tname -> The name of the airline\t\t\t\t\tFormat: String\n" +
-                "\tflightNumber -> The Flight Number which identifies the flight\tFormat: Numeric Code\n" +
-                "\tsrc -> Code of Departure airport\t\t\t\tFormat: \"AAA\" (3 Letter Code)\n" +
-                "\tdepartTime -> Departure date and time (24-hour time)\t\tFormat: mm/dd/yyyy hh:mm\n" +
-                "\tdest -> Code of Arrival airport\t\t\t\t\tFormat: \"AAA\" (3 Letter Code)\n" +
-                "\tarriveTime -> Arrival date and time (24-hour time)\t\tFormat: mm/dd/yyyy hh:mm\n\n";
+                "Pass arguments to this program as follows:\n"+
+                "  name -> The name of the airline\t\t\tFormat: String\n" +
+                "  flightNumber -> The Flight Number\t\t\tFormat: Numeric Code\n                  which identifies the flight\n" +
+                "  src -> Code of Departure airport\t\t\tFormat: \"AAA\" (3 Letter Code)\n" +
+                "  departTime -> Departure date and time (24-hour time)\tFormat: mm/dd/yyyy hh:mm\n" +
+                "  dest -> Code of Arrival airport\t\t\tFormat: \"AAA\" (3 Letter Code)\n" +
+                "  arriveTime -> Arrival date and time (24-hour time)\tFormat: mm/dd/yyyy hh:mm\n\n";
         String options = "Options:"+
                 "\n========\n"+
-                "\nOptions are as follows:\n\n" +
-                "\t-print -> Prints a description of the new flight\n" +
-                "\t-README -> Prints a README for this project and exits\n";
+                "Options are as follows:\n" +
+                "  -print -> Prints a description of the new flight\n" +
+                "  -README -> Prints a README for this project and exits\n";
         String executionInstruction= "\nExecution Instruction:"+
                       "\n======================\n"+
-                "\nRun the program with -> java edu.pdx.cs410J.nivedit.Project1 [options] <args>";
+                "Run the program with -> java edu.pdx.cs410J.nivedit.Project1 [options] <args>";
         String developedBy = "\n\nDeveloped By:\n" +
                       "============="+
-                      "\n\n-Niveditha Venugopal"+
+                      "\n-Niveditha Venugopal"+
                       "\n-Email ID: nivedit@pdx.edu"+
                       "\n-PSU ID:   978073102";
         String readMeText = title + applicationDescription + argumentList + options + executionInstruction + developedBy;

@@ -15,17 +15,17 @@ public class Project1IT extends InvokeMainTestCase {
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
      */
-    private MainMethodResult invokeMain(String... args) {
+    /*private MainMethodResult invokeMain(String... args) {
         return invokeMain( Project1.class, args );
     }
 
 
-   /* Tests that invoking the main method with no arguments issues an error
-   */
+   *//* Tests that invoking the main method with no arguments issues an error
+   *//*
   @Test
   public void testNoCommandLineArguments() {
     MainMethodResult result = invokeMain();
     assertThat(result.getExitCode(), equalTo(1));
     assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
-  }
+  }*/
 }

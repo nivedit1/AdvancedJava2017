@@ -2,7 +2,9 @@ package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.AbstractAirline;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * The main class for the CS410J airline Project
@@ -33,6 +35,7 @@ public class Project1 {
         String expectedDatePattern = "MM/dd/yyyy HH:mm";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
         formatter.setLenient(false);
+        Collection<Flight> flights = new ArrayList<>();
         if (args.length == 1) {
             if (args[0].equals("-README")) {
                 readmeFlag = true;
@@ -118,8 +121,9 @@ public class Project1 {
                     System.err.println("The Arrival time does not match the format \"MM/DD/YY HH:MM\" - " + userInputArrivalTime);
                     System.exit(1);
                 }
-                Airline airline = new Airline(airlineName);
                 Flight flight = new Flight(flightNumber, sourceAirport, userInputDepartureTime, destinationAirport, userInputArrivalTime);
+                flights.add(flight);
+                Airline airline = new Airline(airlineName,flights);
                 airline.addFlight(flight);
                 if (printFlag == true) {
                     System.out.println(flight.toString());

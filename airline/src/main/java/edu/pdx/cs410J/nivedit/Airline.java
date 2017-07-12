@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * This class is represents an <code>Airline</code>.
+ * This class represents an <code>Airline</code>.
  */
 public class Airline extends AbstractAirline<Flight>{
+
+    public String name;
+    public Collection<Flight> flights = new ArrayList<>();
 
     /**
      * Creates a new <code>Airline</code>
@@ -18,17 +21,15 @@ public class Airline extends AbstractAirline<Flight>{
      *        The flights belonging to the airline.
      */
 
-    public String name;
-    public Collection<Flight> flights = new ArrayList<>();
-
-    public Airline(String name) {
-
+    public Airline(String name, Collection<Flight> flights) {
         this.name = name;
+        this.flights = flights;
     }
 
     /**
      * Returns a <code>name</code> that describes
      * this airline.
+     * @return name of the airline
      */
     @Override
     public String getName(){
@@ -36,8 +37,8 @@ public class Airline extends AbstractAirline<Flight>{
     }
 
     /**
-     * Adds <code>Flight</code> object airline
-     * @param flight
+     * Adds <code>Flight</code> object to an airline
+     * @param flight that you want to add to the airline
      */
     @Override
     public void addFlight(Flight flight) {
@@ -45,8 +46,8 @@ public class Airline extends AbstractAirline<Flight>{
     }
 
     /**
-     * Returns collection of flights for the airline.
-     * @return
+     *Returns a collection of flights for the airline
+     * @return Collection of flights belonging to the airline
      */
     @Override
     public Collection<Flight> getFlights() {

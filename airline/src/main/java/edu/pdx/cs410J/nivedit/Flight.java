@@ -3,9 +3,20 @@ package edu.pdx.cs410J.nivedit;
 import edu.pdx.cs410J.AbstractFlight;
 
 /**
- * This class is represents a <code>Flight</code>.
+ * This class represents a <code>Flight</code>.
  */
 public class Flight extends AbstractFlight{
+
+    private int flightNumber;
+    private String sourceAirport;
+    private String destinationAirport;
+    private String departureTime;
+    private String arrivalTime;
+
+    public Flight(){
+    super();
+  }
+
     /**
      * Creates a new <code>Flight</code>
      *
@@ -20,29 +31,19 @@ public class Flight extends AbstractFlight{
      * @param arrivalTime
      *        The arrival time of the flight - Format: mm/dd/yyyy hh:mm
      */
-    private int flightNumber;
-    private String sourceAirport;
-    private String destinationAirport;
-    private String departureTime;
-    private String arrivalTime;
 
-    public Flight(){
-
-    super();
-  }
-
-    public Flight(int Number, String source, String departure, String destination, String arrival){
-    this.flightNumber = Number;
-    this.sourceAirport = source;
-    this.departureTime = departure;
-    this.destinationAirport = destination;
-    this.arrivalTime = arrival;
+    public Flight(int flightNumber, String sourceAirport, String departureTime, String destinationAirport, String arrivalTime){
+    this.flightNumber = flightNumber;
+    this.sourceAirport = sourceAirport;
+    this.departureTime = departureTime;
+    this.destinationAirport = destinationAirport;
+    this.arrivalTime = arrivalTime;
     }
 
     /**
      * Returns the <code>flightNumber</code>
      * that describes the flight.
-     * @return
+     * @return flightNumber of the flight
      */
     @Override
     public int getNumber() {
@@ -52,7 +53,7 @@ public class Flight extends AbstractFlight{
     /**
      * Returns the <code>sourceAirport</code>
      * of the flight
-     * @return
+     * @return source code of the airport
      */
     @Override
     public String getSource() {
@@ -62,7 +63,7 @@ public class Flight extends AbstractFlight{
     /**
      * Returns the <code>departureTime</code>
      * of the flight
-     * @return
+     * @return departure time of the flight
      */
     @Override
     public String getDepartureString() {
@@ -72,7 +73,7 @@ public class Flight extends AbstractFlight{
     /**
      * Returns the <code>destinationAirport</code>
      * of the flight
-     * @return
+     * @return destination code of the airport
      */
     @Override
     public String getDestination() {
@@ -82,7 +83,7 @@ public class Flight extends AbstractFlight{
     /**
      * Returns the <code>arrivalTime</code>
      * of the flight
-     * @return
+     * @return arrival time of the flight
      */
     @Override
     public String getArrivalString() {

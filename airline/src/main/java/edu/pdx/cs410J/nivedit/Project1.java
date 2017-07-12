@@ -68,7 +68,7 @@ public class Project1 {
             if (args[0].equals("-README") || args[1].equals("-README")) {
                 readmeFlag = true;
                 System.out.println(getReadme());
-            } else if (args[0].equals("-print")) {
+            } else if (args[0].equals("-print") && args.length == 9) {
                 printFlag = true;
                 for (int i = 1; i < args.length; i++) {
                     argumentArray[i - 1] = args[i];
@@ -139,7 +139,7 @@ public class Project1 {
                 readmeFlag = true;
                 System.out.println(getReadme());
                 System.exit(0);
-            } else if ((args[0].equals("-print") || args[1].equals("-print")) && readmeFlag == false) {
+            } else if ((args[0].equals("-print")&& readmeFlag == false)) {
                 printFlag = true;
                 System.err.println("Too many arguments to print!");
                 System.exit(1);

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * The main class for the CS410J airline Project
  */
-public class Project1 {
+public class Project2 {
 
     /**
      * Main program that parses the command line,
@@ -20,7 +20,7 @@ public class Project1 {
      */
 
     public static void main(String[] args) {
-        Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+        //Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
         Boolean readmeFlag = false;
         Boolean printFlag = false;
         String[] argumentArray = new String[100];
@@ -45,7 +45,10 @@ public class Project1 {
                 printFlag = true;
                 System.err.println("Not enough arguments to print");
                 System.exit(1);
-            } else {
+            } else if (args[0].equals("-textFile")){
+                System.err.println("No arguments to write to file");
+            }
+            else {
                 System.err.println("Missing command line arguments");
                 System.exit(1);
               }
@@ -129,6 +132,13 @@ public class Project1 {
                 flights.add(flight);
                 Airline airline = new Airline(airlineName,flights);
                 airline.addFlight(flight);
+                TextDumper t = new TextDumper("C:\\Users\\anant\\OneDrive\\Documents\\Niveditha" +
+                        "\\PSU\\Summer 2017\\Advanced Java\\Git\\AdvancedJava2017\\airline\\src\\main\\java\\edu\\pdx\\cs410J\\nivedit\\dummy.txt");
+                t.dump(airline);
+                System.out.println("Written to file");
+                TextParser p = new TextParser("C:\\Users\\anant\\OneDrive\\Documents\\Niveditha" +
+                        "\\PSU\\Summer 2017\\Advanced Java\\Git\\AdvancedJava2017\\airline\\src\\main\\java\\edu\\pdx\\cs410J\\nivedit\\dummy.txt");
+                p.parse();
                 if (printFlag == true) {
                     System.out.println(flight.toString());
                 }
@@ -178,7 +188,7 @@ public class Project1 {
                 "  -README -> Prints a README for this project and exits\n";
         String executionInstruction= "\nExecution Instruction:"+
                       "\n======================\n"+
-                "Run the program with -> java edu.pdx.cs410J.nivedit.Project1 [options] <args>";
+                "Run the program with -> java edu.pdx.cs410J.nivedit.Project2 [options] <args>";
         String developedBy = "\n\nDeveloped By:\n" +
                       "============="+
                       "\n-Niveditha Venugopal"+

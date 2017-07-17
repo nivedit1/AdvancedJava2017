@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.nivedit;
 
-import edu.pdx.cs410J.AbstractAirline;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -21,7 +20,6 @@ public class Project2 {
 
     public static void main(String[] args) {
         //Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-        Boolean readmeFlag = false;
         Boolean printFlag = false;
         Boolean textFileFlag = false;
         String[] argumentArray = new String[100];
@@ -33,90 +31,90 @@ public class Project2 {
         String destinationAirport = "";
         String arrivalTime = "";
         Collection<Flight> flights = new ArrayList<>();
-
-        if (args.length == 1) {
-            if (args[0].equals("-README")) {
-                readmeFlag = true;
-                System.out.println(getReadme());
-                System.exit(0);
-            } else if (args[0].equals("-print")) {
-                printFlag = true;
-                System.err.println("Not enough arguments to print");
-                System.exit(1);
-            } else if (args[0].equals("-textFile")) {
-                System.err.println("No arguments to write to file");
-            } else {
-                System.err.println("Missing command line arguments");
-                System.exit(1);
-            }
-        } else if (args.length < 8) {
-            if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README")) {
-                readmeFlag = true;
+        String fileName = "";
+        if (args.length < 8) {
+            if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")) {
                 System.out.println(getReadme());
                 System.exit(0);
             } else if ((args[0].equals("-print") || args[1].equals("-print") || args[2].equals("-print"))) {
                 printFlag = true;
                 System.err.println("Not enough arguments to print!");
                 System.exit(1);
-            } else if ((args[0].equals("-textFile") || args[1].equals("-textFile") || args[2].equals("-textFile"))) {
+            } else if ((args[0].equals("-textFile") || args[1].equals("-textFile"))) {
                 System.err.println("Not enough arguments to write to file");
             } else {
                 System.err.println("Missing command line arguments");
                 System.exit(1);
             }
-        } else if (args.length >= 8 && args.length <= 10) {
-            if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README")) {
-                readmeFlag = true;
+        } else if (args.length >= 8 && args.length <= 12) {
+            if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")) {
                 System.out.println(getReadme());
-            } else if ((args[0].equals("-print") || args[1].equals("-print")) && args.length == 9) {
+                System.exit(0);
+            } else if ((args[0].equals("-print") || args[1].equals("-print") || args[2].equals("-print"))) {
                 printFlag = true;
-                for (int i = 1; i < args.length; i++) {
-                    argumentArray[i - 1] = args[i];
+                if(args.length == 11 && (args[0].equals("-textFile") || args[1].equals("-textFile")))
+                {
+                    textFileFlag = true;
+                    if(args[0].equals("-textFile")){
+                        fileName = args[1];
+                    }
+                    else {
+                        fileName = args[2];
+                    }
+                    for (int i = 3; i<args.length; i++ ){
+                        argumentArray[i-3] = args[i];
+                    }
                 }
-            } else if (args.length > 8) {
-                System.err.println("Too many arguments!");
-                System.exit(1);
-            } else {
+                else if(args.length == 9){
+                    for (int i = 1; i < args.length; i++) {
+                        argumentArray[i - 1] = args[i];
+                    }
+                }
+                else if (args.length == 8){
+                    System.err.println("Not enough arguments to print");
+                    System.exit(1);
+                }
+                else {
+                    System.err.println("Too many arguments");
+                    System.exit(1);
+                }
+
+            } else if(args[0].equals("-textFile")){
+                if(args.length == 10){
+                    textFileFlag = true;
+                    fileName = args[1];
+                    for(int i = 2; i < args.length; i++){
+                        argumentArray[i-2] = args[i];
+                    }
+                }
+                else if(args.length < 10){
+                    System.err.println("Not enough arguments to write to file");
+                    System.exit(1);
+                }
+                else{
+                    System.err.println("Too many arguments to write to file");
+                    System.exit(1);
+                }
+            } else if (args.length == 8){
                 for (int i = 0; i < args.length; i++) {
                     argumentArray[i] = args[i];
                 }
-            }
-            validArguments = validateArguments(argumentArray);
-            //System.out.println(validArguments);
-            if (validArguments == true){
-                airlineName = argumentArray[0];
-                flightNumber = Integer.parseInt(argumentArray[1]);
-                sourceAirport = argumentArray[2];
-                departureTime = argumentArray[3] + " " + argumentArray[4];
-                destinationAirport = argumentArray[5];
-                arrivalTime = argumentArray[6] + " " + argumentArray[7];
-                Flight flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
-                flights.add(flight);
-                Airline airline = new Airline(airlineName, flights);
-                airline.addFlight(flight);
-                TextDumper t = new TextDumper("C:\\Users\\anant\\OneDrive\\Documents\\Niveditha" +
-                        "\\PSU\\Summer 2017\\Advanced Java\\Git\\AdvancedJava2017\\airline\\src\\main\\java\\edu\\pdx\\cs410J\\nivedit\\dummy.txt");
-                t.dump(airline);
-                System.out.println("Written to file");
-                TextParser p = new TextParser("C:\\Users\\anant\\OneDrive\\Documents\\Niveditha" +
-                        "\\PSU\\Summer 2017\\Advanced Java\\Git\\AdvancedJava2017\\airline\\src\\main\\java\\edu\\pdx\\cs410J\\nivedit\\dummy.txt");
-                p.parse();
-                if (printFlag == true) {
-                    System.out.println(flight.toString());
-                }
+            } else {
+                System.err.println("Too many arguments");
+                System.exit(1);
             }
         }
         else {
-            if (args[0].equals("-README") || args[1].equals("-README")) {
-                readmeFlag = true;
+            if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README") ) {
                 System.out.println(getReadme());
                 System.exit(0);
-            } else if ((args[0].equals("-print") && readmeFlag == false)) {
+            } else if ((args[0].equals("-print") || args[1].equals("-print") || args[2].equals("-print"))) {
                 printFlag = true;
                 System.err.println("Too many arguments to print!");
                 System.exit(1);
-            } else if ((args[0].equals("-textFile")) || args[1].equals("-textFile") || args[2].equals("-textFile")){
+            } else if ((args[0].equals("-textFile"))){
                 textFileFlag = true;
+                fileName = args[1];
                 System.err.println("Too many arguments to write to file");
                 System.exit(1);
             }
@@ -125,7 +123,28 @@ public class Project2 {
                 System.exit(1);
             }
         }
-
+        validArguments = validateArguments(argumentArray);
+        //System.out.println(validArguments);
+        if (validArguments == true){
+            airlineName = argumentArray[0];
+            flightNumber = Integer.parseInt(argumentArray[1]);
+            sourceAirport = argumentArray[2];
+            departureTime = argumentArray[3] + " " + argumentArray[4];
+            destinationAirport = argumentArray[5];
+            arrivalTime = argumentArray[6] + " " + argumentArray[7];
+            Flight flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
+            flights.add(flight);
+            Airline airline = new Airline(airlineName, flights);
+            airline.addFlight(flight);
+            TextDumper t = new TextDumper(fileName);
+            t.dump(airline);
+            System.out.println("Written to file");
+            TextParser p = new TextParser(fileName);
+            p.parse();
+            if (printFlag == true) {
+                System.out.println(flight.toString());
+            }
+        }
     }
 
     /*This method returns a README for the application

@@ -4,7 +4,6 @@ import edu.pdx.cs410J.AbstractAirline;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 
@@ -94,6 +93,10 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 airline = new Airline(airlineName, flights);
                 flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
                 airline.addFlight(flight);
+            }
+            else {
+                System.err.println("Malformatted File -> " + currentLine);
+                System.exit(1);
             }
             stringBuff = stringBuff.substring((stringBuff.indexOf("\n")+1),stringBuff.length());
         }

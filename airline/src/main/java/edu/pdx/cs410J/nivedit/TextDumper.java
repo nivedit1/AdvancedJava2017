@@ -26,15 +26,17 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
         String destinationAirport = flight.getDestination();
         String arrivalTime = flight.getArrivalString();
         try {
-            PrintWriter writer = new PrintWriter(new FileOutputStream(
-                    new File(this.destinationFilename),true));
-            //PrintWriter writer = new PrintWriter(this.destinationFilename, "UTF-8");
+            File file = new File (this.destinationFilename);
+            FileOutputStream out = new FileOutputStream(file, true);
+            PrintWriter writer = new PrintWriter(out);
+            writer.println("<record>");
             writer.println("<airlineName>" + airlineName + "</airlineName>");
             writer.println("<flightNumber>" + flightNumber +"</flightNumber>");
             writer.println("<sourceAirport>" + sourceAirport + "</sourceAirport>");
             writer.println("<departureTime>" + departureTime + "</departureTime>");
             writer.println("<destinationAirport>" + destinationAirport + "</destinationAirport>");
             writer.println("<arrivalTime>" + arrivalTime + "</arrivalTime>");
+            writer.println("</record>");
             writer.close();
         }
         catch (IOException e){

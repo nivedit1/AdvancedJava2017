@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractAirline;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 
@@ -19,14 +20,26 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
     }
 
     public AbstractAirline parse(){
-        String line;
+        String line = null;
+        StringBuffer stringBuffer = new StringBuffer("");
+        String airlineName = "";
+        int flightNumber = 0;
+        String sourceAirport = "";
+        String departureTime = "";
+        String destinationAirport = "";
+        String arrivalTime = "";
         Collection<Flight> flights = new ArrayList<>();
+        Airline airline = new Airline("name", flights);
+        Flight flight = new Flight(0,"","","","");
 
         try{
-            BufferedReader reader = new BufferedReader(new FileReader(this.sourceFilename));
+            FileReader reader = new FileReader(this.sourceFilename);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             try{
-                line = reader.readLine();
-                System.out.println(line);
+                while ((line = bufferedReader.readLine())!= null){
+                    stringBuffer.append(line);
+                    stringBuffer.append("\n");
+                }
             }
             catch (IOException e){
                 System.err.println("IO Failed");
@@ -35,7 +48,55 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         catch (FileNotFoundException f){
             System.err.println("File Not Found!");
         }
-        Airline airline = new Airline("Name",flights);
+        String stringBuff = stringBuffer.toString();
+        String currentLine = "";
+        while((stringBuff.indexOf("\n"))> 0 ){
+            currentLine = stringBuff.substring(0,(stringBuff.indexOf("\n")));
+            if(currentLine.contains("<record>")){
+                airlineName = "";
+                flightNumber = -1;
+                sourceAirport = "";
+                departureTime = "";
+                destinationAirport ="";
+                arrivalTime ="";
+            }
+            else if(currentLine.contains("<airlineName>")){
+                int startIndex = currentLine.indexOf("<airlineName>") + "<airlineName>".length();
+                int endIndex = currentLine.indexOf("</airlineName>");
+                airlineName = currentLine.substring(startIndex,endIndex);
+            }
+            else if(currentLine.contains("<flightNumber>")){
+                int startIndex = currentLine.indexOf("<flightNumber>") + "<flightNumber>".length();
+                int endIndex = currentLine.indexOf("</flightNumber>");
+                flightNumber = Integer.parseInt(currentLine.substring(startIndex,endIndex));
+            }
+            else if(currentLine.contains("<sourceAirport>")){
+                int startIndex = currentLine.indexOf("<sourceAirport>") + "<sourceAirport>".length();
+                int endIndex = currentLine.indexOf("</sourceAirport>");
+                sourceAirport = currentLine.substring(startIndex,endIndex);
+            }
+            else if(currentLine.contains("<departureTime>")){
+                int startIndex = currentLine.indexOf("<departureTime>") + "<departureTime>".length();
+                int endIndex = currentLine.indexOf("</departureTime>");
+                departureTime = currentLine.substring(startIndex,endIndex);
+            }
+            else if(currentLine.contains("<destinationAirport>")){
+                int startIndex = currentLine.indexOf("<destinationAirport>") + "<destinationAirport>".length();
+                int endIndex = currentLine.indexOf("</destinationAirport>");
+                destinationAirport = currentLine.substring(startIndex,endIndex);
+            }
+            else if(currentLine.contains("<arrivalTime>")){
+                int startIndex = currentLine.indexOf("<arrivalTime>") + "<arrivalTime>".length();
+                int endIndex = currentLine.indexOf("</arrivalTime>");
+                arrivalTime = currentLine.substring(startIndex,endIndex);
+            }
+            else if (currentLine.contains("</record>")){
+                airline = new Airline(airlineName, flights);
+                flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
+                airline.addFlight(flight);
+            }
+            stringBuff = stringBuff.substring((stringBuff.indexOf("\n")+1),stringBuff.length());
+        }
         return airline;
     }
 }

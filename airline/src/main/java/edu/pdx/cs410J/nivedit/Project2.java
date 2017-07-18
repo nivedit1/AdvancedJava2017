@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.nivedit;
 
+import edu.pdx.cs410J.AbstractAirline;
+
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -19,9 +21,9 @@ public class Project2 {
      */
 
     public static void main(String[] args) {
-        //Class c = AbstractAirline.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
         Boolean printFlag = false;
         Boolean textFileFlag = false;
+        Boolean validFile = false;
         String[] argumentArray = new String[100];
         boolean validArguments = false;
         String airlineName = "";
@@ -54,6 +56,18 @@ public class Project2 {
                 printFlag = true;
                 if(args.length == 11 && (args[0].equals("-textFile") || args[1].equals("-textFile")))
                 {
+                    textFileFlag = true;
+                    if(args[0].equals("-textFile")){
+                        fileName = args[1];
+                    }
+                    else {
+                        fileName = args[2];
+                    }
+                    for (int i = 3; i<args.length; i++ ){
+                        argumentArray[i-3] = args[i];
+                    }
+                }
+                else if (args.length == 10 && (args[0].equals("-textFile") || args[1].equals("-textFile"))){
                     textFileFlag = true;
                     if(args[0].equals("-textFile")){
                         fileName = args[1];
@@ -124,7 +138,6 @@ public class Project2 {
             }
         }
         validArguments = validateArguments(argumentArray);
-        //System.out.println(validArguments);
         if (validArguments == true){
             airlineName = argumentArray[0];
             flightNumber = Integer.parseInt(argumentArray[1]);
@@ -136,11 +149,20 @@ public class Project2 {
             flights.add(flight);
             Airline airline = new Airline(airlineName, flights);
             airline.addFlight(flight);
-            TextDumper t = new TextDumper(fileName);
-            t.dump(airline);
-            System.out.println("Written to file");
-            TextParser p = new TextParser(fileName);
-            p.parse();
+            TextParser parser = new TextParser(fileName);
+            TextDumper dumper = new TextDumper(fileName);
+            AbstractAirline airline1;
+            if(textFileFlag == true){
+            //System.out.println(fileName);
+            airline1 = parser.parse();
+            if(airline1.getName().equals(airline.getName())){
+                dumper.dump(airline);
+            }
+            else{
+                System.err.println("This file belongs to "+ airline1.getName());
+                System.exit(1);
+            }
+            }
             if (printFlag == true) {
                 System.out.println(flight.toString());
             }

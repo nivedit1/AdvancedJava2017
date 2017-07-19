@@ -32,14 +32,23 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
             FileOutputStream out = new FileOutputStream(file, true);
             PrintWriter writer = new PrintWriter(out);
             TextParser parser = new TextParser(this.destinationFilename);
-            if(file.length() > 0){
-                airline1 = parser.parse();
-                if(airlineName.equals(airline1.getName())){
-                    writeFlag = true;
+            FileReader reader = new FileReader(this.destinationFilename);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            //System.out.println(file.length());
+            if(file.exists()) {
+                if(bufferedReader.readLine() != null){
+                    airline1 = parser.parse();
+                    if(airlineName.equals(airline1.getName())){
+                        writeFlag = true;
+                    }
+                    else {
+                        System.err.println("This file belongs to airline -> " + airline1.getName());
+                        System.err.println("But the airline provided in the command line -> " + airline.getName());
+                        System.exit(1);
+                    }
                 }
                 else {
-                    System.err.println("This file belongs to airline -> " + airline1.getName());
-                    System.err.println("But the airline provided in the command line -> " + airline.getName());
+                    System.err.println("Empty File should not be passed");
                     System.exit(1);
                 }
             }

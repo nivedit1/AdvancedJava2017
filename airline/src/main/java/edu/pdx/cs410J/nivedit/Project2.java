@@ -221,7 +221,7 @@ public class Project2 {
      * @param argumentArray
      * @return true if all the arguments have passed the test
      */
-    private static boolean validateArguments(String[] argumentArray) {
+    public static boolean validateArguments(String[] argumentArray) {
         String airlineName = "";
         int flightNumber = 0;
         String sourceAirport = "";

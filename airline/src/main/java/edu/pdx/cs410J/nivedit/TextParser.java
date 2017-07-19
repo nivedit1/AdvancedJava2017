@@ -39,6 +39,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                     stringBuffer.append(line);
                     stringBuffer.append("\n");
                 }
+                bufferedReader.close();
             }
             catch (IOException e){
                 System.err.println("IO Failed");
@@ -47,6 +48,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         catch (FileNotFoundException f){
             System.err.println("File Not Found!");
         }
+
         String stringBuff = stringBuffer.toString();
         String currentLine = "";
         while((stringBuff.indexOf("\n"))> 0 ){
@@ -90,6 +92,8 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 arrivalTime = currentLine.substring(startIndex,endIndex);
             }
             else if (currentLine.contains("</record>")){
+                //To be implemented
+                //Project2.validateArguments(argumentArray);
                 airline = new Airline(airlineName, flights);
                 flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
                 airline.addFlight(flight);

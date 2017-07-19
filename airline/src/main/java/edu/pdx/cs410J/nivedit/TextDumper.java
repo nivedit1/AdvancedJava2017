@@ -26,16 +26,17 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
         String destinationAirport = flight.getDestination();
         String arrivalTime = flight.getArrivalString();
         Boolean writeFlag = false;
+        Boolean fileExists = false;
         AbstractAirline airline1;
         try {
             File file = new File (this.destinationFilename);
+            fileExists = file.exists();
             FileOutputStream out = new FileOutputStream(file, true);
             PrintWriter writer = new PrintWriter(out);
             TextParser parser = new TextParser(this.destinationFilename);
             FileReader reader = new FileReader(this.destinationFilename);
             BufferedReader bufferedReader = new BufferedReader(reader);
-            //System.out.println(file.length());
-            if(file.exists()) {
+            if(fileExists == true) {
                 if(bufferedReader.readLine() != null){
                     airline1 = parser.parse();
                     if(airlineName.equals(airline1.getName())){

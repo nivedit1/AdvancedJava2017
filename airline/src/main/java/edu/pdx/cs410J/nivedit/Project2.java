@@ -203,7 +203,8 @@ public class Project2 {
                 "\n========\n" +
                 "Options are as follows:\n" +
                 "  -print -> Prints a description of the new flight\n" +
-                "  -README -> Prints a README for this project and exits\n";
+                "  -README -> Prints a README for this project and exits\n" +
+                "  -textFile file -> Where to read/write the airline info\n";
         String executionInstruction = "\nExecution Instruction:" +
                 "\n======================\n" +
                 "Run the program with -> java edu.pdx.cs410J.nivedit.Project2 [options] <args>";

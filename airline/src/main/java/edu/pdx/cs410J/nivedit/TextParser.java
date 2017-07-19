@@ -138,7 +138,13 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
             }
             else if (currentLine.contains("</record>")){
                 airline = new Airline(airlineName, flights);
-                flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
+                if(flightNumber != -1 && sourceAirport.equals("") && destinationAirport.equals("") && departureTime.equals("") && arrivalTime.equals("")){
+                    flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
+                }
+                else {
+                    System.err.println("Flight information not complete");
+                    System.exit(1);
+                }
                 airline.addFlight(flight);
             }
             else {

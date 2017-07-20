@@ -57,6 +57,7 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
                 writeFlag = true;
             }
             if(writeFlag == true){
+                file.createNewFile();
                 writer.println("<record>");
                 writer.println("<airlineName>" + airlineName + "</airlineName>");
                 writer.println("<flightNumber>" + flightNumber +"</flightNumber>");

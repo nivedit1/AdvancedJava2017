@@ -93,6 +93,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 //sourceAirport = currentLine.substring(startIndex,endIndex);
                 if (currentLine.substring(startIndex,endIndex).matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
                     sourceAirport = currentLine.substring(startIndex,endIndex);
+                    System.out.println("Source: " + sourceAirport);
                 } else {
                     System.err.println("Source Airport Code in the file is not a 3 letter code - " + currentLine.substring(startIndex,endIndex));
                     System.out.println("Airport code should be of the format \"AAA\"");
@@ -116,7 +117,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 int endIndex = currentLine.indexOf("</destinationAirport>");
                 //destinationAirport = currentLine.substring(startIndex,endIndex);
                 if (currentLine.substring(startIndex,endIndex).matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
-                    sourceAirport = currentLine.substring(startIndex,endIndex);
+                    destinationAirport = currentLine.substring(startIndex,endIndex);
                 } else {
                     System.err.println("Destination Airport Code in the file is not a 3 letter code - " + currentLine.substring(startIndex,endIndex));
                     System.out.println("Airport code should be of the format \"AAA\"");
@@ -137,14 +138,15 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
             }
             else if (currentLine.contains("</record>")){
                 airline = new Airline(airlineName, flights);
-                if(flightNumber != -1 && sourceAirport.equals("") && destinationAirport.equals("") && departureTime.equals("") && arrivalTime.equals("")){
-                    flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
-                }
-                else {
+                if(flightNumber == -1 || sourceAirport.equals("") || destinationAirport.equals("") || departureTime.equals("") || arrivalTime.equals("")){
+                    System.out.println(flightNumber + sourceAirport + departureTime + destinationAirport + arrivalTime);
                     System.err.println("Flight information not complete");
                     System.exit(1);
                 }
-                airline.addFlight(flight);
+                else {
+                    flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
+                    airline.addFlight(flight);
+                }
             }
             else {
                 System.err.println("Malformatted File -> " + currentLine);

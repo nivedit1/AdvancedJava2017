@@ -30,7 +30,6 @@ public class Project2 {
     public static void main(String[] args) {
         Boolean printFlag = false;
         Boolean textFileFlag = false;
-        Boolean validFile = false;
         String[] argumentArray = new String[100];
         boolean validArguments = false;
         String airlineName = "";
@@ -264,10 +263,10 @@ public class Project2 {
         String airlineName = "";
         int flightNumber = 0;
         String sourceAirport = "";
-        Date departureTime = new Date();
+        Date departureTime;
         String userInputDepartureTime = "";
         String destinationAirport = "";
-        Date arrivalTime = new Date();
+        Date arrivalTime;
         String userInputArrivalTime = "";
         String expectedDatePattern = "MM/dd/yyyy HH:mm";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);

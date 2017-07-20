@@ -40,10 +40,10 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         int flightNumber = 0;
         String sourceAirport = "";
         String departureTime = "" ;
-        Date departureTimeInDate = new Date();
+        Date departureTimeInDate;
         String destinationAirport = "";
         String arrivalTime = "";
-        Date arrivalTimeInDate = new Date();
+        Date arrivalTimeInDate;
         Collection<Flight> flights = new ArrayList<>();
         Airline airline = new Airline("", flights);
         Flight flight = new Flight(0,"","","","");

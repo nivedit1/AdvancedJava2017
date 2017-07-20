@@ -196,7 +196,6 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
             System.err.println("Flight information not complete");
             System.exit(1);
         }
-        System.out.println(airline.getFlights());
         return airline;
     }
 }

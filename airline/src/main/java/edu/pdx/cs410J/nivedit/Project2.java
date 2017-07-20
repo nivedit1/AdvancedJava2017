@@ -225,7 +225,8 @@ public class Project2 {
                 "This application parses the command line arguments provided by the user " +
                 "and assigns the values to the airline and the respective flight stated by the user.\n" +
                 "It also checks the validity of flight number, airport codes, and " +
-                "arrival and departure times.\n";
+                "arrival and departure times.\n"+
+                "It optionally adds the airline information to a file specified on the command line.\n";
         String argumentList = "\nArguments List:" +
                 "\n===============\n" +
                 "Pass arguments to this program as follows:\n" +

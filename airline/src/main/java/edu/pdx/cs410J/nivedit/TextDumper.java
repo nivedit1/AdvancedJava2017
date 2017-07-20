@@ -18,7 +18,6 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
      * @param destination_filename
      *        The name of the file to be dumped to
      */
-
     public  TextDumper(String destination_filename) {
 
         this.destinationFilename = destination_filename;
@@ -29,7 +28,6 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
      * @param airline
      *        the <code>airline</code> to be dumped
      */
-
     public void dump(AbstractAirline airline){
         String airlineName = airline.getName();
         Collection<Flight>flights = airline.getFlights();

@@ -26,7 +26,6 @@ public class Project2 {
      * @param args
      *        Command line arguments passed by the user
      */
-
     public static void main(String[] args) {
         Boolean printFlag = false;
         Boolean textFileFlag = false;
@@ -63,45 +62,37 @@ public class Project2 {
                     System.exit(0);
                 } else if ((args[0].equals("-print") || args[1].equals("-print") || args[2].equals("-print"))) {
                     printFlag = true;
-                    if(args.length == 11 && (args[0].equals("-textFile") || args[1].equals("-textFile")))
-                    {
+                    if(args.length == 11 && (args[0].equals("-textFile") || args[1].equals("-textFile"))){
                         textFileFlag = true;
                         if(args[0].equals("-textFile")){
                             fileName = args[1];
-                        }
-                        else {
+                        } else {
                             fileName = args[2];
                         }
                         for (int i = 3; i<args.length; i++ ){
                             argumentArray[i-3] = args[i];
                         }
-                    }
-                    else if (args.length == 10 && (args[0].equals("-textFile") || args[1].equals("-textFile"))){
+                    } else if (args.length == 10 && (args[0].equals("-textFile") || args[1].equals("-textFile"))){
                         textFileFlag = true;
                         if(args[0].equals("-textFile")){
                             fileName = args[1];
-                        }
-                        else {
+                        } else {
                             fileName = args[2];
                         }
                         for (int i = 3; i<args.length; i++ ){
                             argumentArray[i-3] = args[i];
                         }
-                    }
-                    else if(args.length == 9){
+                    } else if(args.length == 9){
                         for (int i = 1; i < args.length; i++) {
                             argumentArray[i - 1] = args[i];
                         }
-                    }
-                    else if (args.length == 8){
+                    } else if (args.length == 8){
                         System.err.println("Not enough arguments to print");
                         System.exit(1);
-                    }
-                    else {
+                    } else {
                         System.err.println("Too many arguments");
                         System.exit(1);
                     }
-
                 } else if(args[0].equals("-textFile")){
                     if(args.length == 10){
                         textFileFlag = true;
@@ -109,12 +100,10 @@ public class Project2 {
                         for(int i = 2; i < args.length; i++){
                             argumentArray[i-2] = args[i];
                         }
-                    }
-                    else if(args.length < 10){
+                    } else if(args.length < 10){
                         System.err.println("Not enough arguments to write to file");
                         System.exit(1);
-                    }
-                    else{
+                    } else{
                         System.err.println("Too many arguments to write to file");
                         System.exit(1);
                     }
@@ -126,8 +115,7 @@ public class Project2 {
                     System.err.println("Too many arguments");
                     System.exit(1);
                 }
-            }
-            else {
+            } else {
                 if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README") ) {
                     System.out.println(getReadme());
                     System.exit(0);
@@ -140,8 +128,7 @@ public class Project2 {
                     fileName = args[1];
                     System.err.println("Too many arguments to write to file");
                     System.exit(1);
-                }
-                else {
+                } else {
                     System.err.println("Too many arguments!");
                     System.exit(1);
                 }
@@ -177,12 +164,10 @@ public class Project2 {
                                     System.err.println("But the airline provided in the command line -> " + airline.getName());
                                     System.exit(1);
                                 }
-                            }
-                            else {
+                            } else {
                                 System.err.println("Empty File should not be passed");
                                 System.exit(1);
                             }
-
                         }
                         catch (IOException e){
                             System.err.println("IO Exception");
@@ -204,8 +189,7 @@ public class Project2 {
                     System.out.println(flight.toString());
                 }
             }
-        }
-        else {
+        } else {
             System.err.println("No command line arguments");
             System.exit(1);
         }

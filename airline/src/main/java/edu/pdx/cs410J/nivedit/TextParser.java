@@ -74,7 +74,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
             currentLine = stringBuff.substring(0,(stringBuff.indexOf("\n")));
             if(currentLine.contains("<record>")){
                 if(recordComplete != 0 && recordComplete != 8){
-                    System.err.println("Flight information not complete");
+                    System.err.println("Flight information not complete in the file");
                     System.exit(1);
                 }
                 recordComplete = 0;
@@ -179,7 +179,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 else {
                     //System.out.println(currentLine);
                     //System.out.println(recordComplete);
-                    System.err.println("Flight information not complete");
+                    System.err.println("Flight information not complete in the file");
                     System.exit(1);
                 }
                 //System.out.println(currentLine + " " +recordComplete);
@@ -193,7 +193,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         }
         if(recordComplete != 8){
             //System.out.println(recordComplete);
-            System.err.println("Flight information not complete");
+            System.err.println("Flight information not complete in the file");
             System.exit(1);
         }
         return airline;

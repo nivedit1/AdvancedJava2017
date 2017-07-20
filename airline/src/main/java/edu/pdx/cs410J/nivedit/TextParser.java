@@ -55,7 +55,6 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         catch (FileNotFoundException f){
             System.err.println("File Not Found!");
         }
-
         String stringBuff = stringBuffer.toString();
         String currentLine = "";
         while((stringBuff.indexOf("\n"))> 0 ){

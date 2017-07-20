@@ -17,12 +17,14 @@ import java.util.ArrayList;
 public class Project2 {
 
     /**
-     * Main program that parses the command line,
+     *Main program that parses the command line,
      * validates the arguments provided by the user and
      * creates an <code>Airline</code> and <code>Flight</code>,
      * and optionally prints a description of the flight to
      * standard out by invoking the <code>toString</code> method of <code>Flight</code>
      * optionally adds flight information to the specified destination file.
+     * @param args
+     *        Command line arguments passed by the user
      */
 
     public static void main(String[] args) {

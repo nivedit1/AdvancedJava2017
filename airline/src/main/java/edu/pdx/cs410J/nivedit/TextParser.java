@@ -17,6 +17,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
     private String sourceFilename;
 
     public TextParser(String sourceFilename){
+
         this.sourceFilename = sourceFilename;
     }
 
@@ -32,12 +33,12 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         String arrivalTime = "";
         Date arrivalTimeInDate = new Date();
         Collection<Flight> flights = new ArrayList<>();
-        Airline airline = new Airline("name", flights);
+        Airline airline = new Airline("", flights);
         Flight flight = new Flight(0,"","","","");
         String expectedDatePattern = "MM/dd/yyyy HH:mm";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
         formatter.setLenient(false);
-
+        int recordComplete = 0;
         try{
             FileReader reader = new FileReader(this.sourceFilename);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -60,6 +61,13 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         while((stringBuff.indexOf("\n"))> 0 ){
             currentLine = stringBuff.substring(0,(stringBuff.indexOf("\n")));
             if(currentLine.contains("<record>")){
+                if(recordComplete != 0 && recordComplete != 8){
+                    System.err.println("Flight information not complete");
+                    System.exit(1);
+                }
+                recordComplete = 0;
+                recordComplete += 1;
+                //System.out.println(currentLine + " " +recordComplete);
                 airlineName = "";
                 flightNumber = -1;
                 sourceAirport = "";
@@ -67,12 +75,14 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 destinationAirport ="";
                 arrivalTime ="";
             }
-            else if(currentLine.contains("<airlineName>")){
+            else if(currentLine.contains("<airlineName>") && currentLine.contains("</airlineName>")){
                 int startIndex = currentLine.indexOf("<airlineName>") + "<airlineName>".length();
                 int endIndex = currentLine.indexOf("</airlineName>");
                 airlineName = currentLine.substring(startIndex,endIndex);
+                recordComplete += 1;
+                //System.out.println(currentLine + " " +recordComplete);
             }
-            else if(currentLine.contains("<flightNumber>")){
+            else if(currentLine.contains("<flightNumber>") && currentLine.contains("</flightNumber>")){
                 int startIndex = currentLine.indexOf("<flightNumber>") + "<flightNumber>".length();
                 int endIndex = currentLine.indexOf("</flightNumber>");
                 //flightNumber = Integer.parseInt(currentLine.substring(startIndex,endIndex));
@@ -82,71 +92,86 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                         System.err.println("Flight number in the file cannot be negative " + flightNumber);
                         System.exit(1);
                     }
+                    recordComplete += 1;
+                    //System.out.println(currentLine + " " +recordComplete);
                 } catch (Exception e) {
                     System.err.println("Flight Number in the file is not Integer " + currentLine.substring(startIndex,endIndex));
                     System.exit(1);
                 }
             }
-            else if(currentLine.contains("<sourceAirport>")){
+            else if(currentLine.contains("<sourceAirport>") && currentLine.contains("</sourceAirport>")){
                 int startIndex = currentLine.indexOf("<sourceAirport>") + "<sourceAirport>".length();
                 int endIndex = currentLine.indexOf("</sourceAirport>");
                 //sourceAirport = currentLine.substring(startIndex,endIndex);
                 if (currentLine.substring(startIndex,endIndex).matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
                     sourceAirport = currentLine.substring(startIndex,endIndex);
-                    System.out.println("Source: " + sourceAirport);
+                    recordComplete += 1;
+                    //System.out.println(currentLine + " " +recordComplete);
+                    //System.out.println("Source: " + sourceAirport);
                 } else {
                     System.err.println("Source Airport Code in the file is not a 3 letter code - " + currentLine.substring(startIndex,endIndex));
                     System.out.println("Airport code should be of the format \"AAA\"");
                     System.exit(1);
                 }
             }
-            else if(currentLine.contains("<departureTime>")){
+            else if(currentLine.contains("<departureTime>") && currentLine.contains("</departureTime>")){
                 int startIndex = currentLine.indexOf("<departureTime>") + "<departureTime>".length();
                 int endIndex = currentLine.indexOf("</departureTime>");
                 //departureTime = currentLine.substring(startIndex,endIndex);
                 try {
                     departureTime = currentLine.substring(startIndex,endIndex);
                     departureTimeInDate = formatter.parse(departureTime);
+                    recordComplete += 1;
+                    //System.out.println(currentLine + " " +recordComplete);
                 } catch (Exception e) {
                     System.err.println("The Departure time in the file does not match the format \"MM/DD/YY HH:MM\" - " + departureTime);
                     System.exit(1);
                 }
             }
-            else if(currentLine.contains("<destinationAirport>")){
+            else if(currentLine.contains("<destinationAirport>") && currentLine.contains("</destinationAirport>")){
                 int startIndex = currentLine.indexOf("<destinationAirport>") + "<destinationAirport>".length();
                 int endIndex = currentLine.indexOf("</destinationAirport>");
                 //destinationAirport = currentLine.substring(startIndex,endIndex);
                 if (currentLine.substring(startIndex,endIndex).matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
                     destinationAirport = currentLine.substring(startIndex,endIndex);
+                    recordComplete += 1;
+                    //System.out.println(currentLine + " " +recordComplete);
                 } else {
                     System.err.println("Destination Airport Code in the file is not a 3 letter code - " + currentLine.substring(startIndex,endIndex));
                     System.out.println("Airport code should be of the format \"AAA\"");
                     System.exit(1);
                 }
             }
-            else if(currentLine.contains("<arrivalTime>")) {
+            else if(currentLine.contains("<arrivalTime>") && currentLine.contains("</arrivalTime>")) {
                 int startIndex = currentLine.indexOf("<arrivalTime>") + "<arrivalTime>".length();
                 int endIndex = currentLine.indexOf("</arrivalTime>");
                 //arrivalTime = currentLine.substring(startIndex, endIndex);
                 try {
                     arrivalTime = currentLine.substring(startIndex,endIndex);
                     arrivalTimeInDate = formatter.parse(arrivalTime);
+                    recordComplete += 1;
+                    //System.out.println(currentLine + " " +recordComplete);
                 } catch (Exception e) {
                     System.err.println("The Arrival time in the file does not match the format \"MM/DD/YY HH:MM\" - " + arrivalTime);
                     System.exit(1);
                 }
             }
             else if (currentLine.contains("</record>")){
-                airline = new Airline(airlineName, flights);
-                if(flightNumber == -1 || sourceAirport.equals("") || destinationAirport.equals("") || departureTime.equals("") || arrivalTime.equals("")){
-                    System.out.println(flightNumber + sourceAirport + departureTime + destinationAirport + arrivalTime);
-                    System.err.println("Flight information not complete");
-                    System.exit(1);
-                }
-                else {
+                recordComplete += 1;
+                if(recordComplete == 8){
+                    //System.out.println(recordComplete);
+                    airline = new Airline(airlineName, flights);
                     flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
                     airline.addFlight(flight);
                 }
+                else {
+                    //System.out.println(currentLine);
+                    //System.out.println(recordComplete);
+                    System.err.println("Flight information not complete");
+                    System.exit(1);
+                }
+                //System.out.println(currentLine + " " +recordComplete);
+
             }
             else {
                 System.err.println("Malformatted File -> " + currentLine);
@@ -154,6 +179,12 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
             }
             stringBuff = stringBuff.substring((stringBuff.indexOf("\n")+1),stringBuff.length());
         }
+        if(recordComplete != 8){
+            //System.out.println(recordComplete);
+            System.err.println("Flight information not complete");
+            System.exit(1);
+        }
+        System.out.println(airline.getFlights());
         return airline;
     }
 }

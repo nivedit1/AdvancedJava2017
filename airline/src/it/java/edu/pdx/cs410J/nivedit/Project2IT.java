@@ -55,7 +55,7 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(airlineFile.exists(), equalTo(false));
 
         invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
-                "123", "PDX", "7/16/2017 15:00", "LAX", "7/16/2017", "18:00");
+                "123", "PDX", "7/16/2017", "15:00", "LAX", "7/16/2017", "18:00");
 
         String fileContents = readFile(airlineFile);
         assertThat(fileContents, containsString("123"));
@@ -66,7 +66,7 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(airlineFile.exists(), equalTo(true));
 
         invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
-                "234", "PDX", "7/17/2017 15:00", "LAX", "7/17/2017", "18:00");
+                "234", "PDX", "7/17/2017", "15:00", "LAX", "7/17/2017", "18:00");
 
         String fileContents = readFile(airlineFile);
         assertThat(fileContents, containsString("123"));

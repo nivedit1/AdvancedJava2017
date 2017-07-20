@@ -2,6 +2,10 @@ package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.AbstractAirline;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -34,6 +38,8 @@ public class Project2 {
         String arrivalTime = "";
         Collection<Flight> flights = new ArrayList<>();
         String fileName = "";
+        Boolean fileExists = false;
+        Boolean writeFlag = false;
         if(args.length > 0){
             if (args.length < 8) {
                 if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")) {
@@ -154,16 +160,43 @@ public class Project2 {
                 TextDumper dumper = new TextDumper(fileName);
                 AbstractAirline airline1;
                 if(textFileFlag == true){
-                    /*//System.out.println(fileName);
-                    airline1 = parser.parse();
-                    if(airline1.getName().equals(airline.getName())){
-                        dumper.dump(airline);
+                    File file = new File(fileName);
+                    fileExists = file.exists();
+                    if(fileExists == true) {
+                        try{
+                            FileReader reader = new FileReader(fileName);
+                            BufferedReader bufferedReader = new BufferedReader(reader);
+                            if(bufferedReader.readLine() != null){
+                                airline1 = parser.parse();
+                                if (airline1.getName().equals(airline.getName())) {
+                                    writeFlag = true;
+                                } else {
+                                    System.err.println("This file belongs to airline -> " + airline1.getName());
+                                    System.err.println("But the airline provided in the command line -> " + airline.getName());
+                                    System.exit(1);
+                                }
+                            }
+                            else {
+                                System.err.println("Empty File should not be passed");
+                                System.exit(1);
+                            }
+
+                        }
+                        catch (IOException e){
+                            System.err.println("IO Exception");
+                        }
+                    }else {
+                        writeFlag = true;
                     }
-                    else{
-                        System.err.println("This file belongs to "+ airline1.getName());
-                        System.exit(1);
-                    }*/
-                    dumper.dump(airline);
+                    if(writeFlag == true){
+                        try {
+                            file.createNewFile();
+                            dumper.dump(airline);
+                        } catch (IOException e){
+                            System.err.println("IO Exception");
+                            System.exit(1);
+                        }
+                    }
                 }
                 if (printFlag == true) {
                     System.out.println(flight.toString());

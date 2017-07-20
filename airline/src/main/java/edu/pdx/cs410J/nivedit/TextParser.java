@@ -10,16 +10,28 @@ import java.util.Date;
 
 
 /**
- * Created by Niveditha Venugopal on 7/14/2017.
+ * This class parses the text output that contains <code>airline</code>
+ * information given to it.
  */
 public class TextParser implements edu.pdx.cs410J.AirlineParser{
 
     private String sourceFilename;
 
+    /**
+     * Creates a new text parser that reads its input from a file of a given name.
+     * @param sourceFilename
+     *        The name of the file to be parsed
+     */
+
     public TextParser(String sourceFilename){
 
         this.sourceFilename = sourceFilename;
     }
+
+    /**
+     * Parses the specified input source and from it creates an airline.
+     * @return airline that was parsed from the file
+     */
 
     public AbstractAirline parse(){
         String line = null;

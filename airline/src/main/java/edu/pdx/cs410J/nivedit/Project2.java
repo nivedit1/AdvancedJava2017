@@ -21,7 +21,8 @@ public class Project2 {
      * validates the arguments provided by the user and
      * creates an <code>Airline</code> and <code>Flight</code>,
      * and optionally prints a description of the flight to
-     * standard out by invoking the <code>toString</code> method of <code>Flight</code>.
+     * standard out by invoking the <code>toString</code> method of <code>Flight</code>
+     * optionally adds flight information to the specified destination file.
      */
 
     public static void main(String[] args) {
@@ -210,7 +211,7 @@ public class Project2 {
     }
 
     /*This method returns a README for the application
-    *@return
+    *@return README Text
     * */
     private static String getReadme() {
 
@@ -251,8 +252,9 @@ public class Project2 {
     }
 
     /**
-     * This function validates the argument array
+     * This function validates the arguments provided in the command line
      * @param argumentArray
+     *        The arguments passed in the command line
      * @return true if all the arguments have passed the test
      */
     public static boolean validateArguments(String[] argumentArray) {

@@ -6,15 +6,29 @@ import java.io.*;
 import java.util.Collection;
 
 /**
- * Created by Niveditha Venugopal on 7/14/2017.
+ * This class dumps an <code>airline</code> to a destination
  */
 public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
 
     private String destinationFilename;
 
+    /**
+     * Creates a new text dumper that dumps to a file of a given name
+     * If the file does not exist, it is created
+     * @param destination_filename
+     *        The name of the file to be dumped to
+     */
+
     public  TextDumper(String destination_filename) {
+
         this.destinationFilename = destination_filename;
     }
+
+    /**
+     * Dumps the contents of the airline to the desired destination
+     * @param airline
+     *        the <code>airline</code> to be dumped
+     */
 
     public void dump(AbstractAirline airline){
         String airlineName = airline.getName();

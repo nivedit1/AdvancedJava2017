@@ -43,6 +43,25 @@ public class Project2 {
         Boolean writeFlag = false;
         if(args.length > 0){
             if (args.length < 8) {
+                if(args.length < 4){
+                    for(String arg : args){
+                        if(arg.equals("-README")){
+                            System.out.println(getReadme());
+                            System.exit(0);
+                        } else if (arg.equals("-print")){
+                            System.err.println("Not enough arguments to print!");
+                            System.exit(1);
+                        }
+                        else if (arg.equals("-textFile")){
+                            System.err.println("Not enough arguments to write to file");
+                            System.exit(1);
+                        }
+                        else {
+                            System.err.println("Missing command line arguments");
+                            System.exit(1);
+                        }
+                    }
+                }
                 if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")) {
                     System.out.println(getReadme());
                     System.exit(0);
@@ -52,6 +71,7 @@ public class Project2 {
                     System.exit(1);
                 } else if ((args[0].equals("-textFile") || args[1].equals("-textFile"))) {
                     System.err.println("Not enough arguments to write to file");
+                    System.exit(1);
                 } else {
                     System.err.println("Missing command line arguments");
                     System.exit(1);

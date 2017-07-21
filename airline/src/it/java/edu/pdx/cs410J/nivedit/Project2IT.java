@@ -22,7 +22,7 @@ public class Project2IT extends InvokeMainTestCase {
 
     private static File airlineFile;
 
-    @BeforeClass
+    /*@BeforeClass
     public static void createTempDirectoryForAirlineFile() throws IOException {
         File tmpDirectory = new File(System.getProperty("java.io.tmpdir"));
         airlineFile = new File(tmpDirectory, "airline.txt");
@@ -72,6 +72,6 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(fileContents, containsString("123"));
         assertThat(fileContents, containsString("234"));
     }
-
+*/
 
 }

@@ -12,6 +12,7 @@ import java.util.Date;
 /**
  * This class parses the text output that contains <code>airline</code>
  * information given to it.
+ * @author Niveditha Venugopal
  */
 public class TextParser implements edu.pdx.cs410J.AirlineParser{
 

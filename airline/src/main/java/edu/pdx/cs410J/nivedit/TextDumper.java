@@ -7,6 +7,7 @@ import java.util.Collection;
 
 /**
  * This class dumps an <code>airline</code> to a destination
+ * @author Niveditha Venugopal
  */
 public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
 

@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractFlight;
 
 /**
  * This class represents a <code>Flight</code>.
+ * @author Niveditha Venugopal
  */
 public class Flight extends AbstractFlight{
 

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 /**
  * The main class for the CS410J airline Project
+ * @author Niveditha Venugopal
  */
 public class Project2 {
 
@@ -24,7 +25,7 @@ public class Project2 {
      * standard out by invoking the <code>toString</code> method of <code>Flight</code>
      * optionally adds flight information to the specified destination file.
      * @param args
-     *        Command line arguments passed by the user
+     *        Command line arguments passed by the user     *
      */
     public static void main(String[] args) {
         Boolean printFlag = false;

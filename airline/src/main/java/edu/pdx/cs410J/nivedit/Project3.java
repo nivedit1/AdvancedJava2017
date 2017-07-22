@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * The main class for the CS410J airline Project
  * @author Niveditha Venugopal
  */
-public class Project2 {
+public class Project3 {
 
     /**
      *Main program that parses the command line,
@@ -27,6 +27,9 @@ public class Project2 {
      * @param args
      *        Command line arguments passed by the user     *
      */
+
+    static Date departureTimeInDate;
+    static Date arrivalTimeInDate;
     public static void main(String[] args) {
         Boolean printFlag = false;
         Boolean textFileFlag = false;
@@ -162,7 +165,9 @@ public class Project2 {
                 departureTime = argumentArray[3] + " " + argumentArray[4];
                 destinationAirport = argumentArray[5];
                 arrivalTime = argumentArray[6] + " " + argumentArray[7];
-                Flight flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
+                System.out.println(departureTimeInDate);
+                Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
+                System.out.println(flight.getDepartureString());
                 flights.add(flight);
                 Airline airline = new Airline(airlineName, flights);
                 airline.addFlight(flight);
@@ -248,7 +253,7 @@ public class Project2 {
                 "  -textFile file -> Where to read/write the airline info\n";
         String executionInstruction = "\nExecution Instruction:" +
                 "\n======================\n" +
-                "Run the program with -> java edu.pdx.cs410J.nivedit.Project2 [options] <args>";
+                "Run the program with -> java edu.pdx.cs410J.nivedit.Project3 [options] <args>";
         String developedBy = "\n\nDeveloped By:\n" +
                 "=============" +
                 "\n-Niveditha Venugopal" +
@@ -268,10 +273,10 @@ public class Project2 {
         String airlineName = "";
         int flightNumber = 0;
         String sourceAirport = "";
-        Date departureTime;
+        //Date departureTime;
         String userInputDepartureTime = "";
         String destinationAirport = "";
-        Date arrivalTime;
+        //Date arrivalTime;
         String userInputArrivalTime = "";
         String expectedDatePattern = "MM/dd/yyyy HH:mm";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
@@ -296,7 +301,7 @@ public class Project2 {
         }
         try {
             userInputDepartureTime = argumentArray[3] + " " + argumentArray[4];
-            departureTime = formatter.parse(userInputDepartureTime);
+            departureTimeInDate = formatter.parse(userInputDepartureTime);
         } catch (Exception e) {
             System.err.println("The Departure time does not match the format \"MM/DD/YY HH:MM\" - " + userInputDepartureTime);
             System.exit(1);
@@ -310,7 +315,7 @@ public class Project2 {
         }
         try {
             userInputArrivalTime = argumentArray[6] + " " + argumentArray[7];
-            arrivalTime = formatter.parse(userInputArrivalTime);
+            arrivalTimeInDate = formatter.parse(userInputArrivalTime);
         } catch (Exception e) {
             System.err.println("The Arrival time does not match the format \"MM/DD/YY HH:MM\" - " + userInputArrivalTime);
             System.exit(1);

@@ -39,13 +39,13 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         int flightNumber = 0;
         String sourceAirport = "";
         String departureTime = "" ;
-        Date departureTimeInDate;
+        Date departureTimeInDate = new Date();
         String destinationAirport = "";
         String arrivalTime = "";
-        Date arrivalTimeInDate;
+        Date arrivalTimeInDate = new Date();
         Collection<Flight> flights = new ArrayList<>();
         Airline airline = new Airline("", flights);
-        Flight flight = new Flight(0,"","","","");
+        Flight flight = new Flight(0,"",departureTimeInDate,"",arrivalTimeInDate);
         String expectedDatePattern = "MM/dd/yyyy HH:mm";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
         formatter.setLenient(false);
@@ -151,7 +151,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 recordComplete += 1;
                 if(recordComplete == 8){
                     airline = new Airline(airlineName, flights);
-                    flight = new Flight(flightNumber, sourceAirport, departureTime, destinationAirport, arrivalTime);
+                    flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
                     airline.addFlight(flight);
                 } else {
                     System.err.println("Flight information not complete in the file");

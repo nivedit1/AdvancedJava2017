@@ -1,22 +1,14 @@
 package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import java.io.*;
-import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertTrue;
 
 /**
- * An integration test for the {@link Project2} main class.
+ * An integration test for the {@link Project3} main class.
  */
 public class Project2IT extends InvokeMainTestCase {
 
@@ -36,7 +28,7 @@ public class Project2IT extends InvokeMainTestCase {
     }
 
     private MainMethodResult invokeProject2(String... args) {
-        return invokeMain(Project2.class, args);
+        return invokeMain(Project3.class, args);
     }
 
     private String readFile(File file) throws FileNotFoundException {

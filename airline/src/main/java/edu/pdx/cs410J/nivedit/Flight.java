@@ -103,18 +103,43 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         return arrivalTimeInString;
     }
 
+    /**
+     * Returns the <code>departureTime</code>
+     * of the flight
+     * @return the departure time in Date Format
+     */
     @Override
     public Date getDeparture() {
         return this.departureTime;
     }
 
+    /**
+     * Returns the <code>arrival time</code>
+     * of the flight
+     * @return the arrival time in Date format
+     */
     @Override
     public  Date getArrival(){
         return this.arrivalTime;
     }
 
+    /**
+     * This method compares two Flight Objects based on their source Airport
+     * and DepartureTime and returns an integer value.
+     * @param other flight to be compared
+     * @return integer value of the compare result.
+     */
     @Override
-    public int compareTo(Flight o) {
+    public int compareTo(Flight other) {
+        int compareValue;
+        compareValue = this.sourceAirport.compareTo(other.getSource());
+        if(compareValue !=0){
+            return compareValue;
+        }
+        compareValue = this.getDeparture().compareTo(other.getDeparture());
+        if(compareValue != 0){
+            return compareValue;
+        }
         return 0;
     }
 }

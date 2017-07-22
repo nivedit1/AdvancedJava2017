@@ -1,9 +1,15 @@
 package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.*;
+import java.util.stream.Stream;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -14,7 +20,7 @@ public class Project2IT extends InvokeMainTestCase {
 
     private static File airlineFile;
 
-    /*@BeforeClass
+    @BeforeClass
     public static void createTempDirectoryForAirlineFile() throws IOException {
         File tmpDirectory = new File(System.getProperty("java.io.tmpdir"));
         airlineFile = new File(tmpDirectory, "airline.txt");
@@ -31,19 +37,20 @@ public class Project2IT extends InvokeMainTestCase {
         return invokeMain(Project3.class, args);
     }
 
-    private String readFile(File file) throws FileNotFoundException {
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        StringBuilder sb = new StringBuilder();
-        Stream<String> lines = br.lines();
-        lines.forEach(line -> {
-            sb.append(line).append("\n");
-        });
+    private String readFile(File file) throws IOException {
 
-        return sb.toString();
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            StringBuilder sb = new StringBuilder();
+            Stream<String> lines = br.lines();
+            lines.forEach(line -> {
+                sb.append(line).append("\n");
+            });
+            br.close();
+            return sb.toString();
     }
 
     @Test
-    public void test1CreateNewAirlineFileWhenFileDoesNotExist() throws FileNotFoundException {
+    public void test1CreateNewAirlineFileWhenFileDoesNotExist() throws IOException {
         assertThat(airlineFile.exists(), equalTo(false));
 
         invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
@@ -53,8 +60,8 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(fileContents, containsString("123"));
     }
 
-    @Test
-    public void test2AddFlightToExistingAirlineFile() throws FileNotFoundException {
+   /* @Test
+    public void test2AddFlightToExistingAirlineFile() throws IOException {
         assertThat(airlineFile.exists(), equalTo(true));
 
         invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
@@ -65,5 +72,4 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(fileContents, containsString("234"));
     }
 */
-
 }

@@ -2,6 +2,7 @@ package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.AbstractAirline;
 import edu.pdx.cs410J.AirlineDumper;
+import edu.pdx.cs410J.AirportNames;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,7 +15,7 @@ import java.util.*;
  * or standard out in a human readable format.
  * @author Niveditha Venugopal
  */
-public class PrettyPrinter implements AirlineDumper {
+public class PrettyPrinter implements AirlineDumper{
 
     private String destinationFilename;
 
@@ -51,22 +52,27 @@ public class PrettyPrinter implements AirlineDumper {
         Collection<Flight> flights = airline.getFlights();
         SortedSet<Flight> flightSortedSet = new TreeSet<Flight>(Comparators.sourceAirportAndDepartureTime);
         flightSortedSet.addAll(flights);
-        //System.out.println(flightSortedSet);
         File file = new File(this.destinationFilename);
         FileOutputStream out = new FileOutputStream(file,true);
         PrintWriter writer = new PrintWriter(out);
         writer.println("Airline Name:" + " " + airline.getName());
+        writer.println();
         int i = 1;
-        while (flightSortedSet.iterator().hasNext()){
-            Flight flight = flightSortedSet.iterator().next();
+        Iterator iterator = flightSortedSet.iterator();
+        while (iterator.hasNext()){
+            Flight flight = (Flight)iterator.next();
             long flightDuration = flight.getArrival().getTime()-flight.getDeparture().getTime();
-            writer.println("Flight" + i + " " + "Details:");
+            long flightDurationInHours = flightDuration/(60*60*1000);
+            long flightDurationInMinutes = flightDuration/(60*1000)%60;
+            writer.println("Flight " + i + " " + "Details:");
+            writer.println("================");
             writer.println("Flight Number:" +" "+ flight.getNumber());
             writer.println("Flight Source:" + " "+ flight.getSource());
             writer.println("Departure Time:" + " "+ flight.getDepartureString());
             writer.println("Flight Destination:" + " "+ flight.getDestination());
             writer.println("Arrival Time:" + " "+ flight.getArrivalString());
-            writer.println("Flight Duration:" + flightDuration);
+            writer.println("Flight Duration:" + flightDurationInHours + " hours and " + flightDurationInMinutes + " minutes");
+            writer.println();
             i +=1;
         }
         writer.close();

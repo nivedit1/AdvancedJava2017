@@ -165,9 +165,7 @@ public class Project3 {
                 departureTime = argumentArray[3] + " " + argumentArray[4];
                 destinationAirport = argumentArray[5];
                 arrivalTime = argumentArray[6] + " " + argumentArray[7];
-                System.out.println(departureTimeInDate);
                 Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
-                System.out.println(flight.getDepartureString());
                 flights.add(flight);
                 Airline airline = new Airline(airlineName, flights);
                 airline.addFlight(flight);
@@ -206,8 +204,8 @@ public class Project3 {
                     if(writeFlag == true){
                         try {
                             file.createNewFile();
-                            //dumper.dump(airline);
-                            prettyPrinter.dump(airline);
+                            dumper.dump(airline);
+                            //prettyPrinter.dump(airline);
                         } catch (IOException e){
                             System.err.println("IO Exception");
                             System.exit(1);

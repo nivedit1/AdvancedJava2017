@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class Project2IT extends InvokeMainTestCase {
 
-    private static File airlineFile;
+    /*private static File airlineFile;
 
     @BeforeClass
     public static void createTempDirectoryForAirlineFile() throws IOException {
@@ -58,7 +58,7 @@ public class Project2IT extends InvokeMainTestCase {
 
         String fileContents = readFile(airlineFile);
         assertThat(fileContents, containsString("123"));
-    }
+    }*/
 
    /* @Test
     public void test2AddFlightToExistingAirlineFile() throws IOException {

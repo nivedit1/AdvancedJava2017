@@ -173,6 +173,7 @@ public class Project3 {
                 airline.addFlight(flight);
                 TextParser parser = new TextParser(fileName);
                 TextDumper dumper = new TextDumper(fileName);
+                PrettyPrinter prettyPrinter = new PrettyPrinter(fileName);
                 AbstractAirline airline1;
                 if(textFileFlag == true){
                     File file = new File(fileName);
@@ -183,6 +184,7 @@ public class Project3 {
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             if(bufferedReader.readLine() != null){
                                 airline1 = parser.parse();
+                                airline.flights.addAll(airline1.getFlights());
                                 if (airline1.getName().equals(airline.getName())) {
                                     writeFlag = true;
                                 } else {
@@ -204,7 +206,8 @@ public class Project3 {
                     if(writeFlag == true){
                         try {
                             file.createNewFile();
-                            dumper.dump(airline);
+                            //dumper.dump(airline);
+                            prettyPrinter.dump(airline);
                         } catch (IOException e){
                             System.err.println("IO Exception");
                             System.exit(1);

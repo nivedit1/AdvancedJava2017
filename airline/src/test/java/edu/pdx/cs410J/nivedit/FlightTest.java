@@ -70,7 +70,7 @@ public class FlightTest {
         Date departureTimeInDate1 = new Date();
         Date departureTimeInDate2 = new Date();
         try {
-            departureTimeInDate1 = formatter.parse("06/07/2017 09:45");
+            departureTimeInDate1 = formatter.parse("07/07/2017 10:45");
             departureTimeInDate2 = formatter.parse("07/07/2017 09:45");
         }
         catch (ParseException e){
@@ -78,7 +78,7 @@ public class FlightTest {
         }
         Flight flight1 = new Flight(101,"PDX",departureTimeInDate1, "HOU",new Date());
         Flight flight2 = new Flight(102,"PDX",departureTimeInDate2,"HOU", new Date());
-        assertThat(flight1.compareTo(flight2), equalTo(-1));
+        assertThat(flight1.compareTo(flight2), equalTo(1));
     }
 
     @Test

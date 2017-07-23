@@ -16,6 +16,26 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     private int flightNumber;
     private String sourceAirport;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Flight flight = (Flight) o;
+
+        if (sourceAirport != null ? !sourceAirport.equals(flight.sourceAirport) : flight.sourceAirport != null)
+            return false;
+        return departureTime != null ? departureTime.equals(flight.departureTime) : flight.departureTime == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = sourceAirport != null ? sourceAirport.hashCode() : 0;
+        result = 31 * result + (departureTime != null ? departureTime.hashCode() : 0);
+        return result;
+    }
+
     private String destinationAirport;
     private Date departureTime;
     private Date arrivalTime;
@@ -99,7 +119,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
      */
     @Override
     public String getArrivalString() {
-        String arrivalTimeInString = FORMATTER.format(this.getDeparture());
+        String arrivalTimeInString = FORMATTER.format(this.getArrival());
         return arrivalTimeInString;
     }
 

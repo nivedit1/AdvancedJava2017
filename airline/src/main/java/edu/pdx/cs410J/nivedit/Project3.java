@@ -25,9 +25,10 @@ public class Project3 {
      * creates an <code>Airline</code> and <code>Flight</code>,
      * and optionally prints a description of the flight to
      * standard out by invoking the <code>toString</code> method of <code>Flight</code>
-     * optionally adds flight information to the specified destination file.
+     * optionally adds flight information to the specified destination file and optionally
+     * pretty prints <code>airline</code> information to file or standard out.
      * @param args
-     *        Command line arguments passed by the user     *
+     *        Command line arguments passed by the user
      */
 
     static Date departureTimeInDate;

@@ -68,13 +68,13 @@ public class PrettyPrinter implements AirlineDumper{
             long flightDurationInHours = flightDuration/(60*60*1000);
             long flightDurationInMinutes = flightDuration/(60*1000)%60;
             writer.println("Flight " + i + " " + "Details:");
-            writer.println("================");
+            writer.println("=================");
             writer.println("Flight Number:" +" "+ flight.getNumber());
-            writer.println("Source Airport Code:" + " "+ flight.getSource()+"\t" + "Source Airport Name: "+
-                    AirportNames.getName(flight.getSource()));
+            writer.println("Source Airport:" + " "+ flight.getSource().toUpperCase()+"(" +
+                    AirportNames.getName(flight.getSource().toUpperCase()) + ")");
             writer.println("Departure Time:" + " "+ flight.getDepartureString());
-            writer.println("Destination: Airport Code" + " "+ flight.getDestination() + "\t"+ "Destination Airport Name: " +
-                    AirportNames.getName(flight.getDestination()));
+            writer.println("Destination Airport:" + " "+ flight.getDestination().toUpperCase() + "("+
+                    AirportNames.getName(flight.getDestination().toUpperCase()) + ")");
             writer.println("Arrival Time:" + " "+ flight.getArrivalString());
             writer.println("Flight Duration:" + flightDurationInHours + " hours and " + flightDurationInMinutes + " minutes");
             writer.println();

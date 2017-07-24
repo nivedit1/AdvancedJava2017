@@ -49,9 +49,15 @@ public class PrettyPrinter implements AirlineDumper{
         Collection<Flight> flights = airline.getFlights();
         SortedSet<Flight> flightSortedSet = new TreeSet<Flight>(Comparators.sourceAirportAndDepartureTime);
         flightSortedSet.addAll(flights);
-        File file = new File(this.destinationFilename);
-        FileWriter out = new FileWriter(file,false);
-        PrintWriter writer = new PrintWriter(out);
+        PrintWriter writer;
+        if(this.destinationFilename.equals("-")){
+            writer = new PrintWriter(System.out);
+        }
+        else {
+            File file = new File(this.destinationFilename);
+            FileWriter out = new FileWriter(file,false);
+            writer = new PrintWriter(out);
+        }
         writer.println("Airline Name:" + " " + airline.getName());
         writer.println();
         int i = 1;
@@ -64,9 +70,11 @@ public class PrettyPrinter implements AirlineDumper{
             writer.println("Flight " + i + " " + "Details:");
             writer.println("================");
             writer.println("Flight Number:" +" "+ flight.getNumber());
-            writer.println("Flight Source:" + " "+ flight.getSource());
+            writer.println("Source Airport Code:" + " "+ flight.getSource()+"\t" + "Source Airport Name: "+
+                    AirportNames.getName(flight.getSource()));
             writer.println("Departure Time:" + " "+ flight.getDepartureString());
-            writer.println("Flight Destination:" + " "+ flight.getDestination());
+            writer.println("Destination: Airport Code" + " "+ flight.getDestination() + "\t"+ "Destination Airport Name: " +
+                    AirportNames.getName(flight.getDestination()));
             writer.println("Arrival Time:" + " "+ flight.getArrivalString());
             writer.println("Flight Duration:" + flightDurationInHours + " hours and " + flightDurationInMinutes + " minutes");
             writer.println();

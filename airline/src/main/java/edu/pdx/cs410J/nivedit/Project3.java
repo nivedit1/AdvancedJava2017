@@ -405,8 +405,14 @@ public class Project3 {
             System.exit(1);
         }
         try {
-            userInputDepartureTime = argumentArray[3] + " " + argumentArray[4] + " " + argumentArray[5];
-            departureTimeInDate = formatter.parse(userInputDepartureTime);
+            if(argumentArray[5].equals("am") || argumentArray[5].equals("pm")) {
+                userInputDepartureTime = argumentArray[3] + " " + argumentArray[4] + " " + argumentArray[5];
+                departureTimeInDate = formatter.parse(userInputDepartureTime);
+            }
+            else {
+                System.err.println("\"am/pm\" should not be capitalized - " + argumentArray[3] + " " + argumentArray[4] + " " + argumentArray[5]);
+                System.exit(1);
+            }
         } catch (Exception e) {
             System.err.println("The Departure time does not match the format \"MM/DD/YY HH:MM\" - " + userInputDepartureTime);
             System.exit(1);
@@ -425,8 +431,14 @@ public class Project3 {
             System.exit(1);
         }
         try {
-            userInputArrivalTime = argumentArray[7] + " " + argumentArray[8] + " " + argumentArray[9];
-            arrivalTimeInDate = formatter.parse(userInputArrivalTime);
+            if(argumentArray[9].equals("am") || argumentArray[9].equals("pm")){
+                userInputArrivalTime = argumentArray[7] + " " + argumentArray[8] + " " + argumentArray[9];
+                arrivalTimeInDate = formatter.parse(userInputArrivalTime);
+            } else {
+                System.err.println("\"am/pm\" should not be capitalized - " + argumentArray[7] + " " + argumentArray[8] + " " + argumentArray[9]);
+                System.exit(1);
+            }
+
         } catch (Exception e) {
             System.err.println("The Arrival time does not match the format \"MM/DD/YY HH:MM\" - " + userInputArrivalTime);
             System.exit(1);

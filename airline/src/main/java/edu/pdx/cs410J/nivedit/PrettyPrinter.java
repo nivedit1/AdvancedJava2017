@@ -28,6 +28,9 @@ public class PrettyPrinter implements AirlineDumper{
         this.destinationFilename = destinationFilename;
     }
 
+    /**
+     * This class defines a comparator for pretty printer class
+     */
     public static class Comparators {
         public static Comparator<Flight> sourceAirportAndDepartureTime = new Comparator<Flight>() {
             @Override
@@ -43,6 +46,8 @@ public class PrettyPrinter implements AirlineDumper{
      * @param airline
      *        the <code>airline</code> to be dumped
      * @throws IOException
+     *        Signals that an I/O exception of some sort has occurred.
+     *        This class is the general class of exceptions produced by failed or interrupted I/O operations.
      */
     @Override
     public void dump(AbstractAirline airline) throws IOException {

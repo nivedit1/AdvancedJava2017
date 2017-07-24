@@ -4,10 +4,7 @@ import edu.pdx.cs410J.AbstractAirline;
 import edu.pdx.cs410J.AirlineDumper;
 import edu.pdx.cs410J.AirportNames;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -53,7 +50,7 @@ public class PrettyPrinter implements AirlineDumper{
         SortedSet<Flight> flightSortedSet = new TreeSet<Flight>(Comparators.sourceAirportAndDepartureTime);
         flightSortedSet.addAll(flights);
         File file = new File(this.destinationFilename);
-        FileOutputStream out = new FileOutputStream(file,true);
+        FileWriter out = new FileWriter(file,false);
         PrintWriter writer = new PrintWriter(out);
         writer.println("Airline Name:" + " " + airline.getName());
         writer.println();

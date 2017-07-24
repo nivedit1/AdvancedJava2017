@@ -166,7 +166,6 @@ public class Project3 {
                 destinationAirport = argumentArray[5];
                 arrivalTime = argumentArray[6] + " " + argumentArray[7];
                 Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
-                flights.add(flight);
                 Airline airline = new Airline(airlineName, flights);
                 airline.addFlight(flight);
                 TextParser parser = new TextParser(fileName);
@@ -182,9 +181,9 @@ public class Project3 {
                             BufferedReader bufferedReader = new BufferedReader(reader);
                             if(bufferedReader.readLine() != null){
                                 airline1 = parser.parse();
-                                airline.flights.addAll(airline1.getFlights());
                                 if (airline1.getName().equals(airline.getName())) {
                                     writeFlag = true;
+                                    airline.flights.addAll(airline1.getFlights());
                                 } else {
                                     System.err.println("This file belongs to airline -> " + airline1.getName());
                                     System.err.println("But the airline provided in the command line -> " + airline.getName());
@@ -274,10 +273,8 @@ public class Project3 {
         String airlineName = "";
         int flightNumber = 0;
         String sourceAirport = "";
-        //Date departureTime;
         String userInputDepartureTime = "";
         String destinationAirport = "";
-        //Date arrivalTime;
         String userInputArrivalTime = "";
         String expectedDatePattern = "MM/dd/yyyy HH:mm";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);

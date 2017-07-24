@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractAirline;
 
 import java.io.*;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This class dumps an <code>airline</code> to a destination
@@ -29,30 +30,34 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
      * @param airline
      *        the <code>airline</code> to be dumped
      */
-    public void dump(AbstractAirline airline){
+    public void dump(AbstractAirline airline) {
         String airlineName = airline.getName();
         Collection<Flight>flights = airline.getFlights();
-        Flight flight = flights.iterator().next();
-        int flightNumber = flight.getNumber();
-        String sourceAirport = flight.getSource();
-        String departureTime = flight.getDepartureString();
-        String destinationAirport = flight.getDestination();
-        String arrivalTime = flight.getArrivalString();
+        Iterator iterator = flights.iterator();
         try {
             File file = new File (this.destinationFilename);
-            FileOutputStream out = new FileOutputStream(file, true);
+            FileWriter out = new FileWriter(file, false);
             PrintWriter writer = new PrintWriter(out);
-            writer.println("<record>");
-            writer.println("<airlineName>" + airlineName + "</airlineName>");
-            writer.println("<flightNumber>" + flightNumber +"</flightNumber>");
-            writer.println("<sourceAirport>" + sourceAirport + "</sourceAirport>");
-            writer.println("<departureTime>" + departureTime + "</departureTime>");
-            writer.println("<destinationAirport>" + destinationAirport + "</destinationAirport>");
-            writer.println("<arrivalTime>" + arrivalTime + "</arrivalTime>");
-            writer.println("</record>");
+            while (iterator.hasNext()){
+                Flight flight = (Flight)iterator.next();
+                int flightNumber = flight.getNumber();
+                String sourceAirport = flight.getSource();
+                String departureTime = flight.getDepartureString();
+                String destinationAirport = flight.getDestination();
+                String arrivalTime = flight.getArrivalString();
+                writer.println("<record>");
+                writer.println("<airlineName>" + airlineName + "</airlineName>");
+                writer.println("<flightNumber>" + flightNumber +"</flightNumber>");
+                writer.println("<sourceAirport>" + sourceAirport + "</sourceAirport>");
+                writer.println("<departureTime>" + departureTime + "</departureTime>");
+                writer.println("<destinationAirport>" + destinationAirport + "</destinationAirport>");
+                writer.println("<arrivalTime>" + arrivalTime + "</arrivalTime>");
+                writer.println("</record>");
+            }
             writer.close();
         } catch (IOException e){
-        System.err.println("File does not exist");
+                System.err.println("File does not exist");
         }
     }
 }
+

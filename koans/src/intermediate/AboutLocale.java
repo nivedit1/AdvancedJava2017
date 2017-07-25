@@ -20,7 +20,7 @@ public class AboutLocale {
         Date date = cal.getTime();
         Locale localeBR = new Locale("pt", "BR"); // portuguese, Brazil
         DateFormat dateformatBR = DateFormat.getDateInstance(DateFormat.FULL, localeBR);
-        assertEquals(dateformatBR.format(date), "Domingo, 3 de Abril de 2011");
+        assertEquals(dateformatBR.format(date), "domingo, 3 de abril de 2011");
 
         Locale localeJA = new Locale("de"); // German
         DateFormat dateformatJA = DateFormat.getDateInstance(DateFormat.FULL, localeJA);

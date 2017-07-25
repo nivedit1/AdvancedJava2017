@@ -92,6 +92,7 @@ public class AboutCasting {
         // Think about the result. Did you expect that? Why?
         // How is that different from above?
         assertEquals(parent.complain(), "Are we there yet!!");
+
     }
 
     @Koan

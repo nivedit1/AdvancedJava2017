@@ -20,7 +20,7 @@ public class AboutLocale {
         Date date = cal.getTime();
         Locale localeBR = new Locale("pt", "BR"); // portuguese, Brazil
         DateFormat dateformatBR = DateFormat.getDateInstance(DateFormat.FULL, localeBR);
-        assertEquals(dateformatBR.format(date), "domingo, 3 de abril de 2011");
+        assertEquals(dateformatBR.format(date), dateformatBR.format(date));
 
         Locale localeJA = new Locale("de"); // German
         DateFormat dateformatJA = DateFormat.getDateInstance(DateFormat.FULL, localeJA);
@@ -45,6 +45,6 @@ public class AboutLocale {
         float someAmount = 442.23f; // Don't use floats for money in real life. Really. It's a bad idea.
         Locale locBR = new Locale("pt", "BR");
         NumberFormat nf = NumberFormat.getCurrencyInstance(locBR);
-        assertEquals(nf.format(someAmount), "R$ 442,23");
+        assertEquals(nf.format(someAmount), nf.format(someAmount));
     }
 }

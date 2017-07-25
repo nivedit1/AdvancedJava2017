@@ -248,9 +248,9 @@ public class Project3 {
             if (validArguments == true){
                 airlineName = argumentArray[0];
                 flightNumber = Integer.parseInt(argumentArray[1]);
-                sourceAirport = argumentArray[2];
+                sourceAirport = argumentArray[2].toUpperCase();
                 departureTime = argumentArray[3] + " " + argumentArray[4] + " " + argumentArray[5];
-                destinationAirport = argumentArray[6];
+                destinationAirport = argumentArray[6].toUpperCase();
                 arrivalTime = argumentArray[7] + " " + argumentArray[8] + " " + argumentArray[9];
                 Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
                 Airline airline = new Airline(airlineName, flights);
@@ -377,7 +377,7 @@ public class Project3 {
         String userInputDepartureTime = "";
         String destinationAirport = "";
         String userInputArrivalTime = "";
-        String expectedDatePattern = "MM/dd/yyyy HH:mm aaa";
+        String expectedDatePattern = "MM/dd/yyyy h:mm a";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
         formatter.setLenient(false);
         airlineName = argumentArray[0];

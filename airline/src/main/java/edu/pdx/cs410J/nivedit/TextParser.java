@@ -46,7 +46,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         Collection<Flight> flights = new ArrayList<>();
         Airline airline = new Airline("", flights);
         Flight flight = new Flight(0,"",departureTimeInDate,"",arrivalTimeInDate);
-        String expectedDatePattern = "MM/dd/yyyy HH:mm";
+        String expectedDatePattern = "MM/dd/yyyy h:mm a";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
         formatter.setLenient(false);
         int recordComplete = 0;

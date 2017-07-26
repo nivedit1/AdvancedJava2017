@@ -46,7 +46,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         Collection<Flight> flights = new ArrayList<>();
         Airline airline = new Airline("", flights);
         Flight flight = new Flight(0,"",departureTimeInDate,"",arrivalTimeInDate);
-        String expectedDatePattern = "MM/dd/yyyy h:mm a";
+        String expectedDatePattern = "MM/dd/yy h:mm a";
         SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
         formatter.setLenient(false);
         int recordComplete = 0;
@@ -122,7 +122,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                     departureTimeInDate = formatter.parse(departureTime);
                     recordComplete += 1;
                 } catch (Exception e) {
-                    System.err.println("The Departure time in the file does not match the format \"MM/DD/YY HH:MM\" - " + departureTime);
+                    System.err.println("The Departure time in the file does not match the format \"MM/DD/YYYY HH:MM\" - " + departureTime);
                     System.exit(1);
                 }
             } else if(currentLine.contains("<destinationAirport>") && currentLine.contains("</destinationAirport>")){
@@ -144,7 +144,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                     arrivalTimeInDate = formatter.parse(arrivalTime);
                     recordComplete += 1;
                 } catch (Exception e) {
-                    System.err.println("The Arrival time in the file does not match the format \"MM/DD/YY HH:MM\" - " + arrivalTime);
+                    System.err.println("The Arrival time in the file does not match the format \"MM/DD/YYYY HH:MM\" - " + arrivalTime);
                     System.exit(1);
                 }
             } else if (currentLine.contains("</record>")){

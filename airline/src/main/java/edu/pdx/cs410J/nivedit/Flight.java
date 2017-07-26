@@ -46,13 +46,13 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
 
     /**
-     * Creates a new <code>Flight</code>
+     * Creates a new <code>Flight</code>.
      *
-     * @param flightNumber       The flight number
-     * @param sourceAirport      The source airport code of the flight
-     * @param destinationAirport The destination airport code of the flight
-     * @param departureTime      The departure time of the flight - Format: mm/dd/yyyy hh:mm
-     * @param arrivalTime        The arrival time of the flight - Format: mm/dd/yyyy hh:mm
+     * @param flightNumber       The flight number.
+     * @param sourceAirport      The source airport code of the flight.
+     * @param destinationAirport The destination airport code of the flight.
+     * @param departureTime      The departure time of the flight - Format: mm/dd/yyyy hh:mm.
+     * @param arrivalTime        The arrival time of the flight - Format: mm/dd/yyyy hh:mm.
      */
 
     public Flight(int flightNumber, String sourceAirport, Date departureTime, String destinationAirport, Date arrivalTime) {
@@ -67,7 +67,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
      * Returns the <code>flightNumber</code>
      * that describes the flight.
      *
-     * @return flightNumber of the flight
+     * @return flightNumber of the flight.
      */
     @Override
     public int getNumber() {
@@ -77,9 +77,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     /**
      * Returns the <code>sourceAirport</code>
-     * of the flight
+     * of the flight.
      *
-     * @return source code of the airport
+     * @return source code of the airport.
      */
     @Override
     public String getSource() {
@@ -89,9 +89,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     /**
      * Returns the <code>departureTime</code>
-     * of the flight
+     * of the flight.
      *
-     * @return departure time of the flight
+     * @return departure time of the flight.
      */
     @Override
     public String getDepartureString() {
@@ -101,9 +101,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     /**
      * Returns the <code>destinationAirport</code>
-     * of the flight
+     * of the flight.
      *
-     * @return destination code of the airport
+     * @return destination code of the airport.
      */
     @Override
     public String getDestination() {
@@ -113,9 +113,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     /**
      * Returns the <code>arrivalTime</code>
-     * of the flight
+     * of the flight.
      *
-     * @return arrival time of the flight
+     * @return arrival time of the flight.
      */
     @Override
     public String getArrivalString() {
@@ -125,8 +125,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     /**
      * Returns the <code>departureTime</code>
-     * of the flight
-     * @return the departure time in Date Format
+     * of the flight.
+     * @return the departure time in Date Format.
      */
     @Override
     public Date getDeparture() {
@@ -135,8 +135,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
     /**
      * Returns the <code>arrival time</code>
-     * of the flight
-     * @return the arrival time in Date format
+     * of the flight.
+     * @return the arrival time in Date format.
      */
     @Override
     public  Date getArrival(){
@@ -146,7 +146,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     /**
      * This method compares two Flight Objects based on their source Airport
      * and DepartureTime and returns an integer value.
-     * @param other flight to be compared
+     * @param other flight to be compared.
      * @return integer value of the compare result.
      */
     @Override

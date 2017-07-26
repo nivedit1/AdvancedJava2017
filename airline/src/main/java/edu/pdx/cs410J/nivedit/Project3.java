@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.ArrayList;
 
 /**
- * The main class for the CS410J airline Project
+ * The main class for the CS410J airline Project.
  * @author Niveditha Venugopal
  */
 public class Project3 {
@@ -28,7 +28,7 @@ public class Project3 {
      * optionally adds flight information to the specified destination file and optionally
      * pretty prints <code>airline</code> information to file or standard out.
      * @param args
-     *        Command line arguments passed by the user
+     *        Command line arguments passed by the user.
      */
 
     static Date departureTimeInDate;
@@ -56,7 +56,7 @@ public class Project3 {
                         System.out.println(getReadme());
                         System.exit(0);
                     } else {
-                        System.err.println("Missing command line arguments");
+                        System.err.println("Missing command line arguments!");
                         System.exit(1);
                     }
                 }
@@ -86,9 +86,9 @@ public class Project3 {
                     || (printFlag == true && prettyFlag == false && textFileFlag == false && args.length < 11)
                     || (prettyFlag == true && textFileFlag == false && printFlag == false && args.length < 12)
                     || (textFileFlag == true && printFlag == false && prettyFlag == false && args.length < 12)){
-                System.err.println("Missing command line arguments");
+                System.err.println("Missing command line arguments!");
                 System.exit(1);
-            } else if((args.length > 16)
+            } else if((args.length > 10 && printFlag == false && prettyFlag == false && textFileFlag == false)
                     || (printFlag == true && prettyFlag == true && textFileFlag == true && args.length > 15)
                     || (printFlag == true && prettyFlag == true && textFileFlag == false && args.length > 13)
                     || (printFlag == true && textFileFlag == true && prettyFlag == false && args.length > 13)
@@ -96,7 +96,7 @@ public class Project3 {
                     || (printFlag == true && prettyFlag == false && textFileFlag == false && args.length > 11)
                     || (prettyFlag == true && textFileFlag == false && printFlag == false && args.length > 12)
                     || (textFileFlag == true && printFlag == false && prettyFlag == false && args.length > 12)){
-                System.err.println("Too many arguments");
+                System.err.println("Too many arguments!");
                 System.exit(1);
             } else {
                 if(printFlag == true && prettyFlag == true && textFileFlag == true){
@@ -137,7 +137,9 @@ public class Project3 {
                     Airline airline = new Airline(airlineName, flights);
                     airline.addFlight(flight);
                     if (printFlag == true) {
+                        System.out.println();
                         System.out.println(flight.toString());
+                        System.out.println();
                     }
                     TextParser parser = new TextParser(textDumperFileName);
                     TextDumper dumper = new TextDumper(textDumperFileName);
@@ -196,13 +198,13 @@ public class Project3 {
                 }
             }
         } else {
-            System.err.println("No command line arguments");
+            System.err.println("No command line arguments!");
             System.exit(1);
         }
     }
 
-    /*This method returns a README for the application
-    *@return README Text
+    /*This method returns a README for the application.
+    *@return README Text for the application.
     * */
     private static String getReadme() {
 
@@ -246,10 +248,10 @@ public class Project3 {
     }
 
     /**
-     * This function validates the arguments provided in the command line
+     * This method validates the arguments provided in the command line.
      * @param argumentArray
-     *        The arguments passed in the command line
-     * @return true if all the arguments have passed the test
+     *        The arguments passed in the command line.
+     * @return true if all the arguments have passed the test.
      */
     public static boolean validateArguments(String[] argumentArray) {
         String airlineName = "";

@@ -19,9 +19,9 @@ public class PrettyPrinter implements AirlineDumper{
     /**
      * Creates a new PrettyPrinter that writes to a file
      * in a human readable format. If a file does not exist,
-     * it is created
+     * it is created.
      * @param destinationFilename
-     *        The name of the file to be pretty printed to
+     *        The name of the file to be pretty printed to.
      */
     public PrettyPrinter(String destinationFilename){
 
@@ -29,7 +29,8 @@ public class PrettyPrinter implements AirlineDumper{
     }
 
     /**
-     * This class defines a comparator for pretty printer class
+     * This class defines a comparator for pretty printer class.
+     * @author Niveditha Venugopal
      */
     public static class Comparators {
         public static Comparator<Flight> sourceAirportAndDepartureTime = new Comparator<Flight>() {
@@ -42,9 +43,9 @@ public class PrettyPrinter implements AirlineDumper{
 
     /**
      * Dumps the contents of the <code>airline</code> in a
-     * human readable format to the desired destination
+     * human readable format to the desired destination.
      * @param airline
-     *        the <code>airline</code> to be dumped
+     *        the <code>airline</code> to be dumped.
      * @throws IOException
      *        Signals that an I/O exception of some sort has occurred.
      *        This class is the general class of exceptions produced by failed or interrupted I/O operations.
@@ -63,6 +64,9 @@ public class PrettyPrinter implements AirlineDumper{
             FileWriter out = new FileWriter(file,false);
             writer = new PrintWriter(out);
         }
+        writer.println();
+        writer.println("Airline Information");
+        writer.println("===================");
         writer.println("Airline Name:" + " " + airline.getName());
         writer.println();
         int i = 1;

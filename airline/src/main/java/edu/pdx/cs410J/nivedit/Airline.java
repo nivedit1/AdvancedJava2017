@@ -6,6 +6,7 @@ import java.util.Collection;
 
 /**
  * This class represents an <code>Airline</code>.
+ * @author Niveditha Venugopal
  */
 public class Airline extends AbstractAirline<Flight>{
 
@@ -16,7 +17,7 @@ public class Airline extends AbstractAirline<Flight>{
      * Creates a new <code>Airline</code>
      *
      * @param name
-     *        The Airline's name
+     *        The Airline's name.
      * @param flights
      *        The flights belonging to the airline.
      */
@@ -29,7 +30,7 @@ public class Airline extends AbstractAirline<Flight>{
     /**
      * Returns a <code>name</code> that describes
      * this airline.
-     * @return name of the airline
+     * @return name of the airline.
      */
     @Override
     public String getName(){
@@ -37,8 +38,8 @@ public class Airline extends AbstractAirline<Flight>{
     }
 
     /**
-     * Adds <code>Flight</code> to an airline
-     * @param flight that you want to add to the airline
+     * Adds <code>Flight</code> to an airline.
+     * @param flight that you want to add to the airline.
      */
     @Override
     public void addFlight(Flight flight) {
@@ -46,8 +47,8 @@ public class Airline extends AbstractAirline<Flight>{
     }
 
     /**
-     *Returns a collection of flights for the airline
-     * @return Collection of flights belonging to the airline
+     *Returns a collection of flights for the airline.
+     * @return Collection of flights belonging to the airline.
      */
     @Override
     public Collection<Flight> getFlights() {

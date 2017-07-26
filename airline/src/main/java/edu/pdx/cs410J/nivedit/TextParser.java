@@ -21,7 +21,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
     /**
      * Creates a new text parser that reads its input from a file of a given name.
      * @param sourceFilename
-     *        The name of the file to be parsed
+     *        The name of the file to be parsed.
      */
     public TextParser(String sourceFilename){
 
@@ -30,7 +30,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
 
     /**
      * Parses the specified input source and from it creates an airline.
-     * @return airline that was parsed from the file
+     * @return airline that was parsed from the file.
      */
     public AbstractAirline parse(){
         String line = null;

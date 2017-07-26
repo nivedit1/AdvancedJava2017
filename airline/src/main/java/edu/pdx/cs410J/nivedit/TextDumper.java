@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * This class dumps an <code>airline</code> to a destination
+ * This class dumps an <code>airline</code> to a destination.
  * @author Niveditha Venugopal
  */
 public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
@@ -16,9 +16,9 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
 
     /**
      * Creates a new text dumper that dumps to a file of a given name
-     * If the file does not exist, it is created
+     * If the file does not exist, it is created.
      * @param destination_filename
-     *        The name of the file to be dumped to
+     *        The name of the file to be dumped to.
      */
     public  TextDumper(String destination_filename) {
 
@@ -26,9 +26,9 @@ public class TextDumper implements edu.pdx.cs410J.AirlineDumper{
     }
 
     /**
-     * Dumps the contents of the airline to the desired destination
+     * Dumps the contents of the airline to the desired destination.
      * @param airline
-     *        the <code>airline</code> to be dumped
+     *        the <code>airline</code> to be dumped.
      */
     public void dump(AbstractAirline airline) {
         String airlineName = airline.getName();

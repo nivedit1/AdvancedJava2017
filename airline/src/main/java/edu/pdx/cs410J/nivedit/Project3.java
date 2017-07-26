@@ -323,7 +323,7 @@ public class Project3 {
             }
 
         } catch (Exception e) {
-            System.err.println("The Arrival time does not match the format \"MM/DD/YY HH:MM\" - " + userInputArrivalTime);
+            System.err.println("The Arrival time does not match the format \"MM/DD/YYYY HH:MM\" - " + userInputArrivalTime);
             System.exit(1);
         }
         return true;

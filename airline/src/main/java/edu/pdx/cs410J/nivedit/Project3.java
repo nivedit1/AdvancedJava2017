@@ -38,7 +38,6 @@ public class Project3 {
         Boolean textFileFlag = false;
         Boolean prettyFlag = false;
         String[] argumentArray = new String[100];
-        boolean validArguments = false;
         String airlineName = "";
         int flightNumber = 0;
         String sourceAirport = "";
@@ -50,267 +49,149 @@ public class Project3 {
         String prettyFileName = "";
         Boolean fileExists = false;
         Boolean writeFlag = false;
-        Boolean prettyFileExists = false;
         if(args.length > 0){
-            if (args.length < 10) {
-                if(args.length < 6){
-                    for(String arg : args){
-                        if(arg.equals("-README")){
-                            System.out.println(getReadme());
-                            System.exit(0);
-                        } else if (arg.equals("-print")){
-                            System.err.println("Not enough arguments to print!");
-                            System.exit(1);
-                        }
-                        else if (arg.equals("-textFile")){
-                            System.err.println("Not enough arguments to write to file");
-                            System.exit(1);
-                        } else if (arg.equals("-pretty")){
-                            System.err.println("Not enough arguments to pretty print");
-                            System.exit(1);
-                        } else {
-                            System.err.println("Missing command line arguments");
-                            System.exit(1);
-                        }
-                    }
-                }
-                if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")
-                        || args[4].equals("-README") || args[5].equals("-README")) {
-                    System.out.println(getReadme());
-                    System.exit(0);
-                } else if ((args[0].equals("-print") || args[1].equals("-print") || args[2].equals("-print"))
-                        || args[3].equals("-print") || args[4].equals("-print")) {
-                    printFlag = true;
-                    System.err.println("Not enough arguments to print!");
-                    System.exit(1);
-                } else if (args[0].equals("-textFile") || args[1].equals("-textFile") || args[2].equals("-textFile")
-                        || args[3].equals("-textFile")) {
-                    System.err.println("Not enough arguments to write to file");
-                    System.exit(1);
-                } else if(args[0].equals("-pretty") || args[1].equals("-pretty") || args[2].equals("-pretty")){
-                    System.err.println("Not enough arguments to pretty print");
-                    System.exit(1);
-                }else {
-                    System.err.println("Missing command line arguments");
-                    System.exit(1);
-                }
-            } else if (args.length >= 10 && args.length <= 16) {
-                if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")
-                        || args[4].equals("-README") || args[5].equals("-README")) {
-                    System.out.println(getReadme());
-                    System.exit(0);
-                } else if ((args[0].equals("-print") || args[1].equals("-print") || args[2].equals("-print"))
-                        || args[3].equals("-print") || args[4].equals("-print")) {
-                    if(args[0].equals("-textFile") || args[1].equals("-textFile") || args[2].equals("-textFile")
-                            || args[3].equals("-textFile")){
-                        if(args[0].equals("-pretty") || args[1].equals("-pretty") || args[2].equals("-pretty")
-                                || args[3].equals("-pretty")){
-                            if(args.length == 15) {
-                                printFlag = true;
-                                prettyFlag = true;
-                                textFileFlag = true;
-                                prettyFileName = args[(Arrays.asList(args).indexOf("-pretty"))+1];
-                                textDumperFileName = args[(Arrays.asList(args).indexOf("-textFile"))+1];
-                                for(int i = 5; i<args.length; i++){
-                                    argumentArray[i-5] = args[i];
-                                }
-                            }
-                            else {
-                                System.err.println("Missing Command Line Arguments to pretty print");
-                                System.exit(1);
-                            }
-                        } else {
-                            if(args.length == 13) {
-                                printFlag = true;
-                                textFileFlag = true;
-                                textDumperFileName = args[(Arrays.asList(args).indexOf("-textFile"))+1];
-                                for (int i = 3; i<args.length; i++ ){
-                                    argumentArray[i-3] = args[i];
-                                }
-                            }
-                            else {
-                                System.err.println("Missing Command Line Arguments to print to file");
-                                System.exit(1);
-                            }
-                        }
-                    } else if(args[0].equals("-pretty") || args[1].equals("-pretty") || args[2].equals("-pretty")){
-                        if(args.length == 13){
-                            printFlag = true;
-                            prettyFlag = true;
-                            prettyFileName = args[(Arrays.asList(args).indexOf("-pretty"))+1];
-                            for(int i = 3; i<args.length; i++){
-                                argumentArray[i-3] = args[i];
-                            }
-                        }
-                        else {
-                            if(args.length < 13) {
-                                System.err.println("Missing Command Line Arguments to pretty print");
-                                System.exit(1);
-                            }
-                            else{
-                                System.err.println("Too many arguments to pretty print");
-                                System.exit(1);
-                            }
-                        }
-                    } else if(args.length == 11) {
-                        for(int i = 1; i <args.length; i++) {
-                            argumentArray[i-1] = args[i];
-                        }
-                        printFlag = true;
-                    }
-                    else if(args.length > 11){
-                        System.err.println("Too many arguments to print");
+            if(args.length < 6){
+                for(String arg : args){
+                    if(arg.equals("-README")){
+                        System.out.println(getReadme());
+                        System.exit(0);
+                    } else {
+                        System.err.println("Missing command line arguments");
                         System.exit(1);
                     }
-                } else if (args[0].equals("-textFile") || args[1].equals("-textFile") || args[2].equals("-textFile")) {
-                    if (args[0].equals("-pretty") || args[1].equals("-pretty") || args[2].equals("-pretty")) {
-                        if(args.length == 14){
-                            textFileFlag = true;
-                            prettyFlag = true;
-                            prettyFileName = args[(Arrays.asList(args).indexOf("-pretty"))+1];
-                            textDumperFileName = args[(Arrays.asList(args).indexOf("-textFile"))+1];
-                            for(int i = 4; i < args.length; i++) {
-                                argumentArray[i-4] = args[i];
-                            }
-                        } else {
-                            System.err.println("Missing Command Line Arguments to pretty print");
-                            System.exit(1);
-                        }
-                    } else if(args.length == 12) {
-                        textFileFlag = true;
-                        textDumperFileName = args[(Arrays.asList(args).indexOf("-textFile"))+1];
-                        for (int i = 2; i<args.length; i++ ){
-                            argumentArray[i-2] = args[i];
-                        }
-                    }
-                    else {
-                        if (args.length < 14) {
-                            System.err.println("Missing command line arguments to print to file");
-                            System.exit(1);
-                        }
-                        else {
-                            System.err.println("Too many arguments to print to file");
-                            System.exit(1);
-                        }
-                    }
-                } else if (args[0].equals("-pretty")){
-                    if(args.length == 12){
-                        prettyFlag = true;
-                        prettyFileName = args[(Arrays.asList(args).indexOf("-pretty"))+1];
-                        for (int i = 2; i<args.length; i++ ){
-                            argumentArray[i-2] = args[i];
-                        }
-                    }
-                    else {
-                        if(args.length < 12){
-                            System.err.println("Missing command line arguments to pretty print");
-                            System.exit(1);
-                        } else {
-                            System.err.println("Too many arguments to pretty print");
-                            System.exit(1);
-                        }
-                    }
-                } else if(args.length == 10){
-                        for (int i = 0; i < args.length; i++) {
-                            argumentArray[i] = args[i];
-                        }
-                } else {
-                        System.err.println("Too many arguments");
-                        System.exit(1);
                 }
             } else {
-                if (args[0].equals("-README") || args[1].equals("-README") || args[2].equals("-README") || args[3].equals("-README")
-                        || args[4].equals("-README") || args[5].equals("-README")) {
-                    System.out.println(getReadme());
-                    System.exit(0);
-                } else if ((args[0].equals("-print") || args[1].equals("-print") || args[2].equals("-print")
-                        || args[3].equals("-print") || args[4].equals("-print"))) {
-                    printFlag = true;
-                    System.err.println("Too many arguments to print!");
-                    System.exit(1);
-                } else if ((args[0].equals("-textFile")|| args[1].equals("-textFile") || args[2].equals("-textFile")
-                        || args[3].equals("-textFile"))){
-                    textFileFlag = true;
-                    textDumperFileName = args[1];
-                    System.err.println("Too many arguments to write to file");
-                    System.exit(1);
-                } else if ((args[0].equals("-pretty"))){
-                    prettyFlag = true;
-                    prettyFileName = args[1];
-                    System.err.println("Too many arguments to pretty print");
-                    System.exit(1);
-                } else {
-                    System.err.println("Too many arguments!");
-                    System.exit(1);
-                }
+                    for (int i = 0; i < 6; i++) {
+                        if (args[i].equals("-README")) {
+                            System.out.println(getReadme());
+                            System.exit(0);
+                        } else if (args[i].equals("-print")) {
+                            printFlag = true;
+                        } else if (args[i].equals("-textFile")) {
+                            textFileFlag = true;
+                            textDumperFileName = args[(Arrays.asList(args).indexOf("-textFile")) + 1];
+                        } else if (args[i].equals("-pretty")) {
+                            prettyFlag = true;
+                            prettyFileName = args[(Arrays.asList(args).indexOf("-pretty")) + 1];
+                        } else {
+                            continue;
+                        }
+                    }
             }
-            validArguments = validateArguments(argumentArray);
-            if (validArguments == true){
-                airlineName = argumentArray[0];
-                flightNumber = Integer.parseInt(argumentArray[1]);
-                sourceAirport = argumentArray[2].toUpperCase();
-                departureTime = argumentArray[3] + " " + argumentArray[4] + " " + argumentArray[5];
-                destinationAirport = argumentArray[6].toUpperCase();
-                arrivalTime = argumentArray[7] + " " + argumentArray[8] + " " + argumentArray[9];
-                Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
-                Airline airline = new Airline(airlineName, flights);
-                airline.addFlight(flight);
-                if (printFlag == true) {
-                    System.out.println(flight.toString());
+            if((args.length <10 && printFlag == false && prettyFlag == false && textFileFlag == false)
+                    || (printFlag == true && prettyFlag == true && textFileFlag == true && args.length < 15)
+                    || (printFlag == true && prettyFlag == true && textFileFlag == false && args.length < 13)
+                    || (printFlag == true && textFileFlag == true && prettyFlag == false && args.length < 13)
+                    || (prettyFlag == true && textFileFlag == true && printFlag == false && args.length < 14)
+                    || (printFlag == true && prettyFlag == false && textFileFlag == false && args.length < 11)
+                    || (prettyFlag == true && textFileFlag == false && printFlag == false && args.length < 12)
+                    || (textFileFlag == true && printFlag == false && prettyFlag == false && args.length < 12)){
+                System.err.println("Missing command line arguments");
+                System.exit(1);
+            } else if((args.length > 16)
+                    || (printFlag == true && prettyFlag == true && textFileFlag == true && args.length > 15)
+                    || (printFlag == true && prettyFlag == true && textFileFlag == false && args.length > 13)
+                    || (printFlag == true && textFileFlag == true && prettyFlag == false && args.length > 13)
+                    || (prettyFlag == true && textFileFlag == true && printFlag == false && args.length > 14)
+                    || (printFlag == true && prettyFlag == false && textFileFlag == false && args.length > 11)
+                    || (prettyFlag == true && textFileFlag == false && printFlag == false && args.length > 12)
+                    || (textFileFlag == true && printFlag == false && prettyFlag == false && args.length > 12)){
+                System.err.println("Too many arguments");
+                System.exit(1);
+            } else {
+                if(printFlag == true && prettyFlag == true && textFileFlag == true){
+                    for(int i = 5; i < args.length; i++){
+                        argumentArray[i-5] = args[i];
+                    }
+                } else if((printFlag == true && prettyFlag == true && textFileFlag == false)
+                        || (printFlag == true && textFileFlag == true && prettyFlag == false)){
+                    for(int i = 3; i <args.length; i++){
+                        argumentArray[i-3] = args[i];
+                    }
+                } else if(prettyFlag == true && textFileFlag == true && printFlag == false){
+                    for(int i = 4; i < args.length; i++){
+                        argumentArray[i-4] = args[i];
+                    }
+                } else if(printFlag == true && textFileFlag == false && prettyFlag == false){
+                    for(int i = 1; i <args.length; i++){
+                        argumentArray[i-1] = args[i];
+                    }
+                } else if((textFileFlag == true && prettyFlag == false && printFlag == false)
+                        || (prettyFlag == true && textFileFlag == false && printFlag == false)){
+                    for(int i = 2; i < args.length; i++){
+                        argumentArray[i-2] = args[i];
+                    }
+                } else {
+                    for(int i = 0; i < args.length; i++){
+                        argumentArray[i] = args[i];
+                    }
                 }
-                TextParser parser = new TextParser(textDumperFileName);
-                TextDumper dumper = new TextDumper(textDumperFileName);
-                PrettyPrinter prettyPrinter = new PrettyPrinter(prettyFileName);
-                AbstractAirline airline1;
-                if(textFileFlag == true){
-                    File textFile = new File(textDumperFileName);
-                    fileExists = textFile.exists();
-                    if(fileExists == true) {
-                        try{
-                            FileReader reader = new FileReader(textDumperFileName);
-                            BufferedReader bufferedReader = new BufferedReader(reader);
-                            if(bufferedReader.readLine() != null){
-                                airline1 = parser.parse();
-                                if (airline1.getName().equals(airline.getName())) {
-                                    writeFlag = true;
-                                    airline.flights.addAll(airline1.getFlights());
+                if(validateArguments(argumentArray) == true){
+                    airlineName = argumentArray[0];
+                    flightNumber = Integer.parseInt(argumentArray[1]);
+                    sourceAirport = argumentArray[2].toUpperCase();
+                    departureTime = argumentArray[3] + " " + argumentArray[4] + " " + argumentArray[5];
+                    destinationAirport = argumentArray[6].toUpperCase();
+                    arrivalTime = argumentArray[7] + " " + argumentArray[8] + " " + argumentArray[9];
+                    Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
+                    Airline airline = new Airline(airlineName, flights);
+                    airline.addFlight(flight);
+                    if (printFlag == true) {
+                        System.out.println(flight.toString());
+                    }
+                    TextParser parser = new TextParser(textDumperFileName);
+                    TextDumper dumper = new TextDumper(textDumperFileName);
+                    PrettyPrinter prettyPrinter = new PrettyPrinter(prettyFileName);
+                    AbstractAirline airline1;
+                    if(textFileFlag == true){
+                        File textFile = new File(textDumperFileName);
+                        fileExists = textFile.exists();
+                        if(fileExists == true) {
+                            try{
+                                FileReader reader = new FileReader(textDumperFileName);
+                                BufferedReader bufferedReader = new BufferedReader(reader);
+                                if(bufferedReader.readLine() != null){
+                                    airline1 = parser.parse();
+                                    if (airline1.getName().equals(airline.getName())) {
+                                        writeFlag = true;
+                                        airline.flights.addAll(airline1.getFlights());
+                                    } else {
+                                        System.err.println("This file belongs to airline -> " + airline1.getName());
+                                        System.err.println("But the airline provided in the command line -> " + airline.getName());
+                                        System.exit(1);
+                                    }
                                 } else {
-                                    System.err.println("This file belongs to airline -> " + airline1.getName());
-                                    System.err.println("But the airline provided in the command line -> " + airline.getName());
+                                    System.err.println("Empty File should not be passed");
                                     System.exit(1);
                                 }
-                            } else {
-                                System.err.println("Empty File should not be passed");
+                            }
+                            catch (IOException e){
+                                System.err.println("IO Exception in textFile");
+                            }
+                        }else {
+                            writeFlag = true;
+                        }
+                        if(writeFlag == true){
+                            try {
+                                textFile.createNewFile();
+                                dumper.dump(airline);
+                                if(prettyFlag == true){
+                                    File prettyFile = new File(prettyFileName);
+                                    airline = (Airline) parser.parse();
+                                    prettyPrinter.dump(airline);
+                                }
+                            } catch (IOException e){
+                                System.err.println("IO Exception in pretty file");
                                 System.exit(1);
                             }
                         }
-                        catch (IOException e){
-                            System.err.println("IO Exception in textFile");
-                        }
-                    }else {
-                        writeFlag = true;
-                    }
-                    if(writeFlag == true){
+                    }else if(prettyFlag == true){
                         try {
-                            textFile.createNewFile();
-                            dumper.dump(airline);
-                            if(prettyFlag == true){
-                                File prettyFile = new File(prettyFileName);
-                                prettyFile.createNewFile();
-                                airline = (Airline) parser.parse();
-                                prettyPrinter.dump(airline);
-                            }
+                            prettyPrinter.dump(airline);
                         } catch (IOException e){
-                            System.err.println("IO Exception in pretty file");
+                            System.err.println("IO Exception");
                             System.exit(1);
                         }
-                    }
-                }else if(prettyFlag == true){
-                    try {
-                        prettyPrinter.dump(airline);
-                    } catch (IOException e){
-                        System.err.println("IO Exception");
-                        System.exit(1);
                     }
                 }
             }
@@ -446,4 +327,3 @@ public class Project3 {
         return true;
     }
 }
-

@@ -69,8 +69,6 @@ public class PrettyPrinter implements AirlineDumper{
         Iterator iterator = flightSortedSet.iterator();
         while (iterator.hasNext()){
             Flight flight = (Flight)iterator.next();
-            //System.out.println(flight.getArrival());
-            //System.out.println(flight.getDeparture());
             long flightDuration = flight.getArrival().getTime()-flight.getDeparture().getTime();
             long flightDurationInHours = flightDuration/(60*60*1000);
             long flightDurationInMinutes = flightDuration/(60*1000)%60;

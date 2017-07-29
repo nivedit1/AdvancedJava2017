@@ -60,19 +60,19 @@ public class Project4 {
         try {
             if (key == null) {
                 // Print all key/value pairs
-                Map<String, String> keysAndValues = client.getAllKeysAndValues();
+                //Map<String, String> keysAndValues = client.getAllKeysAndValues();
                 StringWriter sw = new StringWriter();
-                Messages.formatKeyValueMap(new PrintWriter(sw, true), keysAndValues);
+                //Messages.formatKeyValueMap(new PrintWriter(sw, true), keysAndValues);
                 message = sw.toString();
 
             } else if (value == null) {
                 // Print all values of key
-                message = Messages.formatKeyValuePair(key, client.getValue(key));
+                //message = Messages.formatKeyValuePair(key, client.getValue(key));
 
             } else {
                 // Post the key/value pair
                 client.addKeyValuePair(key, value);
-                message = Messages.mappedKeyValue(key, value);
+                //message = Messages.mappedKeyValue(key, value);
             }
 
         } catch ( IOException ex ) {
@@ -80,7 +80,7 @@ public class Project4 {
             return;
         }
 
-        System.out.println(message);
+        //System.out.println(message);
 
         System.exit(0);
     }

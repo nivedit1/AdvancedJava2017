@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This servlet ultimately provides a REST API for working with an
@@ -17,7 +17,7 @@ import java.util.Map;
  * of how to use HTTP and Java servlets to store simple key/value pairs.
  */
 public class AirlineServlet extends HttpServlet {
-  private final Map<String, String> data = new HashMap<>();
+  private final Map<String, Flight> data = new HashMap<>();
 
   /**
    * Handles an HTTP GET request from a client by writing the value of the key
@@ -29,14 +29,24 @@ public class AirlineServlet extends HttpServlet {
   protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
   {
       response.setContentType( "text/plain" );
+      String airlineName = getParameter("name", request);
+      if(airlineName != null){
+          PrintWriter pw1 = response.getWriter();
+          pw1.println(airlineName);
 
-      String key = getParameter( "key", request );
+          pw1.println();
+          //writeValue(airlineName, response);
+      } else {
+          writeAllMappings(response);
+      }
+
+      /*String key = getParameter( "key", request );
       if (key != null) {
           writeValue(key, response);
 
       } else {
           writeAllMappings(response);
-      }
+      }*/
   }
 
   /**
@@ -49,7 +59,57 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
 
-      String key = getParameter( "key", request );
+      String airlineName = getParameter("name", request);
+      String flightNumberInString = getParameter("flightNumber", request);
+      String sourceAirport = getParameter("src", request);
+      String departureTimeInString = getParameter("departTime", request);
+      String destinationAirport = getParameter("dest", request);
+      String arrivalTimeInString = getParameter("arriveTime", request);
+      int flightNumber = -1;
+      Collection<Flight> flights = new ArrayList<>();
+      Date departureTimeInDate = new Date();
+      Date arrivalTimeInDate = new Date();
+      String expectedDatePattern = "MM/dd/yyyy h:mm a";
+      SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
+      formatter.setLenient(false);
+      try {
+          flightNumber = Integer.parseInt(flightNumberInString);
+      } catch (Exception e){
+          PrintWriter pw1 = response.getWriter();
+          pw1.println("Flight Number not integer" + flightNumberInString);
+          System.exit(1);
+      }
+      try {
+          departureTimeInDate = formatter.parse(departureTimeInString);
+      } catch (Exception e){
+          System.err.println("Date not matching");
+          System.exit(1);
+      }
+      try {
+          arrivalTimeInDate = formatter.parse(arrivalTimeInString);
+      } catch (Exception e){
+          System.err.println("Date not matching");
+          System.exit(1);
+      }
+      Airline airline = new Airline(airlineName, flights);
+      Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
+      airline.addFlight(flight);
+      this.data.put(airlineName,flight);
+
+      PrintWriter pw = response.getWriter();
+      pw.println();
+      pw.println("Mapped the airline to flight");
+      pw.println(airline.getName());
+      pw.println(flight.getNumber());
+      pw.println(flight.getSource());
+      pw.println(flight.getDeparture());
+      pw.println(flight.getDestination());
+      pw.println(flight.getDeparture());
+      pw.flush();
+
+      response.setStatus( HttpServletResponse.SC_OK);
+
+      /*String key = getParameter( "key", request );
       if (key == null) {
           missingRequiredParameter(response, "key");
           return;
@@ -62,12 +122,7 @@ public class AirlineServlet extends HttpServlet {
       }
 
       this.data.put(key, value);
-
-      PrintWriter pw = response.getWriter();
-      pw.println(Messages.mappedKeyValue(key, value));
-      pw.flush();
-
-      response.setStatus( HttpServletResponse.SC_OK);
+*/
   }
 
   /**
@@ -82,7 +137,7 @@ public class AirlineServlet extends HttpServlet {
       this.data.clear();
 
       PrintWriter pw = response.getWriter();
-      pw.println(Messages.allMappingsDeleted());
+      //pw.println(Messages.allMappingsDeleted());
       pw.flush();
 
       response.setStatus(HttpServletResponse.SC_OK);
@@ -92,26 +147,26 @@ public class AirlineServlet extends HttpServlet {
   /**
    * Writes an error message about a missing parameter to the HTTP response.
    *
-   * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
+   * The text of the error message is created by {@link //Messages#missingRequiredParameter(String)}
    */
   private void missingRequiredParameter( HttpServletResponse response, String parameterName )
       throws IOException
   {
-      String message = Messages.missingRequiredParameter(parameterName);
-      response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+      //String message = Messages.missingRequiredParameter(parameterName);
+      //response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
   }
 
   /**
    * Writes the value of the given key to the HTTP response.
    *
    * The text of the message is formatted with
-   * {@link Messages#formatKeyValuePair(String, String)}
+   * {@link //Messages#formatKeyValuePair(String, String)}
    */
   private void writeValue( String key, HttpServletResponse response ) throws IOException {
-      String value = this.data.get(key);
+      Flight value = this.data.get(key);
 
       PrintWriter pw = response.getWriter();
-      pw.println(Messages.formatKeyValuePair(key, value));
+      //pw.println(Messages.formatKeyValuePair(key, value));
 
       pw.flush();
 
@@ -122,11 +177,11 @@ public class AirlineServlet extends HttpServlet {
    * Writes all of the key/value pairs to the HTTP response.
    *
    * The text of the message is formatted with
-   * {@link Messages#formatKeyValuePair(String, String)}
+   * {@link //Messages#formatKeyValuePair(String, String)}
    */
   private void writeAllMappings( HttpServletResponse response ) throws IOException {
       PrintWriter pw = response.getWriter();
-      Messages.formatKeyValueMap(pw, data);
+      //Messages.formatKeyValueMap(pw, data);
 
       pw.flush();
 
@@ -150,12 +205,12 @@ public class AirlineServlet extends HttpServlet {
   }
 
   @VisibleForTesting
-  void setValueForKey(String key, String value) {
+  void setValueForKey(String key, Flight value) {
       this.data.put(key, value);
   }
 
   @VisibleForTesting
-  String getValueForKey(String key) {
+  Flight getValueForKey(String key) {
       return this.data.get(key);
   }
 }

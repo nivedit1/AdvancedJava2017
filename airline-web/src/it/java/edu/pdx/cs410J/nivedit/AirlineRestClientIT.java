@@ -2,6 +2,7 @@ package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.web.HttpRequestHelper.Response;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -26,12 +27,14 @@ public class AirlineRestClientIT {
     return new AirlineRestClient(HOSTNAME, port);
   }
 
+  @Ignore
   @Test
   public void test0RemoveAllMappings() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
     client.removeAllMappings();
   }
 
+  @Ignore
   @Test
   public void test1EmptyServerContainsNoMappings() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
@@ -39,6 +42,7 @@ public class AirlineRestClientIT {
     assertThat(allKeysAndValues.size(), equalTo(0));
   }
 
+  @Ignore
   @Test
   public void test2AddOneKeyValuePair() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
@@ -50,6 +54,7 @@ public class AirlineRestClientIT {
     assertThat(value, equalTo(testValue));
   }
 
+  @Ignore
   @Test
   public void test4MissingRequiredParameterReturnsPreconditionFailed() throws IOException {
     AirlineRestClient client = newAirlineRestClient();

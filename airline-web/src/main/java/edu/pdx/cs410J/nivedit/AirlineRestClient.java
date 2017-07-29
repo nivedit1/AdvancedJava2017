@@ -34,10 +34,11 @@ public class AirlineRestClient extends HttpRequestHelper
     /**
      * Returns all keys and values from the server
      */
-    public Map<String, String> getAllKeysAndValues() throws IOException {
+   /* public Map<String, String> getAllKeysAndValues() throws IOException {
       Response response = get(this.url);
-      return Messages.parseKeyValueMap(response.getContent());
-    }
+      return Map(response.getContent(), response.getContent());
+      //return Messages.parseKeyValueMap(response.getContent());
+    }*/
 
     /**
      * Returns the value for the given key
@@ -46,7 +47,8 @@ public class AirlineRestClient extends HttpRequestHelper
       Response response = get(this.url, "key", key);
       throwExceptionIfNotOkayHttpStatus(response);
       String content = response.getContent();
-      return Messages.parseKeyValuePair(content).getValue();
+      return "Have to change";
+      //return Messages.parseKeyValuePair(content).getValue();
     }
 
     public void addKeyValuePair(String key, String value) throws IOException {

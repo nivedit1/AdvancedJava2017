@@ -17,7 +17,8 @@ import java.util.*;
  * of how to use HTTP and Java servlets to store simple key/value pairs.
  */
 public class AirlineServlet extends HttpServlet {
-  private final Map<String, Flight> data = new HashMap<>();
+  private final Map<String, Collection<Flight>> data = new HashMap<>();
+  private Collection<Flight> flights = new ArrayList<>();
 
   /**
    * Handles an HTTP GET request from a client by writing the value of the key
@@ -30,23 +31,27 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
       String airlineName = getParameter("name", request);
+      String sourceAirport = getParameter("src", request);
+      String destinationAirport = getParameter("dest", request);
+      PrintWriter pw = response.getWriter();
       if(airlineName != null){
-          PrintWriter pw1 = response.getWriter();
-          pw1.println(airlineName);
-
-          pw1.println();
-          //writeValue(airlineName, response);
+          if(data.containsKey(airlineName)){
+              Collection<Flight> flightsInGet = data.get(airlineName);
+              for(Flight flight:flightsInGet){
+                  if(flight.getSource().equals(sourceAirport) && flight.getDestination().equals(destinationAirport)){
+                      pw.println(flight);
+                  }
+                  else {
+                      continue;
+                  }
+              }
+          }
+          else {
+              pw.println(this.flights);
+          }
       } else {
           writeAllMappings(response);
       }
-
-      /*String key = getParameter( "key", request );
-      if (key != null) {
-          writeValue(key, response);
-
-      } else {
-          writeAllMappings(response);
-      }*/
   }
 
   /**
@@ -66,7 +71,7 @@ public class AirlineServlet extends HttpServlet {
       String destinationAirport = getParameter("dest", request);
       String arrivalTimeInString = getParameter("arriveTime", request);
       int flightNumber = -1;
-      Collection<Flight> flights = new ArrayList<>();
+
       Date departureTimeInDate = new Date();
       Date arrivalTimeInDate = new Date();
       String expectedDatePattern = "MM/dd/yyyy h:mm a";
@@ -94,7 +99,7 @@ public class AirlineServlet extends HttpServlet {
       Airline airline = new Airline(airlineName, flights);
       Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
       airline.addFlight(flight);
-      this.data.put(airlineName,flight);
+      this.data.put(airlineName,flights);
 
       PrintWriter pw = response.getWriter();
       pw.println();
@@ -108,21 +113,6 @@ public class AirlineServlet extends HttpServlet {
       pw.flush();
 
       response.setStatus( HttpServletResponse.SC_OK);
-
-      /*String key = getParameter( "key", request );
-      if (key == null) {
-          missingRequiredParameter(response, "key");
-          return;
-      }
-
-      String value = getParameter( "value", request );
-      if ( value == null) {
-          missingRequiredParameter( response, "value" );
-          return;
-      }
-
-      this.data.put(key, value);
-*/
   }
 
   /**
@@ -163,7 +153,7 @@ public class AirlineServlet extends HttpServlet {
    * {@link //Messages#formatKeyValuePair(String, String)}
    */
   private void writeValue( String key, HttpServletResponse response ) throws IOException {
-      Flight value = this.data.get(key);
+      Collection<Flight> value = this.data.get(key);
 
       PrintWriter pw = response.getWriter();
       //pw.println(Messages.formatKeyValuePair(key, value));
@@ -205,12 +195,12 @@ public class AirlineServlet extends HttpServlet {
   }
 
   @VisibleForTesting
-  void setValueForKey(String key, Flight value) {
+  void setValueForKey(String key, Collection<Flight> value) {
       this.data.put(key, value);
   }
 
   @VisibleForTesting
-  Flight getValueForKey(String key) {
+  Collection <Flight> getValueForKey(String key) {
       return this.data.get(key);
   }
 }

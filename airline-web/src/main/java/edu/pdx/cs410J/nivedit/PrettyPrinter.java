@@ -3,7 +3,7 @@ package edu.pdx.cs410J.nivedit;
 import edu.pdx.cs410J.AbstractAirline;
 import edu.pdx.cs410J.AirlineDumper;
 import edu.pdx.cs410J.AirportNames;
-
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
 
@@ -14,18 +14,18 @@ import java.util.*;
  */
 public class PrettyPrinter implements AirlineDumper{
 
-    private String destinationFilename;
+    private HttpServletResponse response;
 
     /**
      * Creates a new PrettyPrinter that writes to a file
      * in a human readable format. If a file does not exist,
      * it is created.
-     * @param destinationFilename
+     * @param response
      *        The name of the file to be pretty printed to.
      */
-    public PrettyPrinter(String destinationFilename){
+    public PrettyPrinter(HttpServletResponse response){
 
-        this.destinationFilename = destinationFilename;
+        this.response = response;
     }
 
     /**
@@ -55,15 +55,7 @@ public class PrettyPrinter implements AirlineDumper{
         Collection<Flight> flights = airline.getFlights();
         SortedSet<Flight> flightSortedSet = new TreeSet<Flight>(Comparators.sourceAirportAndDepartureTime);
         flightSortedSet.addAll(flights);
-        PrintWriter writer;
-        if(this.destinationFilename.equals("-")){
-            writer = new PrintWriter(System.out);
-        }
-        else {
-            File file = new File(this.destinationFilename);
-            FileWriter out = new FileWriter(file,false);
-            writer = new PrintWriter(out);
-        }
+        PrintWriter writer = response.getWriter();
         writer.println();
         writer.println("Airline Information");
         writer.println("===================");

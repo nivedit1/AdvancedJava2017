@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.nivedit;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.AirportNames;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,24 +34,53 @@ public class AirlineServlet extends HttpServlet {
       String airlineName = getParameter("name", request);
       String sourceAirport = getParameter("src", request);
       String destinationAirport = getParameter("dest", request);
+      Collection<Flight> flightsToPrint = new ArrayList<>();
       PrintWriter pw = response.getWriter();
-      if(airlineName != null){
+      PrettyPrinter prettyPrinter = new PrettyPrinter(response);
+      if(airlineName != null && sourceAirport !=null && destinationAirport !=null){
           if(data.containsKey(airlineName)){
               Collection<Flight> flightsInGet = data.get(airlineName);
               for(Flight flight:flightsInGet){
                   if(flight.getSource().equals(sourceAirport) && flight.getDestination().equals(destinationAirport)){
-                      pw.println(flight);
+                      flightsToPrint.add(flight);
                   }
                   else {
                       continue;
                   }
               }
+              if(flightsToPrint.size() > 0){
+                  Airline airlineToPrint = new Airline(airlineName, flightsToPrint);
+                  prettyPrinter.dump(airlineToPrint);
+              } else {
+                  String message = "Flights starting from " + sourceAirport + " landing in " + destinationAirport +
+                          " not found !";
+                  pw.println(message);
+                  return;
+              }
+          } else {
+              String message = "The airline that you're looking for is not found: "+ airlineName;
+              pw.println(message);
+              return;
           }
-          else {
-              pw.println(this.flights);
+      } else if(airlineName == null && sourceAirport !=null && destinationAirport!=null){
+          String message = "Airline Name not provided!";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+      } else if(airlineName !=null && sourceAirport == null && destinationAirport !=null){
+          String message = "Source Airport not provided!";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+      } else if(airlineName !=null && sourceAirport !=null && destinationAirport == null){
+          String message = "Destination Airport not provided!";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+      }
+      else {
+          for(Map.Entry<String, Collection<Flight>>entry: data.entrySet()){
+              if(this.flights.equals(entry.getValue())){
+                  airlineName = entry.getKey();
+                  break;
+              }
           }
-      } else {
-          writeAllMappings(response);
+          Airline airlineToPrint = new Airline(airlineName, this.flights);
+          prettyPrinter.dump(airlineToPrint);
       }
   }
 
@@ -71,36 +101,96 @@ public class AirlineServlet extends HttpServlet {
       String destinationAirport = getParameter("dest", request);
       String arrivalTimeInString = getParameter("arriveTime", request);
       int flightNumber = -1;
-
+      String sourceAirportActual = "";
+      String destinationAirportActual = "";
       Date departureTimeInDate = new Date();
       Date arrivalTimeInDate = new Date();
       String expectedDatePattern = "MM/dd/yyyy h:mm a";
       SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
       formatter.setLenient(false);
+      if(airlineName == null){
+          missingRequiredParameter(response, "Airline Name");
+      } else if(flightNumberInString == null){
+          missingRequiredParameter(response, "Flight Number");
+      } else if(sourceAirport == null){
+          missingRequiredParameter(response, "Source Airport Code");
+      } else if(departureTimeInString == null){
+          missingRequiredParameter(response, "Departure Time");
+      } else if(destinationAirport == null){
+          missingRequiredParameter(response, "Destination Airport");
+      } else if(arrivalTimeInString == null){
+          missingRequiredParameter(response, "Arrival Time");
+      }
       try {
           flightNumber = Integer.parseInt(flightNumberInString);
       } catch (Exception e){
-          PrintWriter pw1 = response.getWriter();
-          pw1.println("Flight Number not integer" + flightNumberInString);
-          System.exit(1);
+          String message = "Flight Number is not integer: " + flightNumberInString;
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
+      }
+      if (sourceAirport.matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
+          if(AirportNames.getName((sourceAirport).toUpperCase()) != null){
+              sourceAirportActual = sourceAirport.toUpperCase();
+          }
+          else {
+              String message = "Not a valid Source Airport Code - " + sourceAirport;
+              response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+              return;
+          }
+      } else {
+          String message = "Source Airport Code is not a 3 letter code - " + sourceAirport;
+          message = message + "\nAirport code should be of the format \"AAA\"";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
       }
       try {
-          departureTimeInDate = formatter.parse(departureTimeInString);
+          String [] dateSplit = departureTimeInString.split("\\s+");
+          if(dateSplit[2].equals("am") || dateSplit[2].equals("pm")){
+              departureTimeInDate = formatter.parse(departureTimeInString);
+          }else {
+              String message = "am/pm should not be capitalized in departure time - " + departureTimeInString;
+              response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+              return;
+          }
+
       } catch (Exception e){
-          System.err.println("Date not matching");
-          System.exit(1);
+          String message = "The Departure time does not match the format \"MM/DD/YY HH:MM\" - " + departureTimeInString;
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
+      }
+      if (destinationAirport.matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
+          if(AirportNames.getName((destinationAirport).toUpperCase()) != null){
+              destinationAirportActual = destinationAirport.toUpperCase();
+          }
+          else {
+              String message = "Not a valid Destination Airport Code - " + destinationAirport;
+              response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+              return;
+          }
+      } else {
+          String message = "Destination Airport Code is not a 3 letter code - " + destinationAirport;
+          message = message + "\nAirport code should be of the format \"AAA\"";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
       }
       try {
-          arrivalTimeInDate = formatter.parse(arrivalTimeInString);
+          String [] dateSplit = arrivalTimeInString.split("\\s+");
+          if(dateSplit[2].equals("am") || dateSplit[2].equals("pm")){
+              arrivalTimeInDate = formatter.parse(arrivalTimeInString);
+          }else {
+              String message = "am/pm should not be capitalized in arrival time - " + arrivalTimeInString;
+              response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+              return;
+          }
       } catch (Exception e){
-          System.err.println("Date not matching");
-          System.exit(1);
+          String message = "The Arrival time does not match the format \"MM/DD/YY HH:MM\" - " + arrivalTimeInString;
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
       }
       Airline airline = new Airline(airlineName, flights);
       Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
       airline.addFlight(flight);
       this.data.put(airlineName,flights);
-
       PrintWriter pw = response.getWriter();
       pw.println();
       pw.println("Mapped the airline to flight");
@@ -109,9 +199,8 @@ public class AirlineServlet extends HttpServlet {
       pw.println(flight.getSource());
       pw.println(flight.getDeparture());
       pw.println(flight.getDestination());
-      pw.println(flight.getDeparture());
+      pw.println(flight.getArrival());
       pw.flush();
-
       response.setStatus( HttpServletResponse.SC_OK);
   }
 
@@ -142,26 +231,11 @@ public class AirlineServlet extends HttpServlet {
   private void missingRequiredParameter( HttpServletResponse response, String parameterName )
       throws IOException
   {
-      //String message = Messages.missingRequiredParameter(parameterName);
-      //response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+      String message = "Missing required parameter: " +parameterName ;
+      response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
   }
 
-  /**
-   * Writes the value of the given key to the HTTP response.
-   *
-   * The text of the message is formatted with
-   * {@link //Messages#formatKeyValuePair(String, String)}
-   */
-  private void writeValue( String key, HttpServletResponse response ) throws IOException {
-      Collection<Flight> value = this.data.get(key);
 
-      PrintWriter pw = response.getWriter();
-      //pw.println(Messages.formatKeyValuePair(key, value));
-
-      pw.flush();
-
-      response.setStatus( HttpServletResponse.SC_OK );
-  }
 
   /**
    * Writes all of the key/value pairs to the HTTP response.

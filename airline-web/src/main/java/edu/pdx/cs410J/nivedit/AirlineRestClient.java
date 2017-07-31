@@ -32,28 +32,15 @@ public class AirlineRestClient extends HttpRequestHelper
     }
 
     /**
-     * Returns all keys and values from the server
-     */
-   /* public Map<String, String> getAllKeysAndValues() throws IOException {
-      Response response = get(this.url);
-      return Map(response.getContent(), response.getContent());
-      //return Messages.parseKeyValueMap(response.getContent());
-    }*/
-
-    /**
      * Returns the value for the given key
      */
-    public String getValue(String key) throws IOException {
-      Response response = get(this.url, "key", key);
+    public String getValue(String airlineName, String source, String destination) throws IOException {
+      System.out.println("I got to getValue");
+      Response response = get(this.url, "name", airlineName, "src", source, "dest", destination);
       throwExceptionIfNotOkayHttpStatus(response);
       String content = response.getContent();
-      return "Have to change";
-      //return Messages.parseKeyValuePair(content).getValue();
-    }
-
-    public void addKeyValuePair(String key, String value) throws IOException {
-      Response response = postToMyURL("key", key, "value", value);
-      throwExceptionIfNotOkayHttpStatus(response);
+      System.out.println(content);
+      return content;
     }
 
     @VisibleForTesting
@@ -72,6 +59,20 @@ public class AirlineRestClient extends HttpRequestHelper
         throw new AppointmentBookRestException(code);
       }
       return response;
+    }
+
+    public void addAirline(Airline airline, Flight flight) {
+        try{
+            Response response = postToMyURL("name",airline.getName(),
+                    "flightNumber", Integer.toString(flight.getNumber()),
+                    "src", flight.getSource(),
+                    "departTime", flight.getDepartureString(),
+                    "dest",flight.getDestination(),
+                    "arriveTime", flight.getArrivalString());
+        } catch (IOException ex){
+
+        }
+
     }
 
     private class AppointmentBookRestException extends RuntimeException {

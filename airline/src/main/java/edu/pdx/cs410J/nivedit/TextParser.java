@@ -121,7 +121,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 try {
                     departureTime = currentLine.substring(startIndex,endIndex);
                     if(departureTime.contains(",")){
-                        departureTime.replace(",", "");
+                        departureTime = departureTime.replace(",", "");
                     }
                     departureTimeInDate = formatter.parse(departureTime);
                     recordComplete += 1;
@@ -146,7 +146,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 try {
                     arrivalTime = currentLine.substring(startIndex,endIndex);
                     if(arrivalTime.contains(",")){
-                        arrivalTime.replace(",", "");
+                        arrivalTime = arrivalTime.replace(",", "");
                     }
                     arrivalTimeInDate = formatter.parse(arrivalTime);
                     recordComplete += 1;

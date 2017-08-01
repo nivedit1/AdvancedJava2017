@@ -131,8 +131,6 @@ public class Project3 {
                     destinationAirport = argumentArray[6].toUpperCase();
                     arrivalTime = argumentArray[7] + " " + argumentArray[8] + " " + argumentArray[9];
                     Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
-                    System.out.println(flight.getDepartureString());
-                    System.out.println(flight.getArrivalString());
                     Airline airline = new Airline(airlineName, flights);
                     airline.addFlight(flight);
                     if (printFlag == true) {

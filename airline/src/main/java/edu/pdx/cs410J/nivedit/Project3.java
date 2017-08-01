@@ -8,10 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * The main class for the CS410J airline Project.
@@ -134,6 +131,8 @@ public class Project3 {
                     destinationAirport = argumentArray[6].toUpperCase();
                     arrivalTime = argumentArray[7] + " " + argumentArray[8] + " " + argumentArray[9];
                     Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
+                    System.out.println(flight.getDepartureString());
+                    System.out.println(flight.getArrivalString());
                     Airline airline = new Airline(airlineName, flights);
                     airline.addFlight(flight);
                     if (printFlag == true) {
@@ -261,7 +260,7 @@ public class Project3 {
         String destinationAirport = "";
         String userInputArrivalTime = "";
         String expectedDatePattern = "MM/dd/yyyy h:mm a";
-        SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
+        SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern, Locale.US);
         formatter.setLenient(false);
         airlineName = argumentArray[0];
         try {

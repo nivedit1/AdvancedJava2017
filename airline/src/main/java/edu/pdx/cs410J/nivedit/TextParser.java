@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -47,7 +48,7 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
         Airline airline = new Airline("", flights);
         Flight flight = new Flight(0,"",departureTimeInDate,"",arrivalTimeInDate);
         String expectedDatePattern = "MM/dd/yy h:mm a";
-        SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
+        SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern, Locale.US);
         formatter.setLenient(false);
         int recordComplete = 0;
         try{
@@ -119,6 +120,9 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 int endIndex = currentLine.indexOf("</departureTime>");
                 try {
                     departureTime = currentLine.substring(startIndex,endIndex);
+                    if(departureTime.contains(",")){
+                        departureTime.replace(",", "");
+                    }
                     departureTimeInDate = formatter.parse(departureTime);
                     recordComplete += 1;
                 } catch (Exception e) {
@@ -141,6 +145,9 @@ public class TextParser implements edu.pdx.cs410J.AirlineParser{
                 int endIndex = currentLine.indexOf("</arrivalTime>");
                 try {
                     arrivalTime = currentLine.substring(startIndex,endIndex);
+                    if(arrivalTime.contains(",")){
+                        arrivalTime.replace(",", "");
+                    }
                     arrivalTimeInDate = formatter.parse(arrivalTime);
                     recordComplete += 1;
                 } catch (Exception e) {

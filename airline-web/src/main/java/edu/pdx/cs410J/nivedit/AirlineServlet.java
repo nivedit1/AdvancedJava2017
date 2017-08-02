@@ -34,9 +34,81 @@ public class AirlineServlet extends HttpServlet {
       String airlineName = getParameter("name", request);
       String sourceAirport = getParameter("src", request);
       String destinationAirport = getParameter("dest", request);
-      Collection<Flight> flightsToPrint = new ArrayList<>();
-      PrintWriter pw = response.getWriter();
       PrettyPrinter prettyPrinter = new PrettyPrinter(response);
+      PrintWriter pw = response.getWriter();
+      if((airlineName == null && sourceAirport !=null && destinationAirport!=null)
+              || (airlineName == null && sourceAirport !=null && destinationAirport == null)
+              || (airlineName == null && sourceAirport ==null && destinationAirport !=null)){
+          String message = "Airline Name not provided!";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
+      } else if(airlineName !=null && sourceAirport == null && destinationAirport !=null){
+          String message = "Source Airport not provided!";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
+      } else if(airlineName !=null && sourceAirport !=null && destinationAirport == null) {
+          String message = "Destination Airport not provided!";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
+      } else if (airlineName == null && sourceAirport == null && destinationAirport == null
+               && this.data.isEmpty() == true){
+          String message = "No airline found";
+          pw.println(message);
+          return;
+      } else if(airlineName == null && sourceAirport == null && destinationAirport == null &&
+              this.data.isEmpty() == false){
+          for(Map.Entry<String, Collection<Flight>>entry: data.entrySet()){
+              if(this.flights.equals(entry.getValue())){
+                  airlineName = entry.getKey();
+                  break;
+              }
+          }
+          Airline airlineToPrint = new Airline(airlineName, this.flights);
+          prettyPrinter.dump(airlineToPrint);
+      } else if (airlineName !=null && sourceAirport == null && destinationAirport == null){
+          if(this.data.containsKey(airlineName)){
+              Airline airline = new Airline(airlineName, this.data.get(airlineName));
+              prettyPrinter.dump(airline);
+              return;
+          } else {
+              String message = "Airline not found!";
+              pw.println(message);
+              return;
+          }
+      }
+      Collection<Flight> flightsToPrint = new ArrayList<>();
+      String sourceAirportActual;
+      String destinationAirportActual;
+      if (sourceAirport.matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
+          if(AirportNames.getName((sourceAirport).toUpperCase()) != null){
+                  sourceAirportActual = sourceAirport.toUpperCase();
+          }
+          else {
+              String message = "Not a valid Source Airport Code - " + sourceAirport;
+              response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+              return;
+          }
+      } else {
+          String message = "Source Airport Code is not a 3 letter code - " + sourceAirport;
+          message = message + "\nAirport code should be of the format \"AAA\"";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
+      }
+      if (destinationAirport.matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
+          if(AirportNames.getName((destinationAirport).toUpperCase()) != null){
+              destinationAirportActual = destinationAirport.toUpperCase();
+          }
+          else {
+              String message = "Not a valid Destination Airport Code - " + destinationAirport;
+              response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+              return;
+          }
+      } else {
+          String message = "Destination Airport Code is not a 3 letter code - " + destinationAirport;
+          message = message + "\nAirport code should be of the format \"AAA\"";
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+          return;
+      }
       if(airlineName != null && sourceAirport !=null && destinationAirport !=null){
           if(data.containsKey(airlineName)){
               Collection<Flight> flightsInGet = data.get(airlineName);
@@ -62,25 +134,6 @@ public class AirlineServlet extends HttpServlet {
               pw.println(message);
               return;
           }
-      } else if(airlineName == null && sourceAirport !=null && destinationAirport!=null){
-          String message = "Airline Name not provided!";
-          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
-      } else if(airlineName !=null && sourceAirport == null && destinationAirport !=null){
-          String message = "Source Airport not provided!";
-          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
-      } else if(airlineName !=null && sourceAirport !=null && destinationAirport == null){
-          String message = "Destination Airport not provided!";
-          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
-      }
-      else {
-          for(Map.Entry<String, Collection<Flight>>entry: data.entrySet()){
-              if(this.flights.equals(entry.getValue())){
-                  airlineName = entry.getKey();
-                  break;
-              }
-          }
-          Airline airlineToPrint = new Airline(airlineName, this.flights);
-          prettyPrinter.dump(airlineToPrint);
       }
   }
 
@@ -109,16 +162,22 @@ public class AirlineServlet extends HttpServlet {
       formatter.setLenient(false);
       if(airlineName == null){
           missingRequiredParameter(response, "Airline Name");
+          return;
       } else if(flightNumberInString == null){
           missingRequiredParameter(response, "Flight Number");
+          return;
       } else if(sourceAirport == null){
           missingRequiredParameter(response, "Source Airport Code");
+          return;
       } else if(departureTimeInString == null){
           missingRequiredParameter(response, "Departure Time");
+          return;
       } else if(destinationAirport == null){
           missingRequiredParameter(response, "Destination Airport");
+          return;
       } else if(arrivalTimeInString == null){
           missingRequiredParameter(response, "Arrival Time");
+          return;
       }
       try {
           flightNumber = Integer.parseInt(flightNumberInString);
@@ -186,13 +245,14 @@ public class AirlineServlet extends HttpServlet {
           response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
           return;
       }
-      Airline airline = new Airline(airlineName, flights);
       Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
+      flights.add(flight);
+      Airline airline = new Airline(airlineName, flights);
       airline.addFlight(flight);
       this.data.put(airlineName,flights);
       PrintWriter pw = response.getWriter();
       pw.println();
-      pw.println("Mapped the airline to flight");
+      pw.println("Mapped airline " + airlineName + " to flight " + flightNumber);
       pw.flush();
       response.setStatus( HttpServletResponse.SC_OK);
       return;
@@ -240,10 +300,8 @@ public class AirlineServlet extends HttpServlet {
    */
   private void writeAllMappings( HttpServletResponse response ) throws IOException {
       PrintWriter pw = response.getWriter();
-      //Messages.formatKeyValueMap(pw, data);
-
+      pw.println(data);
       pw.flush();
-
       response.setStatus( HttpServletResponse.SC_OK );
   }
 

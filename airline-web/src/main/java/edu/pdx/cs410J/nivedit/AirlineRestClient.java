@@ -60,7 +60,7 @@ public class AirlineRestClient extends HttpRequestHelper
       return response;
     }
 
-    public void addAirline(Airline airline, Flight flight) throws IOException {
+    public String addAirline(Airline airline, Flight flight) throws IOException {
         Response response = postToMyURL("name",airline.getName(),
                 "flightNumber", Integer.toString(flight.getNumber()),
                 "src", flight.getSource(),
@@ -68,6 +68,7 @@ public class AirlineRestClient extends HttpRequestHelper
                 "dest",flight.getDestination(),
                 "arriveTime", flight.getArrivalString().toLowerCase());
         throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
     }
 
     private class AppointmentBookRestException extends RuntimeException {

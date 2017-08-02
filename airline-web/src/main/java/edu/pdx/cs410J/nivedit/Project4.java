@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.AirportNames;
+import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -193,7 +194,8 @@ public class Project4 {
                         if(hostFlag == true && portFlag == true)
                         {
                             try{
-                                client.addAirline(airline, flight);
+                             String postMessage = client.addAirline(airline, flight);
+                             System.out.println(postMessage);
                             } catch (IOException e){
                                 error("While contacting server: " + e);
                                 return;

@@ -31,6 +31,9 @@ public class AirlineServlet extends HttpServlet {
   protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
   {
       response.setContentType( "text/plain" );
+      /*String uri = request.getRequestURI();
+      String lastPart = uri.substring(uri.lastIndexOf('/') + 1, uri.length());
+      System.out.println(lastPart);*/
       String airlineName = getParameter("name", request);
       String sourceAirport = getParameter("src", request);
       String destinationAirport = getParameter("dest", request);

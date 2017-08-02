@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class AirlineServlet extends HttpServlet {
   private final Map<String, Collection<Flight>> data = new HashMap<>();
-  private Collection<Flight> flights = new ArrayList<>();
+  //private Collection<Flight> flights = new ArrayList<>();
 
   /**
    * Handles an HTTP GET request from a client by writing the value of the key
@@ -60,14 +60,13 @@ public class AirlineServlet extends HttpServlet {
           return;
       } else if(airlineName == null && sourceAirport == null && destinationAirport == null &&
               this.data.isEmpty() == false){
-          for(Map.Entry<String, Collection<Flight>>entry: data.entrySet()){
-              if(this.flights.equals(entry.getValue())){
-                  airlineName = entry.getKey();
-                  break;
-              }
-          }
-          Airline airlineToPrint = new Airline(airlineName, this.flights);
-          prettyPrinter.dump(airlineToPrint);
+          /*for(Map.Entry<String, Collection<Flight>>entry: data.entrySet()){
+              airlineName = entry.getKey();
+              Airline airlineToPrint = new Airline(airlineName, entry.getValue());
+              prettyPrinter.dump(airlineToPrint);
+          }*/
+          writeAllMappings(response);
+          return;
       } else if (airlineName !=null && sourceAirport == null && destinationAirport == null){
           if(this.data.containsKey(airlineName)){
               Airline airline = new Airline(airlineName, this.data.get(airlineName));
@@ -163,6 +162,7 @@ public class AirlineServlet extends HttpServlet {
       String expectedDatePattern = "MM/dd/yyyy h:mm a";
       SimpleDateFormat formatter = new SimpleDateFormat(expectedDatePattern);
       formatter.setLenient(false);
+      Collection<Flight> flights = new ArrayList<>();
       if(airlineName == null){
           missingRequiredParameter(response, "Airline Name");
           return;
@@ -251,8 +251,12 @@ public class AirlineServlet extends HttpServlet {
       Flight flight = new Flight(flightNumber, sourceAirport, departureTimeInDate, destinationAirport, arrivalTimeInDate);
       flights.add(flight);
       Airline airline = new Airline(airlineName, flights);
-      airline.addFlight(flight);
-      this.data.put(airlineName,flights);
+      if(this.data.containsKey(airlineName)){
+          Collection<Flight> flightsInHashMap = this.getValueForKey(airlineName);
+          flightsInHashMap.add(flight);
+      } else {
+          this.data.put(airlineName,flights);
+      }
       PrintWriter pw = response.getWriter();
       pw.println();
       pw.println("Mapped airline " + airlineName + " to flight " + flightNumber);
@@ -303,8 +307,35 @@ public class AirlineServlet extends HttpServlet {
    */
   private void writeAllMappings( HttpServletResponse response ) throws IOException {
       PrintWriter pw = response.getWriter();
-      pw.println(data);
-      pw.flush();
+      PrettyPrinter prettyPrinter = new PrettyPrinter(response);
+      int i = 1;
+      for(Object key: data.keySet()){
+          String airlineName = (String) key;
+          Collection<Flight> flightsToPrint = data.get(key);
+          Airline airline = new Airline(airlineName, flightsToPrint);
+          pw.println("Airline Information");
+          pw.println("===================");
+          pw.println("Airline Name: " + airlineName);
+          pw.println();
+          for(Flight flight: flightsToPrint){
+              long flightDuration = flight.getArrival().getTime()-flight.getDeparture().getTime();
+              long flightDurationInHours = flightDuration/(60*60*1000);
+              long flightDurationInMinutes = flightDuration/(60*1000)%60;
+              pw.println("Flight" + i + " Details:");
+              pw.println("=================");
+              pw.println("Flight Number:" +" "+ flight.getNumber());
+              pw.println("Source Airport:" + " "+ flight.getSource().toUpperCase()+"(" +
+                      AirportNames.getName(flight.getSource().toUpperCase()) + ")");
+              pw.println("Departure Time:" + " "+ flight.getDepartureString());
+              pw.println("Destination Airport:" + " "+ flight.getDestination().toUpperCase() + "("+
+                      AirportNames.getName(flight.getDestination().toUpperCase()) + ")");
+              pw.println("Arrival Time:" + " "+ flight.getArrivalString());
+              pw.println("Flight Duration:" + flightDurationInHours + " hours and " + flightDurationInMinutes + " minutes");
+              pw.println();
+              i +=1;
+          }
+      }
+      pw.close();
       response.setStatus( HttpServletResponse.SC_OK );
   }
 

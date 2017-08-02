@@ -170,11 +170,9 @@ public class Project4 {
                     }
                     try{
                         client.getValue(airlineName, sourceAirport, destinationAirport);
-                    } catch (IOException e){
-                        error("While contacting server: " + e);
-                        return;
+                    } catch (IOException | RuntimeException e){
+                        error("While contacting server: " + e.getMessage());
                     }
-
                 } else {
                     if(validateArguments(argumentArray) == true){
                         airlineName = argumentArray[0];
@@ -196,8 +194,8 @@ public class Project4 {
                             try{
                              String postMessage = client.addAirline(airline, flight);
                              System.out.println(postMessage);
-                            } catch (IOException e){
-                                error("While contacting server: " + e);
+                            } catch (IOException | RuntimeException e){
+                                error("While contacting server: " + e.getMessage());
                                 return;
                             }
                         }

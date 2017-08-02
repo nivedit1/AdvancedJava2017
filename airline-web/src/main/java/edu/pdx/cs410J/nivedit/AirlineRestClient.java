@@ -35,7 +35,6 @@ public class AirlineRestClient extends HttpRequestHelper
      * Returns the value for the given key
      */
     public String getValue(String airlineName, String source, String destination) throws IOException {
-      System.out.println("I got to getValue");
       Response response = get(this.url, "name", airlineName, "src", source, "dest", destination);
       throwExceptionIfNotOkayHttpStatus(response);
       String content = response.getContent();
@@ -61,18 +60,14 @@ public class AirlineRestClient extends HttpRequestHelper
       return response;
     }
 
-    public void addAirline(Airline airline, Flight flight) {
-        try{
-            Response response = postToMyURL("name",airline.getName(),
-                    "flightNumber", Integer.toString(flight.getNumber()),
-                    "src", flight.getSource(),
-                    "departTime", flight.getDepartureString(),
-                    "dest",flight.getDestination(),
-                    "arriveTime", flight.getArrivalString());
-        } catch (IOException ex){
-
-        }
-
+    public void addAirline(Airline airline, Flight flight) throws IOException {
+        Response response = postToMyURL("name",airline.getName(),
+                "flightNumber", Integer.toString(flight.getNumber()),
+                "src", flight.getSource(),
+                "departTime", flight.getDepartureString().toLowerCase(),
+                "dest",flight.getDestination(),
+                "arriveTime", flight.getArrivalString().toLowerCase());
+        throwExceptionIfNotOkayHttpStatus(response);
     }
 
     private class AppointmentBookRestException extends RuntimeException {

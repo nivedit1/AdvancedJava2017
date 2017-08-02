@@ -93,7 +93,6 @@ public class AirlineServlet extends HttpServlet {
   protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
   {
       response.setContentType( "text/plain" );
-
       String airlineName = getParameter("name", request);
       String flightNumberInString = getParameter("flightNumber", request);
       String sourceAirport = getParameter("src", request);
@@ -194,14 +193,9 @@ public class AirlineServlet extends HttpServlet {
       PrintWriter pw = response.getWriter();
       pw.println();
       pw.println("Mapped the airline to flight");
-      pw.println(airline.getName());
-      pw.println(flight.getNumber());
-      pw.println(flight.getSource());
-      pw.println(flight.getDeparture());
-      pw.println(flight.getDestination());
-      pw.println(flight.getArrival());
       pw.flush();
       response.setStatus( HttpServletResponse.SC_OK);
+      return;
   }
 
   /**
@@ -233,6 +227,7 @@ public class AirlineServlet extends HttpServlet {
   {
       String message = "Missing required parameter: " +parameterName ;
       response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+      return;
   }
 
 

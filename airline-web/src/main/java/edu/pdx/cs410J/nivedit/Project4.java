@@ -190,7 +190,15 @@ public class Project4 {
                             System.out.println(flight.toString());
                             System.out.println();
                         }
-                        client.addAirline(airline, flight);
+                        if(hostFlag == true && portFlag == true)
+                        {
+                            try{
+                                client.addAirline(airline, flight);
+                            } catch (IOException e){
+                                error("While contacting server: " + e);
+                                return;
+                            }
+                        }
                     }
                 }
             }
@@ -238,8 +246,9 @@ public class Project4 {
                 "Options are as follows:\n" +
                 "  -print -> Prints a description of the new flight\n" +
                 "  -README -> Prints a README for this project and exits\n" +
-                "  -textFile file -> Where to read/write the airline info\n" +
-                "  -pretty file -> Pretty prints the airline's flight to a text file or standard out\n";
+                "  -search -> Search for flights\n" +
+                "  -host hostname -> Search for flights\n" +
+                "  -port port -> Port on which the server is listening\n";
         String executionInstruction = "\nExecution Instruction:" +
                 "\n======================\n" +
                 "Run the program with -> java edu.pdx.cs410J.nivedit.Project4 [options] <args>";

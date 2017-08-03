@@ -1,9 +1,7 @@
 package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.AbstractFlight;
-
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;

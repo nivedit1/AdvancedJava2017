@@ -1,12 +1,8 @@
 package edu.pdx.cs410J.nivedit;
 
 import edu.pdx.cs410J.AirportNames;
-import edu.pdx.cs410J.web.HttpRequestHelper;
-
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -16,20 +12,20 @@ import java.util.*;
  * using REST
  * @author Niveditha Venugopal
  */
-
 public class Project4 {
+
     /**
-     *Main program that parses the command line,
+     * Main program that parses the command line,
      * validates the arguments provided by the user and
      * creates an <code>Airline</code> and <code>Flight</code>,
      * and optionally prints a description of the flight to
      * standard out by invoking the <code>toString</code> method of <code>Flight</code>
-     * optionally adds flight information to the specified destination file and optionally
-     * pretty prints <code>airline</code> information to file or standard out.
+     * optionally posts to a host and port mentioned by a -host and -port options.
+     * This also lets the user search for flights in an airline between a source and
+     * destination.
      * @param args
      *        Command line arguments passed by the user.
      */
-
     static Date departureTimeInDate;
     static Date arrivalTimeInDate;
     public static void main(String[] args) {
@@ -208,6 +204,11 @@ public class Project4 {
         }
     }
 
+    /**
+     * This method prints an error when met with an exception
+     * @param message
+     *      The error message
+     */
     private static void error( String message )
     {
         PrintStream err = System.err;
@@ -231,7 +232,9 @@ public class Project4 {
                 "It also checks the validity of flight number, airport codes, and " +
                 "arrival and departure times.\n"+
                 "It optionally adds the airline information to a file specified on the command line.\n"
-                +"It optionally pretty prints the airline information.\n";
+                +"It optionally pretty prints the airline information.\n"
+                +"It optionally posts to a host and port mentioned by a -host and -port options. \n" +
+                "This also lets the user search for flights in an airline between a source and destination.\n";
         String argumentList = "\nArguments List:" +
                 "\n===============\n" +
                 "Pass arguments to this program as follows:\n" +
@@ -342,5 +345,4 @@ public class Project4 {
         }
         return true;
     }
-
 }

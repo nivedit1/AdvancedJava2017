@@ -21,7 +21,7 @@ public class PrettyPrinter implements AirlineDumper{
      * in a human readable format. If a file does not exist,
      * it is created.
      * @param response
-     *        The name of the file to be pretty printed to.
+     *        The destination to be pretty printed to.
      */
     public PrettyPrinter(HttpServletResponse response){
 

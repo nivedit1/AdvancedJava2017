@@ -2,22 +2,18 @@ package edu.pdx.cs410J.nivedit;
 
 import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.web.HttpRequestHelper;
-
 import java.io.IOException;
-import java.util.Map;
-
 import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
- * A helper class for accessing the rest client.  Note that this class provides
- * an example of how to make gets and posts to a URL.  You'll need to change it
- * to do something other than just send key/value pairs.
+ * A helper class for accessing the rest client.  This class provides
+ * a way to make gets and posts to a URL.
+ * @author Niveditha Venugopal
  */
 public class AirlineRestClient extends HttpRequestHelper
 {
     private static final String WEB_APP = "airline";
     private static final String SERVLET = "flights";
-
     private final String url;
 
 
@@ -32,7 +28,7 @@ public class AirlineRestClient extends HttpRequestHelper
     }
 
     /**
-     * Returns the value for the given key
+     * Returns the flights for a given airline
      */
     public String getValue(String airlineName, String source, String destination) throws IOException {
       Response response = get(this.url, "name", airlineName, "src", source, "dest", destination);
@@ -59,6 +55,16 @@ public class AirlineRestClient extends HttpRequestHelper
       }
       return response;
     }
+
+    /**
+     * This method posts airline and flight information to the URL
+     * @param airline
+     *      The airline you want to add
+     * @param flight
+     *      The flight you want to add
+     * @return
+     * @throws IOException
+     */
 
     public String addAirline(Airline airline, Flight flight) throws IOException {
         Response response = postToMyURL("name",airline.getName(),

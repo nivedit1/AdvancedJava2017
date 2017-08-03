@@ -2,7 +2,6 @@ package edu.pdx.cs410J.nivedit;
 
 import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.AirportNames;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,27 +12,28 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * This servlet ultimately provides a REST API for working with an
- * <code>Airline</code>.  However, in its current state, it is an example
- * of how to use HTTP and Java servlets to store simple key/value pairs.
+ * This servlet provides a REST API for working with an
+ * <code>Airline</code>.
+ * @author Niveditha Venugopal
  */
 public class AirlineServlet extends HttpServlet {
   private final Map<String, Collection<Flight>> data = new HashMap<>();
-  //private Collection<Flight> flights = new ArrayList<>();
 
-  /**
-   * Handles an HTTP GET request from a client by writing the value of the key
-   * specified in the "key" HTTP parameter to the HTTP response.  If the "key"
-   * parameter is not specified, all of the key/value pairs are written to the
-   * HTTP response.
-   */
+    /**
+     * Handles an HTTP GET request from a client by writing the flights in the airline
+     * specified in the "name" HTTP parameter to the HTTP response. If the "name" parameter
+     * is not mentioned, it prints out all the flights to the HTTP response.
+     * @param request
+     *          HttpServlet Request
+     * @param response
+     *          HttpServlet Response
+     * @throws ServletException
+     * @throws IOException
+     */
   @Override
   protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
   {
       response.setContentType( "text/plain" );
-      /*String uri = request.getRequestURI();
-      String lastPart = uri.substring(uri.lastIndexOf('/') + 1, uri.length());
-      System.out.println(lastPart);*/
       String airlineName = getParameter("name", request);
       String sourceAirport = getParameter("src", request);
       String destinationAirport = getParameter("dest", request);
@@ -60,12 +60,7 @@ public class AirlineServlet extends HttpServlet {
           return;
       } else if(airlineName == null && sourceAirport == null && destinationAirport == null &&
               this.data.isEmpty() == false){
-          /*for(Map.Entry<String, Collection<Flight>>entry: data.entrySet()){
-              airlineName = entry.getKey();
-              Airline airlineToPrint = new Airline(airlineName, entry.getValue());
-              prettyPrinter.dump(airlineToPrint);
-          }*/
-          writeAllMappings(response);
+          writeAllFlights(response);
           return;
       } else if (airlineName !=null && sourceAirport == null && destinationAirport == null){
           if(this.data.containsKey(airlineName)){
@@ -79,14 +74,14 @@ public class AirlineServlet extends HttpServlet {
           }
       }
       Collection<Flight> flightsToPrint = new ArrayList<>();
-      String sourceAirportActual;
-      String destinationAirportActual;
+      String sourceAirportAct;
+      String destinationAirportAct;
       if (sourceAirport.matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
           if(AirportNames.getName((sourceAirport).toUpperCase()) != null){
-                  sourceAirportActual = sourceAirport.toUpperCase();
+                  sourceAirportAct = sourceAirport.toUpperCase();
           }
           else {
-              String message = "Not a valid Source Airport Code - " + sourceAirport;
+              String message = "Not a valid airport Code - " + sourceAirport;
               response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
               return;
           }
@@ -98,10 +93,10 @@ public class AirlineServlet extends HttpServlet {
       }
       if (destinationAirport.matches("^[a-zA-Z][a-zA-Z][a-zA-Z]") == true) {
           if(AirportNames.getName((destinationAirport).toUpperCase()) != null){
-              destinationAirportActual = destinationAirport.toUpperCase();
+              destinationAirportAct = destinationAirport.toUpperCase();
           }
           else {
-              String message = "Not a valid Destination Airport Code - " + destinationAirport;
+              String message = "Not a valid Airport Code - " + destinationAirport;
               response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
               return;
           }
@@ -139,11 +134,17 @@ public class AirlineServlet extends HttpServlet {
       }
   }
 
-  /**
-   * Handles an HTTP POST request by storing the key/value pair specified by the
-   * "key" and "value" request parameters.  It writes the key/value pair to the
-   * HTTP response.
-   */
+    /**
+     * Handles an HTTP POST request by storing the airline and flight information
+     * provided by "name", "flightNumber", "src", "departTime", "dest", "arriveTime"
+     * request parameters.  It also adds the flight to the airline.     *
+     * @param request
+     *        HttpServlet Request
+     * @param response
+     *        HttpServlet Response
+     * @throws ServletException
+     * @throws IOException
+     */
   @Override
   protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
   {
@@ -154,7 +155,7 @@ public class AirlineServlet extends HttpServlet {
       String departureTimeInString = getParameter("departTime", request);
       String destinationAirport = getParameter("dest", request);
       String arrivalTimeInString = getParameter("arriveTime", request);
-      int flightNumber = -1;
+      int flightNumber;
       String sourceAirportActual = "";
       String destinationAirportActual = "";
       Date departureTimeInDate = new Date();
@@ -194,7 +195,7 @@ public class AirlineServlet extends HttpServlet {
               sourceAirportActual = sourceAirport.toUpperCase();
           }
           else {
-              String message = "Not a valid Source Airport Code - " + sourceAirport;
+              String message = "Not a valid Airport Code - " + sourceAirport;
               response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
               return;
           }
@@ -224,7 +225,7 @@ public class AirlineServlet extends HttpServlet {
               destinationAirportActual = destinationAirport.toUpperCase();
           }
           else {
-              String message = "Not a valid Destination Airport Code - " + destinationAirport;
+              String message = "Not a valid Airport Code - " + destinationAirport;
               response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
               return;
           }
@@ -267,8 +268,7 @@ public class AirlineServlet extends HttpServlet {
 
   /**
    * Handles an HTTP DELETE request by removing all key/value pairs.  This
-   * behavior is exposed for testing purposes only.  It's probably not
-   * something that you'd want a real application to expose.
+   * behavior is exposed for testing purposes only.
    */
   @Override
   protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -277,7 +277,7 @@ public class AirlineServlet extends HttpServlet {
       this.data.clear();
 
       PrintWriter pw = response.getWriter();
-      //pw.println(Messages.allMappingsDeleted());
+      pw.println("Deleted all flights");
       pw.flush();
 
       response.setStatus(HttpServletResponse.SC_OK);
@@ -286,74 +286,73 @@ public class AirlineServlet extends HttpServlet {
 
   /**
    * Writes an error message about a missing parameter to the HTTP response.
-   *
-   * The text of the error message is created by {@link //Messages#missingRequiredParameter(String)}
+   * @param response
+   *          HttpServletResponse response
+   * @param parameterName
+   *          The name of the missing parameter
+   * @throws IOException
    */
-  private void missingRequiredParameter( HttpServletResponse response, String parameterName )
-      throws IOException
-  {
-      String message = "Missing required parameter: " +parameterName ;
-      response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
-      return;
-  }
-
-
-
-  /**
-   * Writes all of the key/value pairs to the HTTP response.
-   *
-   * The text of the message is formatted with
-   * {@link //Messages#formatKeyValuePair(String, String)}
-   */
-  private void writeAllMappings( HttpServletResponse response ) throws IOException {
-      PrintWriter pw = response.getWriter();
-      PrettyPrinter prettyPrinter = new PrettyPrinter(response);
-      int i = 1;
-      for(Object key: data.keySet()){
-          String airlineName = (String) key;
-          Collection<Flight> flightsToPrint = data.get(key);
-          Airline airline = new Airline(airlineName, flightsToPrint);
-          pw.println("Airline Information");
-          pw.println("===================");
-          pw.println("Airline Name: " + airlineName);
-          pw.println();
-          for(Flight flight: flightsToPrint){
-              long flightDuration = flight.getArrival().getTime()-flight.getDeparture().getTime();
-              long flightDurationInHours = flightDuration/(60*60*1000);
-              long flightDurationInMinutes = flightDuration/(60*1000)%60;
-              pw.println("Flight" + i + " Details:");
-              pw.println("=================");
-              pw.println("Flight Number:" +" "+ flight.getNumber());
-              pw.println("Source Airport:" + " "+ flight.getSource().toUpperCase()+"(" +
-                      AirportNames.getName(flight.getSource().toUpperCase()) + ")");
-              pw.println("Departure Time:" + " "+ flight.getDepartureString());
-              pw.println("Destination Airport:" + " "+ flight.getDestination().toUpperCase() + "("+
-                      AirportNames.getName(flight.getDestination().toUpperCase()) + ")");
-              pw.println("Arrival Time:" + " "+ flight.getArrivalString());
-              pw.println("Flight Duration:" + flightDurationInHours + " hours and " + flightDurationInMinutes + " minutes");
-              pw.println();
-              i +=1;
-          }
-      }
-      pw.close();
-      response.setStatus( HttpServletResponse.SC_OK );
-  }
-
-  /**
-   * Returns the value of the HTTP request parameter with the given name.
-   *
-   * @return <code>null</code> if the value of the parameter is
-   *         <code>null</code> or is the empty string
-   */
-  private String getParameter(String name, HttpServletRequest request) {
-    String value = request.getParameter(name);
-    if (value == null || "".equals(value)) {
-      return null;
-
-    } else {
-      return value;
+    private void missingRequiredParameter( HttpServletResponse response, String parameterName )
+      throws IOException {
+        String message = "Missing required parameter: " +parameterName ;
+        response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+        return;
     }
-  }
+
+    /**
+     * Writes all of the airline and flights to the HTTP response.     *
+     * @param response
+     *          HttpServletResponse response
+     * @throws IOException
+     */
+    private void writeAllFlights(HttpServletResponse response ) throws IOException {
+        PrintWriter pw = response.getWriter();
+        PrettyPrinter prettyPrinter = new PrettyPrinter(response);
+        int i = 1;
+        for(Object key: data.keySet()){
+            String airlineName = (String) key;
+            Collection<Flight> flightsToPrint = data.get(key);
+            Airline airline = new Airline(airlineName, flightsToPrint);
+            pw.println("Airline Information");
+            pw.println("===================");
+            pw.println("Airline Name: " + airlineName);
+            pw.println();
+            for(Flight flight: flightsToPrint){
+                long flightDuration = flight.getArrival().getTime()-flight.getDeparture().getTime();
+                long flightDurationInHours = flightDuration/(60*60*1000);
+                long flightDurationInMinutes = flightDuration/(60*1000)%60;
+                pw.println("Flight" + i + " Details:");
+                pw.println("=================");
+                pw.println("Flight Number:" +" "+ flight.getNumber());
+                pw.println("Source Airport:" + " "+ flight.getSource().toUpperCase()+"(" +
+                        AirportNames.getName(flight.getSource().toUpperCase()) + ")");
+                pw.println("Departure Time:" + " "+ flight.getDepartureString());
+                pw.println("Destination Airport:" + " "+ flight.getDestination().toUpperCase() + "("+
+                      AirportNames.getName(flight.getDestination().toUpperCase()) + ")");
+                pw.println("Arrival Time:" + " "+ flight.getArrivalString());
+                pw.println("Flight Duration:" + flightDurationInHours + " hours and " + flightDurationInMinutes + " minutes");
+                pw.println();
+                i +=1;
+            }
+        }
+        pw.close();
+        response.setStatus( HttpServletResponse.SC_OK );
+    }
+
+    /**
+    * Returns the value of the HTTP request parameter with the given name.
+    *
+    * @return <code>null</code> if the value of the parameter is
+    *         <code>null</code> or is the empty string
+    */
+    private String getParameter(String name, HttpServletRequest request) {
+        String value = request.getParameter(name);
+        if (value == null || "".equals(value)) {
+            return null;
+        } else {
+            return value;
+        }
+    }
 
   @VisibleForTesting
   void setValueForKey(String key, Collection<Flight> value) {

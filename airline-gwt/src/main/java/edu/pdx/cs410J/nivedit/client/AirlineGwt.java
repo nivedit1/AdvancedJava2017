@@ -84,6 +84,15 @@ public class AirlineGwt extends Composite implements EntryPoint {
   @UiField
   Button searchAirline;
 
+  @UiField
+  Button help;
+
+  @UiField
+  TextArea prettyText;
+
+  @UiField
+  Button close;
+
 
   Button okButton = new Button("OK");
 
@@ -190,6 +199,22 @@ public class AirlineGwt extends Composite implements EntryPoint {
         showAirline();
       }
     });
+    help.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        String readMeText = getReadme();
+        prettyText.setText(readMeText);
+        prettyText.setVisible(true);
+        close.setVisible(true);
+      }
+    });
+    close.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        prettyText.setVisible(false);
+        close.setVisible(false);
+      }
+    });
   }
 
   private void postAirline() {
@@ -275,7 +300,9 @@ public class AirlineGwt extends Composite implements EntryPoint {
             sb.append(flight);
             sb.append("\n");
           }
-          alerter.alert(sb.toString());
+          prettyText.setText(sb.toString());
+          prettyText.setVisible(true);
+          close.setVisible(true);
         }
         }
     });
@@ -307,6 +334,50 @@ public class AirlineGwt extends Composite implements EntryPoint {
       srcToSearch.addItem(key);
       destToSearch.addItem(key);
     }
+  }
+
+  private static String getReadme() {
+
+    String title = "\nName of the project:\n" +
+            "====================\n" +
+            "CS410J Project 4: A REST-ful Airline Web Service";
+    String applicationDescription = "\n\nApplication Description:\n" +
+            "========================\n" +
+            "This application parses the command line arguments provided by the user " +
+            "and assigns the values to the airline and the respective flight stated by the user.\n" +
+            "It also checks the validity of flight number, airport codes, and " +
+            "arrival and departure times.\n"+
+            "It optionally adds the airline information to a file specified on the command line.\n"
+            +"It optionally pretty prints the airline information.\n"
+            +"It optionally posts to a host and port mentioned by a -host and -port options. \n" +
+            "This also lets the user search for flights in an airline between a source and destination.\n";
+    String argumentList = "\nArguments List:" +
+            "\n===============\n" +
+            "Pass arguments to this program as follows:\n" +
+            "  name -> The name of the airline  [Format: String]\n" +
+            "  flightNumber -> The Flight Number which identifies the flight  [Format: Numeric Code]\n" +
+            "  src -> Code of Departure airport  [Format: \"AAA\" (3 Letter Code)]\n" +
+            "  departTime -> Departure date and time am/pm  [Format: mm/dd/yyyy hh:mm am/pm]\n" +
+            "  dest -> Code of Arrival airport  [Format: \"AAA\" (3 Letter Code)]\n" +
+            "  arriveTime -> Arrival date and time am/pm  [Format: mm/dd/yyyy hh:mm am/pm]\n\n";
+    String options = "Options:" +
+            "\n========\n" +
+            "Options are as follows:\n" +
+            "  -print -> Prints a description of the new flight\n" +
+            "  -README -> Prints a README for this project and exits\n" +
+            "  -search -> Search for flights\n" +
+            "  -host hostname -> Search for flights\n" +
+            "  -port port -> Port on which the server is listening\n";
+    String executionInstruction = "\nExecution Instruction:" +
+            "\n======================\n" +
+            "Run the program with -> java edu.pdx.cs410J.nivedit.Project4 [options] <args>";
+    String developedBy = "\n\nDeveloped By:\n" +
+            "=============" +
+            "\n-Niveditha Venugopal" +
+            "\n-Email ID: nivedit@pdx.edu" +
+            "\n-PSU ID:   978073102";
+    String readMeText = title + applicationDescription + argumentList + options + executionInstruction + developedBy;
+    return readMeText;
   }
 
   private void setUpUncaughtExceptionHandler() {

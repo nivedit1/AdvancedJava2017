@@ -77,9 +77,14 @@
                 <g:Button text="Search" ui:field="searchAirline"/>
             </g:cell>
         </g:VerticalPanel>
-        <g:cell>
-            <g:TextArea ui:field="prettyText" visible="false" characterWidth="100"/>
-        </g:cell>
+        <g:VerticalPanel>
+            <g:cell>
+                <g:TextArea ui:field="prettyText" visible="false" characterWidth="80" visibleLines="20"/>
+            </g:cell>
+            <g:cell>
+                <g:Button ui:field="close" text="Close" visible="false"/>
+            </g:cell>
+        </g:VerticalPanel>
         <g:cell>
             <g:Button text="Help" ui:field="help"/>
         </g:cell>

@@ -379,6 +379,45 @@ public class AirlineGwt extends Composite implements EntryPoint {
     return readMeText;
   }
 
+  public boolean validateArguments() {
+    Boolean validArguments = false;
+    if(airlineName.getText().equals(null)){
+      missingRequiredParameter("Airline Name");
+      validArguments = false;
+      return validArguments;
+    } else if(flightNumber.getText().equals(null)){
+      missingRequiredParameter("Flight Number");
+      validArguments = false;
+      return validArguments;
+    } else if(src.getSelectedValue().equals(null)){
+      missingRequiredParameter("Source Airport Code");
+      validArguments = false;
+      return validArguments;
+    }else if(dest.getSelectedValue().equals(null)) {
+      missingRequiredParameter("Destination Airport Code");
+      validArguments = false;
+      return validArguments;
+    }else if(departTimeInDate.getTextBox().getText().equals(null)) {
+      missingRequiredParameter("Source Airport Code");
+      validArguments = false;
+      return validArguments;
+    }
+    else if(arriveTimeInDate.getTextBox().getText().equals(null)) {
+      missingRequiredParameter("Source Airport Code");
+      validArguments = false;
+      return validArguments;
+    } else {
+
+    }
+    return validArguments;
+  }
+
+  private void missingRequiredParameter(String s) {
+    String message = "Please provide " + s;
+    dialogBox.setText(message);
+    dialogBox.show();
+  }
+
   private void setUpUncaughtExceptionHandler() {
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
       @Override

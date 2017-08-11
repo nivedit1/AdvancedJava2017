@@ -10,7 +10,7 @@ public interface AirlineServiceAsync {
   /**
    * Return an airline created on the server
    */
-  void getAirline(AsyncCallback<Airline> async);
+  void getAirline(String name, String source, String destination,AsyncCallback<Airline> async);
 
   /**
    * Always throws an exception so that we can see how to handle uncaught
@@ -22,4 +22,7 @@ public interface AirlineServiceAsync {
    * Always throws a declared exception so that we can see GWT handles it.
    */
   void throwDeclaredException(AsyncCallback<Void> async);
+
+
+  void postAirline(String name, Flight flight, AsyncCallback<String> success);
 }

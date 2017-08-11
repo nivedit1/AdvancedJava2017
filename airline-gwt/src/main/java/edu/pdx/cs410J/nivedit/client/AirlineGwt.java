@@ -19,6 +19,7 @@ import com.google.gwt.user.datepicker.client.DatePicker;
 import edu.pdx.cs410J.AirportNames;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -80,8 +81,15 @@ public class AirlineGwt extends Composite implements EntryPoint {
   @UiField
   ListBox destToSearch;
 
+  @UiField
+  Button searchAirline;
+
 
   Button okButton = new Button("OK");
+
+  int flightNumberInInteger;
+  Date departTimeInDateValue;
+  Date arriveTimeInDateValue;
 
   public AirlineGwt() {
     this(new Alerter() {
@@ -136,13 +144,12 @@ public class AirlineGwt extends Composite implements EntryPoint {
     submitAirline.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        showAirline();
+        postAirline();
       }
     });
     flightNumber.addBlurHandler(new BlurHandler() {
       @Override
       public void onBlur(BlurEvent blurEvent) {
-        int flightNumberInInteger;
         try {
           flightNumberInInteger = Integer.parseInt(flightNumber.getText());
           if (flightNumberInInteger < 0) {
@@ -166,6 +173,7 @@ public class AirlineGwt extends Composite implements EntryPoint {
       public void onValueChange(ValueChangeEvent<Date> valueChangeEvent) {
         Date date = valueChangeEvent.getValue();
         departTimeInDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("MM/dd/yyyy HH:mm a")));
+        departTimeInDateValue = departTimeInDate.getValue();
       }
     });
     arriveTimeInDate.addValueChangeHandler(new ValueChangeHandler<Date>() {
@@ -173,6 +181,37 @@ public class AirlineGwt extends Composite implements EntryPoint {
       public void onValueChange(ValueChangeEvent<Date> valueChangeEvent) {
         Date date = valueChangeEvent.getValue();
         arriveTimeInDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("MM/dd/yyyy HH:mm a")));
+        arriveTimeInDateValue = arriveTimeInDate.getValue();
+      }
+    });
+    searchAirline.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        showAirline();
+      }
+    });
+  }
+
+  private void postAirline() {
+    logger.info("Posting airline");
+    Collection<Flight> flights = new ArrayList<>();
+    Flight flight = new Flight(flightNumberInInteger, src.getSelectedValue(),departTimeInDateValue,dest.getSelectedValue(),arriveTimeInDateValue);
+    Airline airline = new Airline(airlineName.getText(),flights);
+    airline.addFlight(flight);
+    airlineService.postAirline(airline.getName(),flight, new AsyncCallback<String>() {
+
+      @Override
+      public void onFailure(Throwable ex) {
+        alertOnException(ex);
+      }
+
+      @Override
+      public void onSuccess(String successText) {
+        if(successText.equals("Success")){
+          String message = "Successfully added flight " +flightNumber.getText()+" to airline "+airlineName.getText();
+          dialogBox.setText(message);
+          dialogBox.show();
+        }
       }
     });
   }
@@ -214,7 +253,7 @@ public class AirlineGwt extends Composite implements EntryPoint {
 
   private void showAirline() {
     logger.info("Calling getAirline");
-    airlineService.getAirline(new AsyncCallback<Airline>() {
+    airlineService.getAirline(airlineName.getText(),srcToSearch.getSelectedValue(),destToSearch.getSelectedValue(),new AsyncCallback<Airline>() {
 
       @Override
       public void onFailure(Throwable ex) {
@@ -223,14 +262,22 @@ public class AirlineGwt extends Composite implements EntryPoint {
 
       @Override
       public void onSuccess(Airline airline) {
-        StringBuilder sb = new StringBuilder(airline.toString());
         Collection<Flight> flights = airline.getFlights();
-        for (Flight flight : flights) {
-          sb.append(flight);
-          sb.append("\n");
+        if(flights.isEmpty()){
+          String message = "Flights starting from " + srcToSearch.getSelectedValue()+ " landing in "+
+                  destToSearch.getSelectedValue()+" not found!";
+          dialogBox.setText(message);
+          dialogBox.show();
         }
-        alerter.alert(sb.toString());
-      }
+        else {
+          StringBuilder sb = new StringBuilder(airline.toString());
+          for (Flight flight : flights) {
+            sb.append(flight);
+            sb.append("\n");
+          }
+          alerter.alert(sb.toString());
+        }
+        }
     });
   }
 

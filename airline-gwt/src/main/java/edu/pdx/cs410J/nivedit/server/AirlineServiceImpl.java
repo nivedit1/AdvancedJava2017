@@ -1,19 +1,37 @@
 package edu.pdx.cs410J.nivedit.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.sun.net.httpserver.Authenticator;
 import edu.pdx.cs410J.nivedit.client.Airline;
 import edu.pdx.cs410J.nivedit.client.Flight;
 import edu.pdx.cs410J.nivedit.client.AirlineService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The server-side implementation of the Airline service
  */
 public class AirlineServiceImpl extends RemoteServiceServlet implements AirlineService
 {
+  private final Map<String, Collection<Flight>> airlineFlightMap = new HashMap<>();
   @Override
-  public Airline getAirline() {
-    Airline airline = new Airline();
-    airline.addFlight(new Flight());
+  public Airline getAirline(String airlineName, String source, String destination) {
+    Collection<Flight> flightsToPrint = new ArrayList<>();
+    if(this.airlineFlightMap.containsKey(airlineName)){
+      Collection<Flight> flightsInGet = airlineFlightMap.get(airlineName);
+      for(Flight flight:flightsInGet){
+        if(flight.getSource().equals(source) && flight.getDestination().equals(destination)){
+          flightsToPrint.add(flight);
+        }
+        else {
+          continue;
+        }
+      }
+    }
+    Airline airline = new Airline(airlineName, flightsToPrint);
     return airline;
   }
 
@@ -25,6 +43,23 @@ public class AirlineServiceImpl extends RemoteServiceServlet implements AirlineS
   @Override
   public void throwDeclaredException() throws IllegalStateException {
     throw new IllegalStateException("Expected declared exception");
+  }
+
+  @Override
+  public String postAirline(String name, Flight flight) {
+    String successMessage = null;
+    if(this.airlineFlightMap.containsKey(name)){
+      Collection<Flight> flights = this.airlineFlightMap.get(name);
+      flights.add(flight);
+      this.airlineFlightMap.put(name,flights);
+      successMessage = "Success";
+    } else {
+      Collection<Flight> flights = new ArrayList<>();
+      flights.add(flight);
+      this.airlineFlightMap.put(name,flights);
+      successMessage = "Success";
+    }
+    return successMessage;
   }
 
   /**

@@ -29,6 +29,7 @@ public class AirlineRestClient extends HttpRequestHelper
 
     /**
      * Returns the flights for a given airline
+     * @throws IOException
      */
     public String getValue(String airlineName, String source, String destination) throws IOException {
       Response response = get(this.url, "name", airlineName, "src", source, "dest", destination);

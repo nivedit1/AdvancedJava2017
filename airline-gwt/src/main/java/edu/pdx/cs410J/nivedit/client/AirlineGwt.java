@@ -18,6 +18,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import edu.pdx.cs410J.AirportNames;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -276,7 +277,7 @@ public class AirlineGwt extends Composite implements EntryPoint {
     });
   }
 
-  private void showAirline() {
+  private void showAirline(){
     logger.info("Calling getAirline");
     airlineService.getAirline(airlineName.getText(),srcToSearch.getSelectedValue(),destToSearch.getSelectedValue(),new AsyncCallback<Airline>() {
 
@@ -295,16 +296,16 @@ public class AirlineGwt extends Composite implements EntryPoint {
           dialogBox.show();
         }
         else {
-          StringBuilder sb = new StringBuilder(airline.toString());
-          for (Flight flight : flights) {
-            sb.append(flight);
-            sb.append("\n");
+          PrettyPrinter prettyPrinter = new PrettyPrinter(prettyText);
+          try {
+            prettyPrinter.dump(airline);
+          } catch (IOException e){
+            alertOnException(e);
           }
-          prettyText.setText(sb.toString());
           prettyText.setVisible(true);
           close.setVisible(true);
-        }
-        }
+          }
+      }
     });
   }
 

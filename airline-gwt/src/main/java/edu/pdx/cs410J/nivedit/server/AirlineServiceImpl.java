@@ -1,7 +1,6 @@
 package edu.pdx.cs410J.nivedit.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.sun.net.httpserver.Authenticator;
 import edu.pdx.cs410J.nivedit.client.Airline;
 import edu.pdx.cs410J.nivedit.client.Flight;
 import edu.pdx.cs410J.nivedit.client.AirlineService;

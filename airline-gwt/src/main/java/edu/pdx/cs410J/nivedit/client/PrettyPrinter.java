@@ -4,8 +4,6 @@ import com.google.gwt.user.client.ui.*;
 import edu.pdx.cs410J.AbstractAirline;
 import edu.pdx.cs410J.AirlineDumper;
 import edu.pdx.cs410J.AirportNames;
-import javax.servlet.http.HttpServletResponse;
-
 import java.io.*;
 import java.util.*;
 

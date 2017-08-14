@@ -17,9 +17,8 @@ public class PrettyPrinter implements AirlineDumper{
     private TextArea textArea;
 
     /**
-     * Creates a new PrettyPrinter that writes to a file
-     * in a human readable format. If a file does not exist,
-     * it is created.
+     * Creates a new PrettyPrinter that writes to a textarea
+     * in a human readable format.
      * @param textArea
      *        The destination to be pretty printed to.
      */
@@ -55,7 +54,6 @@ public class PrettyPrinter implements AirlineDumper{
         SortedSet<Flight> flightSortedSet = new TreeSet<Flight>(Comparators.sourceAirportAndDepartureTime);
         flightSortedSet.addAll(flights);
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\n");
         stringBuilder.append("Airline Information");
         stringBuilder.append("\n");
         stringBuilder.append("===================");

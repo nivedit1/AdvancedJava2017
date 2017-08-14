@@ -8,7 +8,7 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.UmbrellaException;
-import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -16,7 +16,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.datepicker.client.DateBox;
 import edu.pdx.cs410J.AirportNames;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,9 +29,12 @@ import java.util.logging.Logger;
  */
 public class AirlineGwt extends Composite implements EntryPoint {
 
-  /** The weirdo interface required by UI Binder */
+  /** The interface required by UI Binder */
   public interface Binder extends UiBinder<HorizontalPanel, AirlineGwt> {}
 
+  /**
+   * This creates the UI widgets
+   */
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final Alerter alerter;
@@ -99,6 +101,7 @@ public class AirlineGwt extends Composite implements EntryPoint {
   Date departTimeInDateValue;
   Date arriveTimeInDateValue;
 
+
   public AirlineGwt() {
     this(new Alerter() {
       @Override
@@ -143,6 +146,9 @@ public class AirlineGwt extends Composite implements EntryPoint {
     return throwable;
   }
 
+  /**
+   * This method adds the event handlers for different UI widgets
+   */
   private void addEventHandlers() {
     dialogBox.setWidth("300");
     dialogBox.setHeight("300");
@@ -152,22 +158,75 @@ public class AirlineGwt extends Composite implements EntryPoint {
     submitAirline.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        postAirline();
-      }
-    });
-    flightNumber.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent blurEvent) {
-        try {
-          flightNumberInInteger = Integer.parseInt(flightNumber.getText());
-          if (flightNumberInInteger < 0) {
-            dialogBox.setText("Flight number should not be negative");
-            dialogBox.show();
-          }
-        } catch (Exception e) {
-          dialogBox.setText("Flight number should be a number - " + flightNumber.getText());
+        prettyText.setVisible(false);
+        close.setVisible(false);
+        if(airlineName.getText().isEmpty()){
+          String message = "Please provide airline name";
+          dialogBox.setText(message);
           dialogBox.show();
+          return;
+        } else if(flightNumber.getText().isEmpty()){
+          String message = "Please provide flight number";
+          dialogBox.setText(message);
+          dialogBox.show();
+          return;
+        } else if(src.getSelectedValue().equals(null)){
+          String message = "Please provide source airport code";
+          dialogBox.setText(message);
+          dialogBox.show();
+          return;
+        }else if(dest.getSelectedValue().equals(null)) {
+          String message = "Please provide destination airport code";
+          dialogBox.setText(message);
+          dialogBox.show();
+          return;
+        }else if(departTimeInDate.getTextBox().getText().isEmpty()) {
+          String message = "Please provide departure time for the flight";
+          dialogBox.setText(message);
+          dialogBox.show();
+          return;
+        } else if(arriveTimeInDate.getTextBox().getText().isEmpty()) {
+          String message = "Please provide arrival time for the flight";
+          dialogBox.setText(message);
+          dialogBox.show();
+          return;
+        } else {
+          try {
+            flightNumberInInteger = Integer.parseInt(flightNumber.getText());
+            if (flightNumberInInteger < 0) {
+              dialogBox.setText("Flight Number should not be negative - " + flightNumber.getText());
+              dialogBox.show();
+              return;
+            }
+          } catch (Exception e) {
+            dialogBox.setText("Flight Number is not a number - " + flightNumber.getText());
+            dialogBox.show();
+            return;
+          }
+          try {
+            com.google.gwt.i18n.shared.DateTimeFormat formatter = DateTimeFormat.getFormat("MM/dd/yyyy HH:mm a");
+            formatter.format(departTimeInDate.getValue());
+
+          } catch (Exception e){
+            String message = "The Departure time does not match the format \"MM/DD/YY HH:MM\" - " +
+                    departTimeInDate.getTextBox().getText();
+            dialogBox.setText(message);
+            dialogBox.show();
+            return;
+          }
+          try {
+            com.google.gwt.i18n.shared.DateTimeFormat formatter = DateTimeFormat.getFormat("MM/dd/yyyy HH:mm a");
+            formatter.format(arriveTimeInDate.getValue());
+
+          } catch (Exception e){
+            String message = "The arrival time does not match the format \"MM/DD/YY HH:MM\" - " +
+                    arriveTimeInDate.getTextBox().getText();
+            dialogBox.setText(message);
+            dialogBox.show();
+            return;
+          }
         }
+        postAirline();
       }
     });
     okButton.addClickHandler(new ClickHandler() {
@@ -180,7 +239,8 @@ public class AirlineGwt extends Composite implements EntryPoint {
       @Override
       public void onValueChange(ValueChangeEvent<Date> valueChangeEvent) {
         Date date = valueChangeEvent.getValue();
-        departTimeInDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("MM/dd/yyyy HH:mm a")));
+        departTimeInDate.setFormat(new DateBox.DefaultFormat
+                (com.google.gwt.i18n.client.DateTimeFormat.getFormat("MM/dd/yyyy HH:mm a")));
         departTimeInDateValue = departTimeInDate.getValue();
       }
     });
@@ -188,13 +248,32 @@ public class AirlineGwt extends Composite implements EntryPoint {
       @Override
       public void onValueChange(ValueChangeEvent<Date> valueChangeEvent) {
         Date date = valueChangeEvent.getValue();
-        arriveTimeInDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("MM/dd/yyyy HH:mm a")));
+        arriveTimeInDate.setFormat(new DateBox.DefaultFormat
+                (com.google.gwt.i18n.client.DateTimeFormat.getFormat("MM/dd/yyyy HH:mm a")));
         arriveTimeInDateValue = arriveTimeInDate.getValue();
       }
     });
     searchAirline.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
+        prettyText.setVisible(false);
+        close.setVisible(false);
+        if(airlineNameToSearch.getText().isEmpty()) {
+          String message = "Please provide airline name";
+          dialogBox.setText(message);
+          dialogBox.show();
+          return;
+        }else if(srcToSearch.getSelectedValue().equals(null)){
+          String message = "Please provide source airport code";
+          dialogBox.setText(message);
+          dialogBox.show();
+          return;
+        }else if(destToSearch.getSelectedValue().equals(null)) {
+          String message = "Please provide destination airport code";
+          dialogBox.setText(message);
+          dialogBox.show();
+          return;
+        }
         showAirline();
       }
     });
@@ -205,6 +284,7 @@ public class AirlineGwt extends Composite implements EntryPoint {
         prettyText.setText(readMeText);
         prettyText.setVisible(true);
         close.setVisible(true);
+        return;
       }
     });
     close.addClickHandler(new ClickHandler() {
@@ -216,10 +296,15 @@ public class AirlineGwt extends Composite implements EntryPoint {
     });
   }
 
+  /**
+   * This method is called when the submit button is clicked on the UI
+   * after input validation.
+   */
   private void postAirline() {
     logger.info("Posting airline");
     Collection<Flight> flights = new ArrayList<>();
-    Flight flight = new Flight(flightNumberInInteger, src.getSelectedValue(),departTimeInDateValue,dest.getSelectedValue(),arriveTimeInDateValue);
+    Flight flight = new Flight(flightNumberInInteger, src.getSelectedValue(),
+            departTimeInDateValue,dest.getSelectedValue(),arriveTimeInDateValue);
     Airline airline = new Airline(airlineName.getText(),flights);
     airline.addFlight(flight);
     airlineService.postAirline(airline.getName(),flight, new AsyncCallback<String>() {
@@ -235,49 +320,19 @@ public class AirlineGwt extends Composite implements EntryPoint {
           String message = "Successfully added flight " +flightNumber.getText()+" to airline "+airlineName.getText();
           dialogBox.setText(message);
           dialogBox.show();
+          return;
         }
       }
     });
   }
 
-  private void throwClientSideException() {
-    logger.info("About to throw a client-side exception");
-    throw new IllegalStateException("Expected exception on the client side");
-  }
-
-  private void showUndeclaredException() {
-    logger.info("Calling throwUndeclaredException");
-    airlineService.throwUndeclaredException(new AsyncCallback<Void>() {
-      @Override
-      public void onFailure(Throwable ex) {
-        alertOnException(ex);
-      }
-
-      @Override
-      public void onSuccess(Void aVoid) {
-        alerter.alert("This shouldn't happen");
-      }
-    });
-  }
-
-  private void showDeclaredException() {
-    logger.info("Calling throwDeclaredException");
-    airlineService.throwDeclaredException(new AsyncCallback<Void>() {
-      @Override
-      public void onFailure(Throwable ex) {
-        alertOnException(ex);
-      }
-
-      @Override
-      public void onSuccess(Void aVoid) {
-        alerter.alert("This shouldn't happen");
-      }
-    });
-  }
-
+  /**
+   * This method is called when the search button is clicked
+   * after input validation.
+   */
   private void showAirline(){
     logger.info("Calling getAirline");
-    airlineService.getAirline(airlineName.getText(),srcToSearch.getSelectedValue(),destToSearch.getSelectedValue(),new AsyncCallback<Airline>() {
+    airlineService.getAirline(airlineNameToSearch.getText(),srcToSearch.getSelectedValue(),destToSearch.getSelectedValue(),new AsyncCallback<Airline>() {
 
       @Override
       public void onFailure(Throwable ex) {
@@ -322,6 +377,9 @@ public class AirlineGwt extends Composite implements EntryPoint {
 
   }
 
+  /**
+   * This method sets up the UI when the module is loaded
+   */
   private void setupUI() {
     Map<String,String> airportNames = AirportNames.getNamesMap();
     RootPanel rootPanel = RootPanel.get();
@@ -335,89 +393,37 @@ public class AirlineGwt extends Composite implements EntryPoint {
     }
   }
 
+  /**
+   * This method gets the ReadMe text for the application
+   * @return readMe text
+   */
   private static String getReadme() {
 
-    String title = "\nName of the project:\n" +
+    String title = "Name of the project:\n" +
             "====================\n" +
-            "CS410J Project 4: A REST-ful Airline Web Service";
+            "CS410J Project 5: A Rich Internet Application for an Airline";
     String applicationDescription = "\n\nApplication Description:\n" +
             "========================\n" +
-            "This application parses the command line arguments provided by the user " +
-            "and assigns the values to the airline and the respective flight stated by the user.\n" +
-            "It also checks the validity of flight number, airport codes, and " +
-            "arrival and departure times.\n"+
-            "It optionally adds the airline information to a file specified on the command line.\n"
-            +"It optionally pretty prints the airline information.\n"
-            +"It optionally posts to a host and port mentioned by a -host and -port options. \n" +
-            "This also lets the user search for flights in an airline between a source and destination.\n";
+            "This application lets you add and search for flights." +
+            "You can search for flights in an airline by providing the airline name, source and destination. " +
+            "Flights are sorted based on their Airport Source and Departure Times.\n";
     String argumentList = "\nArguments List:" +
             "\n===============\n" +
-            "Pass arguments to this program as follows:\n" +
-            "  name -> The name of the airline  [Format: String]\n" +
-            "  flightNumber -> The Flight Number which identifies the flight  [Format: Numeric Code]\n" +
-            "  src -> Code of Departure airport  [Format: \"AAA\" (3 Letter Code)]\n" +
+            "Pass arguments to this application as follows:\n" +
+            "  Airline Name -> The name of the airline  [Format: String]\n" +
+            "  Flight Number -> The Flight Number which identifies the flight  [Format: Numeric Code]\n" +
+            "  Source -> Code of Departure airport  [Format: \"AAA\" (3 Letter Code)]\n" +
+            "  Destination -> Code of Arrival airport  [Format: \"AAA\" (3 Letter Code)]\n" +
             "  departTime -> Departure date and time am/pm  [Format: mm/dd/yyyy hh:mm am/pm]\n" +
-            "  dest -> Code of Arrival airport  [Format: \"AAA\" (3 Letter Code)]\n" +
-            "  arriveTime -> Arrival date and time am/pm  [Format: mm/dd/yyyy hh:mm am/pm]\n\n";
-    String options = "Options:" +
-            "\n========\n" +
-            "Options are as follows:\n" +
-            "  -print -> Prints a description of the new flight\n" +
-            "  -README -> Prints a README for this project and exits\n" +
-            "  -search -> Search for flights\n" +
-            "  -host hostname -> Search for flights\n" +
-            "  -port port -> Port on which the server is listening\n";
-    String executionInstruction = "\nExecution Instruction:" +
-            "\n======================\n" +
-            "Run the program with -> java edu.pdx.cs410J.nivedit.Project4 [options] <args>";
-    String developedBy = "\n\nDeveloped By:\n" +
+            "  arriveTime -> Arrival date and time am/pm  [Format: mm/dd/yyyy hh:mm am/pm]\n";
+    String developedBy = "\nDeveloped By:\n" +
             "=============" +
-            "\n-Niveditha Venugopal" +
-            "\n-Email ID: nivedit@pdx.edu" +
-            "\n-PSU ID:   978073102";
-    String readMeText = title + applicationDescription + argumentList + options + executionInstruction + developedBy;
+            "\nNiveditha Venugopal" +
+            "\nEmail ID: nivedit@pdx.edu" +
+            "\nPSU ID:   978073102";
+    String readMeText = title + applicationDescription + argumentList + developedBy;
     return readMeText;
   }
-
-  public boolean validateArguments() {
-    Boolean validArguments = false;
-    if(airlineName.getText().equals(null)){
-      missingRequiredParameter("Airline Name");
-      validArguments = false;
-      return validArguments;
-    } else if(flightNumber.getText().equals(null)){
-      missingRequiredParameter("Flight Number");
-      validArguments = false;
-      return validArguments;
-    } else if(src.getSelectedValue().equals(null)){
-      missingRequiredParameter("Source Airport Code");
-      validArguments = false;
-      return validArguments;
-    }else if(dest.getSelectedValue().equals(null)) {
-      missingRequiredParameter("Destination Airport Code");
-      validArguments = false;
-      return validArguments;
-    }else if(departTimeInDate.getTextBox().getText().equals(null)) {
-      missingRequiredParameter("Source Airport Code");
-      validArguments = false;
-      return validArguments;
-    }
-    else if(arriveTimeInDate.getTextBox().getText().equals(null)) {
-      missingRequiredParameter("Source Airport Code");
-      validArguments = false;
-      return validArguments;
-    } else {
-
-    }
-    return validArguments;
-  }
-
-  private void missingRequiredParameter(String s) {
-    String message = "Please provide " + s;
-    dialogBox.setText(message);
-    dialogBox.show();
-  }
-
   private void setUpUncaughtExceptionHandler() {
     GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
       @Override
@@ -426,9 +432,11 @@ public class AirlineGwt extends Composite implements EntryPoint {
       }
     });
   }
-
   @VisibleForTesting
   interface Alerter {
+    void alert(String message);
+  }
+  interface DialogBoxMessage {
     void alert(String message);
   }
 }

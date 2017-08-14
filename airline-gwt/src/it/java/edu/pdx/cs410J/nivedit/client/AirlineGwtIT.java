@@ -23,7 +23,7 @@ public class AirlineGwtIT extends GWTTestCase {
   @Test
   public void testClickingShowAirlineButtonAlertsWithAirlineInformation() {
     final CapturingAlerter alerter = new CapturingAlerter();
-
+    final CapturingDialogBox capturingDialogBox = new CapturingDialogBox();
     final AirlineGwt ui = new AirlineGwt(alerter);
     ui.onModuleLoad();
 
@@ -31,7 +31,7 @@ public class AirlineGwtIT extends GWTTestCase {
     waitBeforeRunning(500, new Runnable() {
       @Override
       public void run() {
-        click(ui.showAirlineButton);
+        click(ui.submitAirline);
       }
     });
 
@@ -39,105 +39,14 @@ public class AirlineGwtIT extends GWTTestCase {
     waitBeforeRunning(500, new Runnable() {
       @Override
       public void run() {
-        String message = alerter.getMessage();
-        assertNotNull(message);
-        assertTrue(message, message.contains("Air CS410J with 1 flights"));
+        String message = capturingDialogBox.getMessage();
+        assertNull(message);
         finishTest();
       }
     });
 
     delayTestFinish(1000);
   }
-
-  @Test
-  public void testClickingShowUndeclaredExceptionButtonAlertsWithExpectedMessage() {
-    final CapturingAlerter alerter = new CapturingAlerter();
-
-    final AirlineGwt ui = new AirlineGwt(alerter);
-    ui.onModuleLoad();
-
-    // Wait for UI widgets to be created
-    waitBeforeRunning(500, new Runnable() {
-      @Override
-      public void run() {
-        click(ui.showUndeclaredExceptionButton);
-      }
-    });
-
-    // Wait for the RPC call to return
-    waitBeforeRunning(500, new Runnable() {
-      @Override
-      public void run() {
-        String message = alerter.getMessage();
-        assertNotNull(message);
-        assertTrue(message, message.contains("StatusCodeException: 500 Server Error"));
-        finishTest();
-      }
-    });
-
-    // Wait up to 1000 milliseconds for the validation to complete
-    delayTestFinish(1000);
-  }
-
-  @Test
-  public void testClickingShowDeclaredExceptionButtonAlertsWithExpectedMessage() {
-    final CapturingAlerter alerter = new CapturingAlerter();
-
-    final AirlineGwt ui = new AirlineGwt(alerter);
-    ui.onModuleLoad();
-
-    // Wait for UI widgets to be created
-    waitBeforeRunning(500, new Runnable() {
-      @Override
-      public void run() {
-        click(ui.showDeclaredExceptionButton);
-      }
-    });
-
-    // Wait for the RPC call to return
-    waitBeforeRunning(500, new Runnable() {
-      @Override
-      public void run() {
-        String message = alerter.getMessage();
-        assertNotNull(message);
-        assertTrue(message, message.contains("IllegalStateException: Expected declared exception"));
-        finishTest();
-      }
-    });
-
-    // Wait up to 1000 milliseconds for the validation to complete
-    delayTestFinish(1000);
-  }
-
-  @Test
-  public void testClickingShowClientSideExceptionButtonAlertsWithExpectedMessage() {
-    final CapturingAlerter alerter = new CapturingAlerter();
-
-    final AirlineGwt ui = new AirlineGwt(alerter);
-    ui.onModuleLoad();
-
-    // Wait for UI widgets to be created
-    waitBeforeRunning(500, new Runnable() {
-      @Override
-      public void run() {
-        try {
-          click(ui.showClientSideExceptionButton);
-          fail("Should have thrown an UmbrellaException");
-
-        } catch (UmbrellaException ex) {
-          Throwable cause = ex.getCause();
-          assertTrue(cause instanceof IllegalStateException);
-          IllegalStateException ise = (IllegalStateException) cause;
-          assertTrue(ise.getMessage().contains("Expected exception on the client side"));
-          finishTest();
-        }
-      }
-    });
-
-    // Wait up to 1000 milliseconds for the validation to complete
-    delayTestFinish(1000);
-  }
-
   private void waitBeforeRunning(int delayMillis, final Runnable operation) {
     Timer click = new Timer() {
       @Override
@@ -175,4 +84,15 @@ public class AirlineGwtIT extends GWTTestCase {
       return message;
     }
   }
+
+  private class CapturingDialogBox implements AirlineGwt.DialogBoxMessage{
+    private String message;
+    public void alert(String message) {
+      this.message = message;
+    }
+    public String getMessage() {
+      return message;
+    }
+  }
+
 }

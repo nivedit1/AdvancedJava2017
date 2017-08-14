@@ -1,3 +1,6 @@
+
+<!--UIBinder Creates and aligns UI widgets in the Airline Application-->
+
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:dp="urn:import:com.google.gwt.user.datepicker.client" >
@@ -79,7 +82,7 @@
         </g:VerticalPanel>
         <g:VerticalPanel>
             <g:cell>
-                <g:TextArea ui:field="prettyText" visible="false" characterWidth="80" visibleLines="20"/>
+                <g:TextArea ui:field="prettyText" visible="false" characterWidth="100" visibleLines="25"/>
             </g:cell>
             <g:cell>
                 <g:Button ui:field="close" text="Close" visible="false"/>

@@ -344,7 +344,7 @@ public class AirlineGwt extends Composite implements EntryPoint {
         Collection<Flight> flights = airline.getFlights();
         if(flights.isEmpty()){
           String message = "Flights starting from " + srcToSearch.getSelectedValue()+ " landing in "+
-                  destToSearch.getSelectedValue()+" not found!";
+                  destToSearch.getSelectedValue()+" in airline " + airlineNameToSearch.getText() +" not found!";
           dialogBox.setText(message);
           dialogBox.show();
         }

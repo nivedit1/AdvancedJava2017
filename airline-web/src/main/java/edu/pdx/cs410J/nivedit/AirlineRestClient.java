@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.nivedit;
 
-import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 import java.io.IOException;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -39,7 +38,6 @@ public class AirlineRestClient extends HttpRequestHelper
       return content;
     }
 
-    @VisibleForTesting
     Response postToMyURL(String... keysAndValues) throws IOException {
       return post(this.url, keysAndValues);
     }

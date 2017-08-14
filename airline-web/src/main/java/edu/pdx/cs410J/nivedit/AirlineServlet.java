@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.nivedit;
 
-import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.AirportNames;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -354,12 +353,10 @@ public class AirlineServlet extends HttpServlet {
         }
     }
 
-  @VisibleForTesting
   void setValueForKey(String key, Collection<Flight> value) {
       this.data.put(key, value);
   }
 
-  @VisibleForTesting
   Collection <Flight> getValueForKey(String key) {
       return this.data.get(key);
   }

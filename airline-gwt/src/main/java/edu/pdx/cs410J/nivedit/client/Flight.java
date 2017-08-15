@@ -4,6 +4,10 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import edu.pdx.cs410J.AbstractFlight;
 import java.util.Date;
 
+/**
+ * This class represents a <code>Flight</code>.
+ * @author Niveditha Venugopal
+ */
 public class Flight extends AbstractFlight implements Comparable<Flight>
 {
   /**

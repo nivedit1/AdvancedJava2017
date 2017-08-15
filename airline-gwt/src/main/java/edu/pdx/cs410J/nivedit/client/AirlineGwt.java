@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 /**
  * A basic GWT class that makes sure that we can send an airline back from the server
+ * @author Niveditha Venugopal
  */
 public class AirlineGwt extends Composite implements EntryPoint {
 

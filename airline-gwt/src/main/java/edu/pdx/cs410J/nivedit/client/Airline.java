@@ -5,6 +5,10 @@ import edu.pdx.cs410J.AbstractAirline;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * This class represents an <code>Airline</code>.
+ * @author Niveditha Venugopal
+ */
 public class Airline extends AbstractAirline<Flight>
 {
   /**

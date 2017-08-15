@@ -363,6 +363,10 @@ public class AirlineGwt extends Composite implements EntryPoint {
     });
   }
 
+  /**
+   * This method calls the setupUI method which
+   * arranges the widgets on load.
+   */
   @Override
   public void onModuleLoad() {
     setUpUncaughtExceptionHandler();
